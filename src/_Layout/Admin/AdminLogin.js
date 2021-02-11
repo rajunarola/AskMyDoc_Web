@@ -8,7 +8,9 @@ import { login } from '../../Service/AdminService';
 
 function AdminLogin(props) {
 
-  let loading=false;
+  console.log('props.history',props.history)
+
+  let loading = false;
   const openNotification = type => {
     notification[type]({
       message: 'Oops Wrong Credentail..!',
@@ -16,32 +18,32 @@ function AdminLogin(props) {
         'login attempt fail',
     });
   };
-  const openNetworkErrorNotification = (type,error) => {
+  const openNetworkErrorNotification = (type, error) => {
     notification[type]({
       message: 'Oops Somthing Went Wrong..!',
       description:
-        'Message : '+error,
+        'Message : ' + error,
     });
   };
   const handleRedirect = () => {
-    props.history.push("admin/forgetpassword");
+    props.history.push(`/admin/forgetpassword`);
   }
 
   const onFinish = values => {
     console.log('Received values of form: ', values);
-    loading=true;
+    loading = true;
     login(values).then(res => {
       if (res.data.status === "Success") {
         console.log(res.data.result.token)
         localStorage.setItem('adminid', res.data.result.admin.admin_Master_Id);
         localStorage.setItem('AccessToken', res.data.result.token);
-        loading=false;
-        props.history.push("admin/admindashboard");
+        loading = false;
+        props.history.push(`/admin/admindashboard`);
       } else {
         openNotification('error')
       }
     }).catch(function (error) {
-      openNetworkErrorNotification('error',error)
+      openNetworkErrorNotification('error', error)
     });
   };
 
@@ -49,7 +51,7 @@ function AdminLogin(props) {
     <div className='bgForLogin'>
       <div className="container">
         <div className="d-flex justify-content-center h-100">
-          <div className="card">
+          <div className="card" style={{ height: "370px", marginTop: "auto", marginBottom: "auto", backgroundColor: 'gray', marginTop: "150px" }}>
             <div className="card-header">
 
               <h3>Ask My Doc</h3>
@@ -110,7 +112,7 @@ function AdminLogin(props) {
                 <Form.Item>
                   <Button type="primary" loading={loading} htmlType="submit" className="login-form-button">
                     Log in
-        </Button><br />
+                  </Button><br />
 
                 </Form.Item>
               </Form>

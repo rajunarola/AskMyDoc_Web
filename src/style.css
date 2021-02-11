@@ -20,7 +20,7 @@ html, body {
 .bgForLogin {
     background-image: url('./images/medical-healthcare-concept-hexagonal-background-turquoise-color_1017-24819.jpg');
     height: 787px;
-    width: 1600px;
+    width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
 }
