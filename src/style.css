@@ -8,6 +8,15 @@ html, body {
     font-family: 'Numans', sans-serif;
 }
 
+.bgDoctor
+{
+    background-image: url('./images/hush-naidoo-yo01Z-9HQAw-unsplash.jpg');
+    height: 787px;
+    width: 1600px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .bgForLogin {
     background-image: url('./images/medical-healthcare-concept-hexagonal-background-turquoise-color_1017-24819.jpg');
     height: 787px;
@@ -15,7 +24,15 @@ html, body {
     background-size: cover;
     background-repeat: no-repeat;
 }
-
+/* .Logo
+{
+    background-image: url('./images/doc.png');
+    height: 300px;
+    width: 500px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+} */
 .container {
     height: 100%;
     align-content: center;
@@ -26,6 +43,7 @@ html, body {
     margin-top: auto;
     margin-bottom: auto;
     width: 400px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     background-color: rgba(0, 0, 0, 0.5) !important;
     margin-top: 150px;
 }
