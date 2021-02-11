@@ -3,6 +3,7 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Forgetpassword from '../Admin/Forgetpassword';
 import AdminLogin from '../_Layout/Admin/AdminLogin';
 import Dashboard from '../Admin/Dashboard';
+import State from '../Admin/State';
 
 import AdminHeader from '../_Layout/Admin/AdminHeader';
 import AdminFooter from '../_Layout/Admin/AdminFooter';
@@ -18,6 +19,7 @@ function Routes() {
                 <Router>
                     <Switch>
                         <Route path="/admin/admindashboard" exact={true} component={Dashboard} />
+                        <Route path="/admin/State" exact={true} component={State} />
                         <Route path="/admin/forgetpassword" exact={true} component={Forgetpassword} />
                     </Switch>     
                 </Router>
