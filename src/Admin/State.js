@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import ReactDom from 'react-dom';
 import { Route, Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
 
-function Dashboard(props) {
+function City(props) {
     useEffect(() => {
         if (localStorage.getItem('AccessToken') === null) {
             props.history.push('/admin')
@@ -87,4 +86,4 @@ function Dashboard(props) {
         </div>
     )
 }
-export default withRouter(Dashboard);
+export default withRouter(City);

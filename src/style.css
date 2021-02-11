@@ -11,7 +11,7 @@ html, body {
 .bgForLogin {
     background-image: url('./images/medical-healthcare-concept-hexagonal-background-turquoise-color_1017-24819.jpg');
     height: 787px;
-    width: 1600px;
+    width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -21,14 +21,7 @@ html, body {
     align-content: center;
 }
 
-.card {
-    height: 370px;
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 400px;
-    background-color: rgba(0, 0, 0, 0.5) !important;
-    margin-top: 150px;
-}
+
 
 .social_icon span {
     font-size: 60px;

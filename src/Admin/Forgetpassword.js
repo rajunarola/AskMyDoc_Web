@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDom from 'react-dom';
-import {Link ,Router} from 'react-router-dom';
+import { withRouter} from 'react-router-dom';
 
 function forgetpassword()
 {
@@ -10,4 +9,4 @@ function forgetpassword()
         </div>
     )
 }
-export default forgetpassword;
+export default withRouter(forgetpassword);
