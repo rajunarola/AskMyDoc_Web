@@ -5,7 +5,7 @@ import {Link ,Router} from 'react-router-dom';
 function forgetpassword()
 {
     return (
-        <div>
+        <div className="">
             <p>Forget Password Page</p>
         </div>
     )

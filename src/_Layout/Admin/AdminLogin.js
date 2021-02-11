@@ -1,89 +1,136 @@
 import React, { useEffect } from 'react';
 import ReactDom from 'react-dom';
-import {withRouter} from 'react-router-dom';
-import 'antd/dist/antd.css';
-import { Form, Input, Button, Checkbox } from 'antd';
-import '../Admin/AdminLogin.css';
+import { withRouter } from 'react-router-dom';
+
+import { Form, Input, Button, Checkbox, notification, Space } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { login } from '../../Service/AdminService';
 
-function AdminLogin(props)
-{
+function AdminLogin(props) {
 
-  const handleRedirect=()=>
-  {
-   props.history.push("admin/forgetpassword");
+  let loading=false;
+  const openNotification = type => {
+    notification[type]({
+      message: 'Oops Wrong Credentail..!',
+      description:
+        'login attempt fail',
+    });
+  };
+  const openNetworkErrorNotification = (type,error) => {
+    notification[type]({
+      message: 'Oops Somthing Went Wrong..!',
+      description:
+        'Message : '+error,
+    });
+  };
+  const handleRedirect = () => {
+    props.history.push("admin/forgetpassword");
   }
-    const onFinish = values => {
-        console.log('Received values of form: ', values);
+
+  const onFinish = values => {
+    console.log('Received values of form: ', values);
+    loading=true;
+    login(values).then(res => {
+      if (res.data.status === "Success") {
+        console.log(res.data.result.token)
+        localStorage.setItem('adminid', res.data.result.admin.admin_Master_Id);
+        localStorage.setItem('AccessToken', res.data.result.token);
+        loading=false;
         props.history.push("admin/admindashboard");
-      };
-      
-    return (
-      <div className="row justify-content-center" >
-        
-        <div className="row col-lg-6 justify-content-center">
-          
-        <div className="col-lg-6">
-        <Form
-      name="normal_login"
-      className="login-form"
-      initialValues={{
-        remember: false,
-      }}
-      onFinish={onFinish}
-      
-    >
-      <Form.Item>
-        <p className="alert alert-info">Ask My Doc</p>
-      </Form.Item>
-      <Form.Item
-        name="username"
-        rules={[
-          {
-            required: true,
-            type:'email',
-            message: 'Please input your valid Email!',
-          },
-        ]}
-      >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
-      </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Password!',
-          },
-        ]}
-      >
-        <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-        />
-      </Form.Item>
-      <Form.Item>
-        {/* <Form.Item name="remember" valuePropName="unchecked" noStyle>
+      } else {
+        openNotification('error')
+      }
+    }).catch(function (error) {
+      openNetworkErrorNotification('error',error)
+    });
+  };
+
+  return (
+    <div className='bgForLogin'>
+      <div className="container">
+        <div className="d-flex justify-content-center h-100">
+          <div className="card">
+            <div className="card-header">
+
+              <h3>Ask My Doc</h3>
+
+              {/* <div className="d-flex justify-content-end social_icon">
+              <span><i className="fab fa-facebook-square"></i></span>
+              <span><i className="fab fa-google-plus-square"></i></span>
+              <span><i className="fab fa-twitter-square"></i></span>
+            </div> */}
+            </div>
+            <div className="card-body">
+
+              <Form
+                name="normal_login"
+                className="login-form"
+                initialValues={{
+                  remember: false,
+                }}
+                onFinish={onFinish}
+
+              >
+
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      type: 'email',
+                      message: 'Please input your valid Email!',
+                    },
+                  ]}
+                >
+                  <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+                </Form.Item>
+                <Form.Item
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your Password!',
+                    },
+                  ]}
+                >
+                  <Input
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="password"
+                    placeholder="Password"
+                  />
+                </Form.Item>
+                <Form.Item>
+                  {/* <Form.Item name="remember" valuePropName="unchecked" noStyle>
           <Checkbox>Remember me</Checkbox>
         </Form.Item> */}
 
-        <a className="login-form-forgot" onClick={handleRedirect}>
-          Forgot password
-        </a>
-      </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
-          Log in
-        </Button><br/>
-      
-      </Form.Item>
-    </Form>
+                </Form.Item>
+
+                <Form.Item>
+                  <Button type="primary" loading={loading} htmlType="submit" className="login-form-button">
+                    Log in
+        </Button><br />
+
+                </Form.Item>
+              </Form>
+
+            </div>
+            <div className="card-footer">
+              <div className="d-flex justify-content-center links">
+                Don't have an account?<a href="#">Sign Up</a>
+              </div>
+              <div className="d-flex justify-content-center">
+                <a className="login-form-forgot" onClick={handleRedirect}>
+                  Forgot password
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-        </div>
-        </div>
-    )
+      </div>
+    </div>
+  )
 }
 
 export default withRouter(AdminLogin);
