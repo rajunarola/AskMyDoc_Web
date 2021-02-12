@@ -31,9 +31,9 @@ export const DoctorLogin = (props) => {
             if (res.data.status === "Success") {
                 console.log(res.data.result.token)
                 localStorage.setItem('dcotorid', res.data.result.doctor.doctor_Id);
-                localStorage.setItem('AccessToken', res.data.result.token);
+                localStorage.setItem('Token', res.data.result.token);
                 loading = false;
-                props.history.push("doctor/doctorDashboard");
+                props.history.push("doctor/appointmentdetails");
             } else {
                 openNotification('error')
             }
@@ -45,7 +45,7 @@ export const DoctorLogin = (props) => {
         <div className="bgDoctor">
             <div className="container">
                 <div className="d-flex justify-content-center h-100">
-                    <div className="card">
+                    <div className="card" style={{ height: "370px", marginTop: "auto", marginBottom: "auto", backgroundColor: 'gray', marginTop: "150px" }}>
                         <div className="card-header">
                             <h2>Doctor Login</h2>
                         </div>

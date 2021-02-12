@@ -38,7 +38,7 @@ html, body {
     align-content: center;
 }
 
-.card {
+/* .card {
     height: 370px;
     margin-top: auto;
     margin-bottom: auto;
@@ -46,7 +46,7 @@ html, body {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     background-color: rgba(0, 0, 0, 0.5) !important;
     margin-top: 150px;
-}
+} */
 
 .social_icon span {
     font-size: 60px;

@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+/* .ant-layout-content{
+  padding: 24px !important;
+    margin: 0px !important;
+    min-height: calc(100vh - 150px) !important;
+} */
