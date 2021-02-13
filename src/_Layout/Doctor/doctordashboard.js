@@ -1,4 +1,5 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import { withRouter } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Tooltip } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, SettingFilled, FormOutlined } from '@ant-design/icons';
 import './doctordashboard.css';
@@ -6,9 +7,14 @@ import DoctorHeader from './DoctorHeader';
 import SidePanel from './SidePanel';
 import AppointmentBadge from './AppointmentBadge';
 
-export default function doctordashboard() {
+function doctordashboard(props) {
     const { SubMenu } = Menu;
     const { Header, Content, Sider } = Layout;
+    useEffect(() => {
+      if (localStorage.getItem('Token') === null) {
+          props.history.push('/')
+      }
+    })
     return (
 
         <div>
@@ -37,3 +43,4 @@ export default function doctordashboard() {
         </div>
     );
 }
+export default withRouter(doctordashboard)

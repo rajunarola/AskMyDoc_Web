@@ -1,13 +1,21 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Layout, Menu } from 'antd';
+import { withRouter } from 'react-router-dom';
 import './doctordashboard.css';
 import DoctorHeader from './DoctorHeader';
 import SidePanel from './SidePanel';
 
 
-export default function PatientList() {
-    const { SubMenu } = Menu;
+ function PatientList(props) {
+  
+  useEffect(() => {
+    if (localStorage.getItem('Token') === null) {
+        props.history.push('/')
+    }
+  })
+  const { SubMenu } = Menu;
     const { Header, Content, Sider } = Layout;
+    
     return (
 
         <div>
@@ -35,3 +43,4 @@ export default function PatientList() {
         </div>
     );
 }
+export default withRouter(PatientList)
