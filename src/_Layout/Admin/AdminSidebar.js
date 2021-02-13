@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from 'react-router-dom';
 
 
 export default function AdminSidebar()
@@ -42,17 +42,17 @@ export default function AdminSidebar()
                 {/* <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library --> */}
                     <li className="nav-item">
-                        <a href="#" className="nav-link">
+                        <Link className="nav-link" to='/admin/admindashboard'>
                         <i className="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Dashboard
-                                <i className=""></i>
-                            </p>
-                        </a>
-                        
+                            <p> Dashboard </p>
+                        </Link>
                     </li>
-                
-                
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/admin/state'>
+                            <i class="fas fa-archway nav-icon"></i>
+                            <p> State </p>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
             {/* <!-- /.sidebar-menu --> */}
