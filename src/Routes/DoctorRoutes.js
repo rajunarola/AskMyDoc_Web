@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 // import Forgetpassword from '../Admin/Forgetpassword';
 import DoctorLogin from '../_Layout/Doctor/DoctorLogin';
-import Doctordashboard from '../Doctor/Doctordashboard';
+import Doctordashboard from '../Doctor/doctordashboard';
 // import Admindashboard from '../Admin/Dashboard';
 import PatientList from '../Doctor/PatientList';
 import AppointmentBadge from '../Doctor/AppointmentBadge';
