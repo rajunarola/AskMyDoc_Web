@@ -2,7 +2,7 @@ import React,{useEffect} from 'react';
 import { Link,withRouter } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb,Tooltip } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined,SettingFilled,FormOutlined } from '@ant-design/icons';
-import './doctordashboard.css';
+
 
  function SidePanel(props)
 {

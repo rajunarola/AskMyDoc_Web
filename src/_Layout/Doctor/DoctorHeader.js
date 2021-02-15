@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb,Tooltip,Drawer,Image } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined,SettingFilled,FormOutlined } from '@ant-design/icons';
-import './doctordashboard.css';
+import '../../Doctor/doctordashboard.css';
 
 function DoctorHeader(props)
 {

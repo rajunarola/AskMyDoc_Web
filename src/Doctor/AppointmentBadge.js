@@ -1,8 +1,8 @@
 import React,{useEffect} from 'react';
 import { withRouter } from 'react-router-dom';
 import { message,Menu, Card, Col, Row,Layout } from 'antd';
-import DoctorHeader from './DoctorHeader';
-import SidePanel from './SidePanel';
+import DoctorHeader from '../_Layout/Doctor/DoctorHeader';
+import SidePanel from '../_Layout/Doctor/SidePanel';
 
 function AppointmentBadge(props) {
 
