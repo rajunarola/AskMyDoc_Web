@@ -1,11 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React,{useEffect} from 'react';
+import { Link,withRouter } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb,Tooltip } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined,SettingFilled,FormOutlined } from '@ant-design/icons';
-import './doctordashboard.css';
 
-export default function SidePanel()
+
+ function SidePanel(props)
 {
+  useEffect(() => {
+    if (localStorage.getItem('Token') === null) {
+        props.history.push('/')
+    }
+  })
 
     const { SubMenu } = Menu;
     const { Header, Content, Sider } = Layout;
@@ -42,5 +47,6 @@ export default function SidePanel()
     );
 
 }
+export default withRouter(SidePanel)
 
       

@@ -1,10 +1,16 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import { withRouter } from 'react-router-dom';
 import { message,Menu, Card, Col, Row,Layout } from 'antd';
-import DoctorHeader from './DoctorHeader';
-import SidePanel from './SidePanel';
+import DoctorHeader from '../_Layout/Doctor/DoctorHeader';
+import SidePanel from '../_Layout/Doctor/SidePanel';
 
-export default function AppointmentBadge() {
+function AppointmentBadge(props) {
 
+    useEffect(() => {
+        if (localStorage.getItem('Token') === null) {
+            props.history.push('/')
+        }
+      })
     const { SubMenu } = Menu;
     const { Header, Content, Sider } = Layout;
     return (
@@ -51,3 +57,4 @@ export default function AppointmentBadge() {
         </div>
     );
 }
+export default withRouter(AppointmentBadge)

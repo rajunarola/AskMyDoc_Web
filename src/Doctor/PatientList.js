@@ -1,14 +1,21 @@
-import React from 'react';
-import { Layout, Menu, Breadcrumb, Tooltip } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined, SettingFilled, FormOutlined } from '@ant-design/icons';
+import React,{useEffect} from 'react';
+import { Layout, Menu } from 'antd';
+import { withRouter } from 'react-router-dom';
 import './doctordashboard.css';
-import DoctorHeader from './DoctorHeader';
-import SidePanel from './SidePanel';
-import AppointmentBadge from './AppointmentBadge';
+import DoctorHeader from '../_Layout/Doctor/DoctorHeader';
+import SidePanel from '../_Layout/Doctor/SidePanel';
 
-export default function doctordashboard() {
-    const { SubMenu } = Menu;
+
+ function PatientList(props) {
+  
+  useEffect(() => {
+    if (localStorage.getItem('Token') === null) {
+        props.history.push('/')
+    }
+  })
+  const { SubMenu } = Menu;
     const { Header, Content, Sider } = Layout;
+    
     return (
 
         <div>
@@ -28,8 +35,7 @@ export default function doctordashboard() {
             minHeight: 280,
           }}
         >
-           
-          {/* <AppointmentBadge/> */}
+          <p>Patient List</p>
         </Content>
                     </Layout>
                 </Layout>
@@ -37,3 +43,4 @@ export default function doctordashboard() {
         </div>
     );
 }
+export default withRouter(PatientList)
