@@ -2,6 +2,11 @@ import React from "react";
 
 export default function AdminHeader()
 {
+  const logout=()=>
+{
+  localStorage.clear();
+  window.location.href="/admin";
+}
 return(
   <nav className="main-header navbar navbar-expand navbar-white navbar-light">
       {/* <!-- Left navbar links --> */}
@@ -13,14 +18,18 @@ return(
 
 
       {/* <!-- Right navbar links --> */}
-      <ul className="navbar-nav ml-auto">
+      <ul className="navbar-nav ">
       <li className="nav-item dropdown">
         <a className="nav-link" data-toggle="dropdown" href="#">
           <i className="far fa-user"></i>
         </a>
-        <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a id="Adminlogout" className="dropdown-item">
+        <div className="dropdown-menu dropdown-menu-left">
+          <a href="#" onClick={logout} className="dropdown-item">
             <i className="fas fa-logout mr-2"></i> Logout
+          </a>
+          <div className="dropdown-divider"></div>
+          <a href="#" className="dropdown-item">
+            <i className="fas fa-logout mr-2"></i> Change Password
           </a>
           <div className="dropdown-divider"></div>
         </div>

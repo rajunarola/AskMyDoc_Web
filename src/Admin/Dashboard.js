@@ -21,12 +21,11 @@ function Dashboard(props) {
                     <div className="container-fluid">
                         <div className="row mb-2">
                             <div className="col-sm-6">
-                                <h1>DataTables</h1>
+                                <h1></h1>
                             </div>
                             <div className="col-sm-6">
                                 <ol className="breadcrumb float-sm-right">
                                     <li className="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li className="breadcrumb-item active">DataTables</li>
                                 </ol>
                             </div>
                         </div>
@@ -39,7 +38,7 @@ function Dashboard(props) {
                             <div className="col-md-12 col-lg-12">
                                 <div className="card">
                                     <div className="card-header">
-                                        <h3 className="card-title">DataTable with default features</h3>
+                                        <h3 className="card-title"></h3>
                                     </div>
                                     <div className="card-body"></div>
                                 </div>
