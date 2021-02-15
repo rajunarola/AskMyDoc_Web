@@ -22,7 +22,10 @@ export const DoctorLogin = (props) => {
         });
     };
     const handleRedirect = () => {
-        props.history.push("doctor/forgetpassword");
+        props.history.push('forgotpwd');
+    };
+    const RedirectToSignUp = () => {
+        props.history.push('DoctorSignin');
     }
     const onFinish = values => {
         console.log("Received value from form :", values);
@@ -76,7 +79,7 @@ export const DoctorLogin = (props) => {
 
                         <div className="card-footer">
                             <div className="d-flex justify-content-center">
-                                Don't have an account?<a href="">Sign Up</a>
+                                Don't have an account?<a href="" onClick={RedirectToSignUp}>Sign Up</a>
                             </div>
                             <div className="d-flex justify-content-center">
                                 <a className="login-form-forgot" onClick={handleRedirect}>
