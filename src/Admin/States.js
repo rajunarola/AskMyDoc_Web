@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { GetAllStates, AddState } from '../Service/AdminService';
-import { Modal, message } from 'antd';
+import { GetAllStates, AddState , GetOne,EditState,DeleteState} from '../Service/AdminService';
+import { Modal, message ,Button , Popconfirm} from 'antd';
 import { MDBDataTable, MDBBtn } from 'mdbreact';
 
 import AdminHeader from '../_Layout/Admin/AdminHeader';
@@ -13,11 +13,13 @@ export default class States extends Component {
     {
         super(props);
         this.state={
-            sName: "",
+            state_Id:0,
+            sName: " ",
             loading: false,
             visible: false,
             data:[],
-            isModalVisible:false
+            isModalVisible:false,
+            modeltitle:"Add State"
         }
     }
 
@@ -30,13 +32,69 @@ export default class States extends Component {
         }
     }
     
+    showEditModel=(id)=>
+    {
+        GetOne(id).then(res => {
+            if (res.data.status === "Success") {
+                this.setState({ modeltitle:"Edit State",isModalVisible:true,state_Id: res.data.result.state_Id,sName:res.data.result.sName});
+            } else {
+                message.error({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+            }
+        }).catch(function (err) {
+            message.error({
+                content: err, className: 'custom-class',
+                style: {
+                    marginTop: '20vh',
+                }
+            })
+        });
+    }
+
+    Deleteconfirm=(id)=>{
+        DeleteState(id).then(res => {
+            if (res.data.status === "Success") {
+                message.success({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+                this.DisplayAllState();
+            } else {
+                message.error({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+            }
+        }).catch(function (err) {
+            message.error({
+                content: err, className: 'custom-class',
+                style: {
+                    marginTop: '20vh',
+                }
+            })
+        });
+    }
+
     DisplayAllState() {
         GetAllStates().then(res => {
             if (res.data.status === "Success") {
-                res.data.result.map(function (item) {
-                    item.action = <div><MDBBtn className="btn btn-secondary" size="sm">Edit</MDBBtn> <MDBBtn className="btn btn-secondary" size="sm">Delete</MDBBtn></div>
+                res.data.result.map(item => {
+                    item.action =  item.action = <div><Button className="btn btn-secondary" onClick={()=>{this.showEditModel(item.state_Id)}} size="sm">Edit</Button> <Popconfirm title="Are you sure to delete this State?"
+                    onConfirm={()=>this.Deleteconfirm(item.state_Id)}
+                    okText="Yes"
+                    cancelText="No">
+                    <a href="#" className="btn btn-danger">Delete</a>
+                    </Popconfirm></div>
                 });
-                console.log(res.data.result);
+                //console.log(res.data.result);
                 this.setState({data:[{
                     columns: [
                         {
@@ -54,8 +112,7 @@ export default class States extends Component {
                     ],
                     rows:res.data.result
                 }]});              
-                //.rows=res.data.result;
-                console.log('data',this.state.data);
+                //console.log('data',this.state.data);
             } else {
                 message.error({
                     content: res.data.message, className: 'custom-class',
@@ -74,38 +131,76 @@ export default class States extends Component {
         });
     }
     
+    
+
     showModal(){
-        this.setState({isModalVisible:true});
+        this.setState({isModalVisible:true,modeltitle:"Add State"});
     };
-        
+
     handleOk = values => {
         if (this.state.sName != "") {
-            console.log(this.state.sName);
-            AddState({ 'sName': this.state.sName }).then(res => {
-                if (res.data.status === "Success") {
-                    res.data.result.map(function (item) {
-                        item.action = <MDBBtn className="btn btn-secondary" size="sm">Edit</MDBBtn>
-                    });
-                    console.log(res.data.result)
-                    this.setState({isModalVisible:false,sName:""});
-                    this.DisplayAllState();
-                } else {
-                    console.log(res.data.message);
-                    message.error({
-                        content: res.data.message, className: 'custom-class',
-                        style: {
-                            marginTop: '20vh',
+            if(this.state.sName.length > 0 && this.state.sName.length < 25){
+                if(this.state.state_Id == 0)
+                {
+                    AddState({ 'sName': this.state.sName }).then(res => {
+                        if (res.data.status === "Success") {
+                            this.setState({isModalVisible:false,sName:""});
+                            this.DisplayAllState();
+                        } else {
+                            console.log(res.data.message);
+                            message.error({
+                                content: res.data.message, className: 'custom-class',
+                                style: {
+                                    marginTop: '20vh',
+                                }
+                            })
                         }
-                    })
+                    }).catch(function (err) {
+                        message.error({
+                            content: err, className: 'custom-class',
+                            style: {
+                                marginTop: '20vh',
+                            }
+                        })
+                    });
+                }else{
+                    EditState({ 'state_Id':this.state.state_Id,'sName': this.state.sName }).then(res => {
+                        if (res.data.status === "Success") {
+                            this.setState({isModalVisible:false,sName:"",state_Id:0});
+                            this.DisplayAllState();
+                            message.success({
+                                content: res.data.message, className: 'custom-class',
+                                style: {
+                                    marginTop: '20vh',
+                                }
+                            })
+                        } else {
+                            console.log(res.data.message);
+                            message.error({
+                                content: res.data.message, className: 'custom-class',
+                                style: {
+                                    marginTop: '20vh',
+                                }
+                            })
+                        }
+                    }).catch(function (err) {
+                        message.error({
+                            content: err, className: 'custom-class',
+                            style: {
+                                marginTop: '20vh',
+                            }
+                        })
+                    });
                 }
-            }).catch(function (err) {
+            }
+            else{
                 message.error({
-                    content: err, className: 'custom-class',
+                    content: 'State Name length between 3 to', className: 'custom-class',
                     style: {
                         marginTop: '20vh',
                     }
-                })
-            });
+                });
+            }
         } else {
             message.error({
                 content: 'Please Enter State Name', className: 'custom-class',
@@ -117,7 +212,7 @@ export default class States extends Component {
     };
     
     handleCancel(){
-        this.setState({isModalVisible:false});
+        this.setState({isModalVisible:false,sName:''});
     };
 
     handleChange = (e) => {
@@ -126,7 +221,6 @@ export default class States extends Component {
     }
     
     render() {
-            
         return (
             
         <div className="wrapper">
@@ -157,7 +251,7 @@ export default class States extends Component {
                                     <div className="card-header">
                                         <h3 className="card-title">
                                             <div className="float-right btn btn-secondary" onClick={()=>{this.showModal()}}>Add State</div>
-                                            <Modal title="Add State" visible={this.state.isModalVisible} onOk={()=>{this.handleOk()}} onCancel={()=>{this.handleCancel()}} >
+                                            <Modal title={this.state.modeltitle} visible={this.state.isModalVisible} onOk={()=>{this.handleOk()}} onCancel={()=>{this.handleCancel()}} >
                                                 <label>State Name</label>
                                                 <input type="text"
                                                     className="form-control"
@@ -170,7 +264,7 @@ export default class States extends Component {
                                         </h3>
                                     </div>
                                     <div className="card-body">
-                                        <MDBDataTable striped bordered hover data={this.state.data[0]} />
+                                        <MDBDataTable btn striped bordered hover data={this.state.data[0]} />
                                     </div>
                                 </div>
                             </div>
