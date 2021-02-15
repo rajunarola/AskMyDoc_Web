@@ -3,14 +3,14 @@ import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Forgetpassword from '../Admin/Forgetpassword';
 import AdminLogin from '../_Layout/Admin/AdminLogin';
 import Dashboard from '../Admin/Dashboard';
-import State from '../Admin/State';
+import States from '../Admin/States';
 
 function Routes() {
     return (
         <Router>
             <Switch>
                 <Route path="/admin/admindashboard" exact={true} component={Dashboard} />
-                <Route path="/admin/state" exact={true} component={State} />
+                <Route path="/admin/state" exact={true} component={States} />
                 <Route path="/admin/forgetpassword" exact={true} component={Forgetpassword} />
                 <Route path="/admin" exact component={AdminLogin} />
             </Switch>     
