@@ -9,7 +9,7 @@ export default function AdminSidebar()
             {/* <!-- Brand Logo --> */}
             <a href="index3.html" className="brand-link">
                 <img src="https://adminlte.io/themes/v3/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{opacity: .8}}/>
-                <span className="brand-text font-weight-light">AdminLTE 3</span>
+                <span className="brand-text font-weight-light">Dashboard</span>
             </a>
 
             {/* <!-- Sidebar --> */}
@@ -20,7 +20,7 @@ export default function AdminSidebar()
                     <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image"/>
                 </div>
                 <div className="info">
-                    <a href="#" className="d-block">Alexander Pierce</a>
+                    <a href="#" className="d-block">Admin Name</a>
                 </div>
             </div>
 
@@ -51,6 +51,12 @@ export default function AdminSidebar()
                         <Link className="nav-link" to='/admin/state'>
                             <i class="fas fa-archway nav-icon"></i>
                             <p> State </p>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/admin/specialization'>
+                            <i class="fas fa-user-md nav-icon"></i>
+                            <p> Specialization </p>
                         </Link>
                     </li>
                 </ul>
