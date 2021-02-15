@@ -4,6 +4,7 @@ import Forgetpassword from '../Admin/Forgetpassword';
 import AdminLogin from '../_Layout/Admin/AdminLogin';
 import Dashboard from '../Admin/Dashboard';
 import State from '../Admin/State';
+import Specialization from '../Admin/Specialization';
 
 function Routes() {
     return (
@@ -11,6 +12,8 @@ function Routes() {
             <Switch>
                 <Route path="/admin/admindashboard" exact={true} component={Dashboard} />
                 <Route path="/admin/state" exact={true} component={State} />
+                <Route path="/admin/specialization" exact={true} component={Specialization} />
+
                 <Route path="/admin/forgetpassword" exact={true} component={Forgetpassword} />
                 <Route path="/admin" exact component={AdminLogin} />
             </Switch>     
