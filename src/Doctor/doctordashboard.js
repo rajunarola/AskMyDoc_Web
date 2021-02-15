@@ -7,7 +7,7 @@ import DoctorHeader from '../_Layout/Doctor/DoctorHeader';
 import SidePanel from '../_Layout/Doctor/SidePanel';
 import AppointmentBadge from './AppointmentBadge';
 
-function doctordashboard(props) {
+function Doctordashboard(props) {
     const { SubMenu } = Menu;
     const { Header, Content, Sider } = Layout;
     useEffect(() => {
@@ -43,4 +43,4 @@ function doctordashboard(props) {
         </div>
     );
 }
-export default withRouter(doctordashboard)
+export default withRouter(Doctordashboard)
