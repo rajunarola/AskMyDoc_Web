@@ -9,41 +9,14 @@ export  function GetAllStates() {
     return  axios.get(process.env.REACT_APP_SERVER_URL + `/State/GetAll`)
 }
 
-export  function GetOne(id) {
+export  function GetOneState(id) {
     return  axios.get(process.env.REACT_APP_SERVER_URL + `/State/GetOne?id=${id}`)
 }
 
 export function AddState(data) {
     return axios.post(process.env.REACT_APP_SERVER_URL + `/State/Add`,data,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
 }
-export function Getspecializations() {
-    return axios.get(process.env.REACT_APP_SERVER_URL + `/Specialization/getallspecialization`)
-}
 
-export function Addspecialization(data) {
-    var headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
-    }
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/addsepcialization`,data,{'headers':headers})
-}
-export  function Getspecialization(id) {
-    return  axios.get(process.env.REACT_APP_SERVER_URL + `/Specialization/getspecialization?id=${id}`)
-}
-export function Deletespecialization(id) {
-    var headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
-    }
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/deletespecialization?id=${id}`,null,{'headers':headers})
-}
-export function Editspecialization(specializationMaster_Id) {
-    var headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
-    }
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/updatesepcialization`,specializationMaster_Id,{'headers':headers})
-}
 export function EditState(data) {
     return axios.post(process.env.REACT_APP_SERVER_URL + `/State/Edit`,data,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
 }
@@ -59,4 +32,49 @@ export function GetAllCities(){
 
 export function AddCity(data) {
     return axios.post(process.env.REACT_APP_SERVER_URL + `/City/Add`,data,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
+}
+
+export function EditCity(data){
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/City/Edit`,data,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
+}
+
+export  function GetOneCity(id) {
+    return  axios.get(process.env.REACT_APP_SERVER_URL + `/City/GetOne?id=${id}`)
+}
+
+export function DeleteCity(data)
+{
+    return axios.delete(process.env.REACT_APP_SERVER_URL + `/City/Delete?id=${data}`,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
+}
+
+export function Getspecializations() {
+    return axios.get(process.env.REACT_APP_SERVER_URL + `/Specialization/getallspecialization`)
+}
+
+export function Addspecialization(data) {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+    }
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/addsepcialization`,data,{'headers':headers})
+}
+
+export  function Getspecialization(id) {
+    return  axios.get(process.env.REACT_APP_SERVER_URL + `/Specialization/getspecialization?id=${id}`)
+}
+
+export function Deletespecialization(id) {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+    }
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/deletespecialization?id=${id}`,null,{'headers':headers})
+}
+
+export function Editspecialization(specializationMaster_Id) {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+    }
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/updatesepcialization`,specializationMaster_Id,{'headers':headers})
 }

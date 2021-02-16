@@ -1,30 +1,23 @@
 import React from 'react';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-// import Forgetpassword from '../Admin/Forgetpassword';
+import { Route, Switch} from 'react-router-dom';
 import DoctorLogin from '../_Layout/Doctor/DoctorLogin';
 import Doctordashboard from '../Doctor/Doctordashboard';
-// import Admindashboard from '../Admin/Dashboard';
 import PatientList from '../Doctor/PatientList';
 import AppointmentBadge from '../Doctor/AppointmentBadge';
 import DoctorSignin from '../Doctor/DoctorSignin';
 import DoctorForgotPwd from '../Doctor/DoctorForgotPwd';
 
-function Routes() {
+function DoctorRoutes() {
     return (
-        <div>
-            <Router>
-
-                <Switch>
-                    <Route path="/" exact component={DoctorLogin} />
-                    <Route path='/doctor/doctordashboard' exact component={Doctordashboard} />
-                    <Route path='/doctor/patientlist' exact component={PatientList} />
-                    <Route path='/doctor/appointmentdetails' exact component={AppointmentBadge} />
-                    <Route path='/doctorsignin' exact component={DoctorSignin} />
-                    <Route path='/forgotpwd' exact component={DoctorForgotPwd} />
-                </Switch>
-            </Router>
-        </div>
+        <Switch>
+            <Route path='/doctor/doctordashboard' exact={true} component={Doctordashboard} />
+            <Route path='/doctor/patientlist' exact={true} component={PatientList} />
+            <Route path='/doctor/appointmentdetails' exact={true} component={AppointmentBadge} />
+            <Route path='/doctorsignin' exact={true} component={DoctorSignin} />
+            <Route path='/forgotpwd' exact={true} component={DoctorForgotPwd} />
+            <Route path="/" exact={true} component={DoctorLogin} />
+        </Switch>
     )
 }
 
-export default Routes;
+export default DoctorRoutes;

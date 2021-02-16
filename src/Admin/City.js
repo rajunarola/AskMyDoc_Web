@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { GetAllCities, AddCity } from '../Service/AdminService';
-import { Modal, message } from 'antd';
-import { MDBDataTable, MDBBtn } from 'mdbreact';
+import { GetAllCities, AddCity,GetAllStates,EditCity,GetOneCity,DeleteCity } from '../Service/AdminService';
+import { Modal, message ,Button , Popconfirm,Select} from 'antd';
+import { MDBDataTable } from 'mdbreact';
+import { DeleteOutlined,EditOutlined } from '@ant-design/icons'
 
 import AdminHeader from '../_Layout/Admin/AdminHeader';
 import AdminFooter from '../_Layout/Admin/AdminFooter';
@@ -14,10 +14,13 @@ export default class City extends Component {
         super(props);
         this.state={
             state_Id:0,
+            city_Id:0,
             cName: " ",
+            sName:"",
             loading: false,
             visible: false,
             data:[],
+            states:[],
             isModalVisible:false,
             modeltitle:"Add City"
         }
@@ -28,19 +31,23 @@ export default class City extends Component {
         if (localStorage.getItem('AccessToken') === null) {
             this.props.history.push('/admin')
         } else {
+            this.GetAllState();
             this.DisplayAllCities();
         }
     }
     
-    DisplayAllCities() {
-        GetAllCities().then(res => {
+    async DisplayAllCities() {
+        await GetAllCities().then(res => {
             if (res.data.status === "Success") {
-                res.data.result.map(function (item) {
-                    item.action = <div>
-                        <MDBBtn id={item.state_Id} className="btn btn-secondary" onClick={()=>{this.showEditModel()}} size="sm">Edit</MDBBtn> <MDBBtn className="btn btn-secondary" size="sm">Delete</MDBBtn>
-                        </div>
+                res.data.result.map(item => {
+                    item.action = <div><Button type="primary" onClick={()=>{this.showEditModel(item.city_Id)}} size="sm"><EditOutlined /> Edit</Button> <Popconfirm title="Are you sure to delete this City?"
+                    onConfirm={()=>this.Deleteconfirm(item.city_Id)}
+                    okText="Yes"
+                    cancelText="No">
+                    <a href="#" className="btn btn-danger"><DeleteOutlined/> Delete</a>
+                    </Popconfirm></div>
                 });
-                //console.log(res.data.result);
+                console.log('City',res.data.result);
                 this.setState({data:[{
                     columns: [
                         {
@@ -77,43 +84,155 @@ export default class City extends Component {
         });
     }
     
-    showEditModel = ()=>
-    {
-        console.log('dfghd');
-    }
-
-    showModal(){
-        this.setState({isModalVisible:true});
-    };
-
-    handleOk = values => {
-        if (this.state.cName != "") {
-            if(this.state.cName.length > 0 && this.state.cName.length < 25){
-                AddCity({ 'cName': this.state.cName }).then(res => {
-                    if (res.data.status === "Success") {
-                        this.setState({isModalVisible:false,cName:""});
-                        this.DisplayAllCities();
-                    } else {
-                        console.log(res.data.message);
-                        message.error({
-                            content: res.data.message, className: 'custom-class',
-                            style: {
-                                marginTop: '20vh',
-                            }
-                        })
-                    }
-                }).catch(function (err) {
+    async GetAllState(){
+        if(this.state.states.length==0){
+            await GetAllStates().then(res => {
+                if (res.data.status === "Success") {
+                    this.setState({states:res.data.result});
+                    console.log('States ',this.state.states);
+                } else {
                     message.error({
-                        content: err, className: 'custom-class',
+                        content: res.data.message, className: 'custom-class',
                         style: {
                             marginTop: '20vh',
                         }
                     })
+                }
+            }).catch(function (err) {
+                message.error({
+                    content: err, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+            });
+        }
+    }
+
+    showEditModel = (id)=>
+    {
+        GetOneCity(id).then(res => {
+            if (res.data.status === "Success") {
+                var sn= this.state.states.find(s=>s.state_Id == res.data.result.state_Id).sName
+                console.log(sn);
+                this.setState({ 
+                    modeltitle:"Edit City",
+                    isModalVisible:true,
+                    state_Id: res.data.result.state_Id,
+                    cName:res.data.result.cName,
+                    sName:sn,
+                    city_Id:res.data.result.city_Id
                 });
+            } else {
+                message.error({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+            }
+        }).catch(function (err) {
+            message.error({
+                content: err, className: 'custom-class',
+                style: {
+                    marginTop: '20vh',
+                }
+            })
+        });
+    }
+
+    Deleteconfirm=(id)=>{
+        DeleteCity(id).then(res => {
+            if (res.data.status === "Success") {
+                message.success({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+                this.DisplayAllCities();
+            } else {
+                message.error({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+            }
+        }).catch(function (err) {
+            message.error({
+                content: err, className: 'custom-class',
+                style: {
+                    marginTop: '20vh',
+                }
+            })
+        });
+    }
+
+    showModal(){
+        this.setState({isModalVisible:true,eltitle:"Add City"});
+    };
+
+    handleOk = values => {
+        if (this.state.cName != "" && this.state.state_Id != 0) {
+            if(this.state.cName.length > 0 && this.state.cName.length < 25 ){
+                if(this.state.city_Id == 0)
+                {
+                    console.log(this.state);
+                    AddCity({ 'cName': this.state.cName ,'state_Id' : this.state.state_Id}).then(res => {
+                        if (res.data.status === "Success") {
+                            this.setState({isModalVisible:false,cName:"",state_Id:0});
+                            this.DisplayAllCities();
+                        } else {
+                            console.log(res.data.message);
+                            message.error({
+                                content: res.data.message, className: 'custom-class',
+                                style: {
+                                    marginTop: '20vh',
+                                }
+                            })
+                        }
+                    }).catch(function (err) {
+                        message.error({
+                            content: err, className: 'custom-class',
+                            style: {
+                                marginTop: '20vh',
+                            }
+                        })
+                    });
+                }else{
+                    EditCity({ 'city_Id':this.state.city_Id, 'state_Id':this.state.state_Id,'cName': this.state.cName }).then(res => {
+                        if (res.data.status === "Success") {
+                            this.setState({isModalVisible:false,cName:"",state_Id:0,city_Id:0});
+                            this.DisplayAllCities();
+                            message.success({
+                                content: res.data.message, className: 'custom-class',
+                                style: {
+                                    marginTop: '20vh',
+                                }
+                            })
+                        } else {
+                            console.log(res.data.message);
+                            message.error({
+                                content: res.data.message, className: 'custom-class',
+                                style: {
+                                    marginTop: '20vh',
+                                }
+                            })
+                        }
+                    }).catch(function (err) {
+                        message.error({
+                            content: err, className: 'custom-class',
+                            style: {
+                                marginTop: '20vh',
+                            }
+                        })
+                    });
+                }
             }
             else{
                 message.error({
-                    content: 'State Name length between 3 to', className: 'custom-class',
+                    content: 'City Name length between 3 to 24', className: 'custom-class',
                     style: {
                         marginTop: '20vh',
                     }
@@ -121,7 +240,7 @@ export default class City extends Component {
             }
         } else {
             message.error({
-                content: 'Please Enter State Name', className: 'custom-class',
+                content: 'Please Select State And Enter City', className: 'custom-class',
                 style: {
                     marginTop: '20vh',
                 }
@@ -130,18 +249,21 @@ export default class City extends Component {
     };
     
     handleCancel(){
-        this.setState({isModalVisible:false,sName:''});
+        this.setState({isModalVisible:false,cName:''});
     };
 
     handleChange = (e) => {
-        const { id, value } = e.target;
-        this.setState({cName: value});
+        if(e.target){
+            const { id, value } = e.target;
+            this.setState({cName: value});
+        }
+        else if(e){
+            this.setState({state_Id: e});
+        }
     }
-    
     render() {
-            
+        const options = this.state.states.map((d) => <Select.Option key={d.state_Id}>{d.sName}</Select.Option>);
         return (
-            
         <div className="wrapper">
             <AdminHeader />
             <AdminSidebar />
@@ -171,14 +293,36 @@ export default class City extends Component {
                                         <h3 className="card-title">
                                             <div className="float-right btn btn-secondary" onClick={()=>{this.showModal()}}>Add City</div>
                                             <Modal title={this.state.modeltitle} visible={this.state.isModalVisible} onOk={()=>{this.handleOk()}} onCancel={()=>{this.handleCancel()}} >
-                                                <label>City Name</label>
-                                                <input type="text"
-                                                    className="form-control"
-                                                    id="cName"
-                                                    placeholder="Enter State Name"
-                                                    value={this.state.cName}
-                                                    onChange={(e)=>{this.handleChange(e)}}
-                                                />
+                                                <div>
+                                                    <label>State</label>
+                                                    <Select
+                                                        showSearch
+                                                        style={{ width: 200 }}
+                                                        placeholder="Select State"
+                                                        optionFilterProp="children"
+                                                        filterOption={(input, option) =>
+                                                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                                        }
+                                                        filterSort={(optionA, optionB) =>
+                                                        optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                                                        }
+                                                        id="state"
+                                                        value={this.state.sName}
+                                                        onChange={(e)=>{this.handleChange(e)}}
+                                                    >   
+                                                        {options}
+                                                    </Select>
+                                                </div>
+                                                <div>
+                                                    <label>City Name</label>
+                                                    <input type="text"
+                                                        className="form-control"
+                                                        id="cName"
+                                                        placeholder="Enter State Name"
+                                                        value={this.state.cName}
+                                                        onChange={(e)=>{this.handleChange(e)}}
+                                                    />
+                                                </div>
                                             </Modal>
                                         </h3>
                                     </div>

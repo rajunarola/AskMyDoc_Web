@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { GetAllStates, AddState , GetOne,EditState,DeleteState} from '../Service/AdminService';
+import { GetAllStates, AddState , GetOneState,EditState,DeleteState} from '../Service/AdminService';
 import { Modal, message ,Button , Popconfirm} from 'antd';
-import { MDBDataTable, MDBBtn } from 'mdbreact';
+import { MDBDataTable } from 'mdbreact';
+import { DeleteOutlined,EditOutlined } from '@ant-design/icons'
 
 import AdminHeader from '../_Layout/Admin/AdminHeader';
 import AdminFooter from '../_Layout/Admin/AdminFooter';
@@ -34,7 +34,7 @@ export default class States extends Component {
     
     showEditModel=(id)=>
     {
-        GetOne(id).then(res => {
+        GetOneState(id).then(res => {
             if (res.data.status === "Success") {
                 this.setState({ modeltitle:"Edit State",isModalVisible:true,state_Id: res.data.result.state_Id,sName:res.data.result.sName});
             } else {
@@ -87,11 +87,11 @@ export default class States extends Component {
         GetAllStates().then(res => {
             if (res.data.status === "Success") {
                 res.data.result.map(item => {
-                    item.action =  item.action = <div><Button className="btn btn-secondary" onClick={()=>{this.showEditModel(item.state_Id)}} size="sm">Edit</Button> <Popconfirm title="Are you sure to delete this State?"
+                    item.action = <div><Button type="primary" onClick={()=>{this.showEditModel(item.state_Id)}} size="sm"><EditOutlined /> Edit</Button> <Popconfirm title="Are you sure to delete this State?"
                     onConfirm={()=>this.Deleteconfirm(item.state_Id)}
                     okText="Yes"
                     cancelText="No">
-                    <a href="#" className="btn btn-danger">Delete</a>
+                    <a href="#" className="btn btn-danger"><DeleteOutlined/> Delete</a>
                     </Popconfirm></div>
                 });
                 //console.log(res.data.result);
@@ -195,7 +195,7 @@ export default class States extends Component {
             }
             else{
                 message.error({
-                    content: 'State Name length between 3 to', className: 'custom-class',
+                    content: 'State Name length between 3 to 24', className: 'custom-class',
                     style: {
                         marginTop: '20vh',
                     }

@@ -43,7 +43,7 @@ export default function AdminSidebar()
                     with font-awesome or any other icon font library --> */}
                     <li className="nav-item">
                         <Link className="nav-link" to='/admin/admindashboard'>
-                        <i className="nav-icon fas fa-tachometer-alt"></i>
+                            <i className="nav-icon fas fa-tachometer-alt"></i>
                             <p> Dashboard </p>
                         </Link>
                     </li>
@@ -51,6 +51,12 @@ export default function AdminSidebar()
                         <Link className="nav-link" to='/admin/state'>
                             <i class="fas fa-archway nav-icon"></i>
                             <p> State </p>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/admin/city'>
+                            <i class="fas fa-archway nav-icon"></i>
+                            <p> City </p>
                         </Link>
                     </li>
                     <li className="nav-item">
