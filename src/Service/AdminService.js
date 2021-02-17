@@ -1,10 +1,13 @@
 //Service API CALL
 import axios from 'axios';
 
+//#region LOGIN API
 export function login(users) {
     return axios.post(process.env.REACT_APP_SERVER_URL + `/Account/AdminLogin`, users)
 }
+//#endregion
 
+//#region  State Apis
 export  function GetAllStates() {
     return  axios.get(process.env.REACT_APP_SERVER_URL + `/State/GetAll`)
 }
@@ -26,6 +29,9 @@ export function DeleteState(data)
     return axios.delete(process.env.REACT_APP_SERVER_URL + `/State/Delete?id=${data}`,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
 }
 
+//#endregion
+
+//#region  City Apis
 export function GetAllCities(){
     return axios.get(process.env.REACT_APP_SERVER_URL + `/City/GetAll`);
 }
@@ -46,6 +52,9 @@ export function DeleteCity(data)
 {
     return axios.delete(process.env.REACT_APP_SERVER_URL + `/City/Delete?id=${data}`,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
 }
+//#endregion
+
+//#region Specialization Api
 
 export function Getspecializations() {
     return axios.get(process.env.REACT_APP_SERVER_URL + `/Specialization/getallspecialization`)
@@ -78,3 +87,45 @@ export function Editspecialization(specializationMaster_Id) {
     }
     return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/updatesepcialization`,specializationMaster_Id,{'headers':headers})
 }
+//#endregion
+
+//#region Degree Apis
+export function GetDegrees() {
+    return axios.get(process.env.REACT_APP_SERVER_URL + `/Degree/GetAllDegree`)
+}
+
+export function AddDegree(data) {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+    }
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Degree/AddDegree`,data,{'headers':headers})
+}
+export function GetDegree(id) {
+    return axios.get(process.env.REACT_APP_SERVER_URL + `/Degree/GetOneDegree?id=${id}`)
+}
+export function DeleteDegree(id) {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+    }
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Degree/DeleteDegree?id=${id}`,null,{'headers':headers})
+}
+export function EditDegree(DegreeMaster_Id) {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+    }
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Degree/UpdateDegree`,DegreeMaster_Id,{'headers':headers})
+}
+//#endregion
+
+//#region 
+export function adminchangepassword(newpassword) {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+    }
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Comman/changepassword`,newpassword,{'headers':headers})
+}
+//#endregion

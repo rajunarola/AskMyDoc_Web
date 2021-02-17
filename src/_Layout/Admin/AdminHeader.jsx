@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router-dom';
 
 export default function AdminHeader()
 {
@@ -29,7 +30,9 @@ return(
           </a>
           <div className="dropdown-divider"></div>
           <a href="#" className="dropdown-item">
+            <Link to='/admin/changepassword'>
             <i className="fas fa-logout mr-2"></i> Change Password
+            </Link>
           </a>
           <div className="dropdown-divider"></div>
         </div>

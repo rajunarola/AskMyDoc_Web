@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Modal, message, Form, Input, Button, notification, Popconfirm } from 'antd';
 import { MDBDataTable, MDBBtn } from 'mdbreact';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Getspecializations, Addspecialization, Deletespecialization, Editspecialization, Getspecialization } from '../Service/AdminService';
+import { GetDegrees,GetDegree,AddDegree,DeleteDegree,EditDegree } from '../Service/AdminService';
 import AdminHeader from '../_Layout/Admin/AdminHeader';
 import AdminFooter from '../_Layout/Admin/AdminFooter';
 import AdminSidebar from '../_Layout/Admin/AdminSidebar';
@@ -13,8 +13,8 @@ export default class Specialization extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            specializationMaster_Id: 0,
-            SpecializationName: "",
+            degreeMaster_Id: 0,
+            degree: "",
             loading: false,
             visible: false,
             data: [],
@@ -22,29 +22,33 @@ export default class Specialization extends Component {
         }
     }
     handleEdit = (id) => {
+
         this.setState({ isModalVisible: true })
-        Getspecialization(id)
+        GetDegree(id)
             .then(res => {
-                this.setState({ SpecializationName: res.data.result.specialization, specializationMaster_Id: res.data.result.specializationMaster_Id })
+                
+                this.setState({ degree: res.data.result.degree, degreeMaster_Id: res.data.result.degreeMaster_Id })
             })
 
 
     }
     confirm = (id) => {
-
-        Deletespecialization(id).then(res => {
+       
+        DeleteDegree(id).then(res => {
 
             if (res.data.status === "Success") {
                 this.setState({
                     data: this.state.data
                 })
+                
                 message.success({
                     content: 'Record Deleted', className: 'custom-class',
                     style: {
                         marginTop: '20vh',
                     }
                 })
-                this.DisplayAllSpecialization();
+                
+            this.DisplayAllDegree();
             }
             else
             {
@@ -81,31 +85,32 @@ export default class Specialization extends Component {
         if (localStorage.getItem('AccessToken') === null) {
             this.props.history.push('/admin')
         } else {
-            this.DisplayAllSpecialization();
+            this.DisplayAllDegree();
         }
     }
 
-    DisplayAllSpecialization() {
+    DisplayAllDegree() {
 
-        Getspecializations().then(res => {
+        GetDegrees().then(res => {
 
             if (res.data.status === "Success") {
 
                 res.data.result.map(item => {
-                    item.action = <div><Button type="dashed" onClick={(id) => this.handleEdit(item.specializationMaster_Id)}><EditOutlined /></Button> <Popconfirm title="Are you sure to delete this Specialization?"
-                        onConfirm={(id) => this.confirm(item.specializationMaster_Id)}
+                
+                    item.action = <div><Button type="dashed" onClick={(id) => this.handleEdit(item.degreeMaster_Id)}><EditOutlined /></Button> <Popconfirm title="Are you sure to delete this Degree?"
+                        onConfirm={(id) => this.confirm(item.degreeMaster_Id)}
                         okText="Yes"
                         cancelText="No">
                         <Button type="dashed" ><DeleteOutlined /></Button>
                     </Popconfirm></div>
                 });
-        
+                
                 this.setState({
                     data: [{
                         columns: [
                             {
-                                label: 'Specialization Name',
-                                field: 'specialization',
+                                label: 'Degree Name',
+                                field: 'degree',
                                 sort: 'asc',
                                 width: 150
                             },
@@ -145,22 +150,22 @@ export default class Specialization extends Component {
     };
 
     handleOk = values => {
-        if (this.state.SpecializationName != "") {
-            if (this.state.SpecializationName.length <= 25 && /^[a-zA-Z]+$/.test(this.state.SpecializationName)) {
+        if (this.state.degree != "") {
+            if (this.state.degree.length <= 100 && /^[a-zA-Z ]+$/.test(this.state.degree)) {
 
-                if (this.state.specializationMaster_Id == 0) {
-                    Addspecialization({ 'Specialization': this.state.SpecializationName }).then(res => {
+                if (this.state.degreeMaster_Id == 0) {
+                    AddDegree({ 'degree': this.state.degree }).then(res => {
                         if (res.data.status === "Success") {
 
                             console.log(res.data.result)
-                            this.setState({ isModalVisible: false, SpecializationName: "" });
+                            this.setState({ isModalVisible: false, Degree: "" });
                             message.success({
-                                content: 'Specialization Has Been Added.!', className: 'custom-class',
+                                content: 'Degree Has Been Added.!', className: 'custom-class',
                                 style: {
                                     marginTop: '15vh',
                                 }
                             })
-                            this.DisplayAllSpecialization();
+                            this.DisplayAllDegree();
                         } else {
                             console.log(res.data.message);
                             message.error({
@@ -181,18 +186,18 @@ export default class Specialization extends Component {
                 }
                 else {
 
-                    Editspecialization({ 'Specialization': this.state.SpecializationName, 'specializationMaster_Id': this.state.specializationMaster_Id }).then(res => {
+                    EditDegree({ 'degree': this.state.degree, 'degreeMaster_Id': this.state.degreeMaster_Id }).then(res => {
                         if (res.data.status === "Success") 
                         {
-                            console.log(res.data.result)
-                            this.setState({ isModalVisible: false, SpecializationName: "", specializationMaster_Id: 0 });
+                            
+                            this.setState({ isModalVisible: false, degree: "", degreeMaster_Id: 0 });
                             message.success({
-                                content: 'Specialization Has Been Updated.!', className: 'custom-class',
+                                content: 'Degree Has Been Updated.!', className: 'custom-class',
                                 style: {
                                     marginTop: '15vh',
                                 }
                             })
-                            this.DisplayAllSpecialization();
+                            this.DisplayAllDegree();
                         }
                          else 
                          {
@@ -216,7 +221,7 @@ export default class Specialization extends Component {
             }
             else {
                 message.error({
-                    content: 'Please Enter Chareter between 1 to 25 & It Contains Only Charecter', className: 'custom-class',
+                    content: 'Please Enter Chareter between 1 to 100 & It Contains Only Charecter with (Space)', className: 'custom-class',
                     style: {
                         marginTop: '20vh',
                     }
@@ -226,7 +231,7 @@ export default class Specialization extends Component {
         }
         else {
             message.error({
-                content: 'Please Enter Specialization Name', className: 'custom-class',
+                content: 'Please Enter Degree Name', className: 'custom-class',
                 style: {
                     marginTop: '20vh',
                 }
@@ -235,12 +240,12 @@ export default class Specialization extends Component {
     };
 
     handleCancel() {
-        this.setState({ isModalVisible: false, SpecializationName: "" });
+        this.setState({ isModalVisible: false, degree: "" });
     };
 
     handleChange = (e) => {
         const { id, value } = e.target;
-        this.setState({ SpecializationName: value });
+        this.setState({ degree: value });
     }
 
     render() {
@@ -255,12 +260,12 @@ export default class Specialization extends Component {
                         <div className="container-fluid">
                             <div className="row mb-2">
                                 <div className="col-sm-6">
-                                    <h1>Specialization</h1>
+                                    <h1>Degree</h1>
                                 </div>
                                 <div className="col-sm-6">
                                     <ol className="breadcrumb float-sm-right">
                                         <li className="breadcrumb-item"><a href="#">Home</a></li>
-                                        <li className="breadcrumb-item active">Specialization</li>
+                                        <li className="breadcrumb-item active">Degree</li>
                                     </ol>
                                 </div>
                             </div>
@@ -274,14 +279,14 @@ export default class Specialization extends Component {
                                     <div className="card">
                                         <div className="card-header">
                                             <h3 className="card-title">
-                                                <div className="float-right btn btn-secondary" onClick={() => { this.showModal() }}>Add Specialization</div>
-                                                <Modal title="Add Specialization" visible={this.state.isModalVisible} onOk={() => { this.handleOk() }} onCancel={() => { this.handleCancel() }} >
-                                                    <label>Specialization Name</label>
+                                                <div className="float-right btn btn-secondary" onClick={() => { this.showModal() }}>Add Degree</div>
+                                                <Modal title="Add Degree" visible={this.state.isModalVisible} onOk={() => { this.handleOk() }} onCancel={() => { this.handleCancel() }} >
+                                                    <label>Degree Name</label>
                                                     <input type="text"
                                                         className="form-control"
                                                         id="sName"
-                                                        placeholder="Enter Specialization Name"
-                                                        value={this.state.SpecializationName}
+                                                        placeholder="Enter Degree Name"
+                                                        value={this.state.degree}
                                                         onChange={(e) => { this.handleChange(e) }}
                                                     />
                                                 </Modal>
