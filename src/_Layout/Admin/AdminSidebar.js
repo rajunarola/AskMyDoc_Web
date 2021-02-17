@@ -65,6 +65,12 @@ export default function AdminSidebar()
                             <p> Specialization </p>
                         </Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/admin/degree'>
+                            <i class="fas fa-graduation-cap nav-icon"></i>
+                            <p> Degree </p>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
             {/* <!-- /.sidebar-menu --> */}

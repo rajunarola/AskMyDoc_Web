@@ -4,7 +4,7 @@ import { Form, Input, Button, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { withRouter } from "react-router-dom";
 import { login } from '../../Service/DoctorService';
-import forgetpassword from '../../Admin/Forgetpassword';
+
 
 export const DoctorLogin = (props) => {
     let loading = false;

@@ -26,7 +26,7 @@ function AdminLogin(props) {
     });
   };
   const handleRedirect = () => {
-    props.history.push(`/admin/forgetpassword`);
+  console.log('changepassword')
   }
 
   const onFinish = values => {
@@ -110,22 +110,21 @@ function AdminLogin(props) {
                 </Form.Item>
 
                 <Form.Item>
-                  <Button type="primary" loading={loading} htmlType="submit" className="login-form-button">
+                <div className="d-flex justify-content-center">
+                <Button type="primary" loading={loading} htmlType="submit" className="login-form-button">
                     Log in
                   </Button><br />
+                </div>
+                 
 
                 </Form.Item>
               </Form>
 
             </div>
             <div className="card-footer">
-              <div className="d-flex justify-content-center links">
-                Don't have an account?<a href="#">Sign Up</a>
-              </div>
+             
               <div className="d-flex justify-content-center">
-                <a className="login-form-forgot" onClick={handleRedirect}>
-                  Forgot password
-                </a>
+                
               </div>
             </div>
           </div>
