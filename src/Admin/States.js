@@ -64,6 +64,11 @@ export default class States extends Component {
                         marginTop: '20vh',
                     }
                 })
+                // var dt=this.state.data[0];
+                // var rows= dt.rows;
+                // dt.rows=rows.filter((res)=>{return res.state_Id!= id});
+                // this.setState({data:[dt]});
+                // console.log('Data',dt,this.state.data);
                 this.DisplayAllState();
             } else {
                 message.error({
@@ -83,15 +88,15 @@ export default class States extends Component {
         });
     }
 
-    DisplayAllState() {
-        GetAllStates().then(res => {
+    async DisplayAllState() {
+        await GetAllStates().then(res => {
             if (res.data.status === "Success") {
                 res.data.result.map(item => {
-                    item.action = <div><Button type="primary" onClick={()=>{this.showEditModel(item.state_Id)}} size="sm"><EditOutlined /> Edit</Button> <Popconfirm title="Are you sure to delete this State?"
+                    item.action = <div><Button type="dashed" onClick={()=>{this.showEditModel(item.state_Id)}} size="sm"><EditOutlined /> </Button> <Popconfirm title="Are you sure to delete this State?"
                     onConfirm={()=>this.Deleteconfirm(item.state_Id)}
                     okText="Yes"
                     cancelText="No">
-                    <a href="#" className="btn btn-danger"><DeleteOutlined/> Delete</a>
+                    <Button type="dashed"><DeleteOutlined/> </Button>
                     </Popconfirm></div>
                 });
                 //console.log(res.data.result);
@@ -130,16 +135,15 @@ export default class States extends Component {
             })
         });
     }
-    
-    
 
     showModal(){
-        this.setState({isModalVisible:true,modeltitle:"Add State"});
+        this.setState({isModalVisible:true,modeltitle:"Add State",sName:"",state_Id:0});
     };
 
     handleOk = values => {
-        if (this.state.sName != "") {
-            if(this.state.sName.length > 0 && this.state.sName.length < 25){
+        if (this.state.sName != "" && this.state.sName.length >= 3 && this.state.sName.length <= 25) {
+            if(/^[A-Za-z][ A-Za-z]+[A-Za-z]$/.test(this.state.sName))
+            {
                 if(this.state.state_Id == 0)
                 {
                     AddState({ 'sName': this.state.sName }).then(res => {
@@ -167,13 +171,13 @@ export default class States extends Component {
                     EditState({ 'state_Id':this.state.state_Id,'sName': this.state.sName }).then(res => {
                         if (res.data.status === "Success") {
                             this.setState({isModalVisible:false,sName:"",state_Id:0});
-                            this.DisplayAllState();
                             message.success({
                                 content: res.data.message, className: 'custom-class',
                                 style: {
                                     marginTop: '20vh',
                                 }
                             })
+                            this.DisplayAllState();
                         } else {
                             console.log(res.data.message);
                             message.error({
@@ -195,7 +199,7 @@ export default class States extends Component {
             }
             else{
                 message.error({
-                    content: 'State Name length between 3 to 24', className: 'custom-class',
+                    content: 'State Name must be alphabet', className: 'custom-class',
                     style: {
                         marginTop: '20vh',
                     }
@@ -203,7 +207,7 @@ export default class States extends Component {
             }
         } else {
             message.error({
-                content: 'Please Enter State Name', className: 'custom-class',
+                content: 'Please Enter State Name and length between 3 to 25 ', className: 'custom-class',
                 style: {
                     marginTop: '20vh',
                 }
@@ -212,7 +216,7 @@ export default class States extends Component {
     };
     
     handleCancel(){
-        this.setState({isModalVisible:false,sName:''});
+        this.setState({isModalVisible:false,sName:'',state_Id:0});
     };
 
     handleChange = (e) => {
@@ -221,8 +225,8 @@ export default class States extends Component {
     }
     
     render() {
+        const StateDataTable= this.state.data; 
         return (
-            
         <div className="wrapper">
             <AdminHeader />
             <AdminSidebar />
@@ -257,6 +261,7 @@ export default class States extends Component {
                                                     className="form-control"
                                                     id="sName"
                                                     placeholder="Enter State Name"
+                                                    autocomplete="off"
                                                     value={this.state.sName}
                                                     onChange={(e)=>{this.handleChange(e)}}
                                                 />
@@ -264,7 +269,7 @@ export default class States extends Component {
                                         </h3>
                                     </div>
                                     <div className="card-body">
-                                        <MDBDataTable btn striped bordered hover data={this.state.data[0]} />
+                                        <MDBDataTable btn striped bordered hover data={StateDataTable[0]} />
                                     </div>
                                 </div>
                             </div>

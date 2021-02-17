@@ -15,8 +15,8 @@ export default class City extends Component {
         this.state={
             state_Id:0,
             city_Id:0,
-            cName: " ",
-            sName:"",
+            cName: "",
+            sName:null,
             loading: false,
             visible: false,
             data:[],
@@ -40,11 +40,11 @@ export default class City extends Component {
         await GetAllCities().then(res => {
             if (res.data.status === "Success") {
                 res.data.result.map(item => {
-                    item.action = <div><Button type="primary" onClick={()=>{this.showEditModel(item.city_Id)}} size="sm"><EditOutlined /> Edit</Button> <Popconfirm title="Are you sure to delete this City?"
+                    item.action = <div><Button type="dashed" onClick={()=>{this.showEditModel(item.city_Id)}} size="sm"><EditOutlined /> </Button> <Popconfirm title="Are you sure to delete this City?"
                     onConfirm={()=>this.Deleteconfirm(item.city_Id)}
                     okText="Yes"
                     cancelText="No">
-                    <a href="#" className="btn btn-danger"><DeleteOutlined/> Delete</a>
+                    <Button type="dashed"><DeleteOutlined/> </Button>
                     </Popconfirm></div>
                 });
                 console.log('City',res.data.result);
@@ -170,18 +170,23 @@ export default class City extends Component {
     }
 
     showModal(){
-        this.setState({isModalVisible:true,eltitle:"Add City"});
+        this.setState({isModalVisible:true,modeltitle:"Add City",state_Id:0,sName:null});
     };
 
     handleOk = values => {
         if (this.state.cName != "" && this.state.state_Id != 0) {
-            if(this.state.cName.length > 0 && this.state.cName.length < 25 ){
+            if(this.state.cName.length >= 3 && this.state.cName.length <= 25 && /^[A-Za-z][ A-Za-z]+[A-Za-z]$/.test(this.state.cName)){
                 if(this.state.city_Id == 0)
                 {
-                    console.log(this.state);
                     AddCity({ 'cName': this.state.cName ,'state_Id' : this.state.state_Id}).then(res => {
                         if (res.data.status === "Success") {
                             this.setState({isModalVisible:false,cName:"",state_Id:0});
+                            message.success({
+                                content: res.data.message, className: 'custom-class',
+                                style: {
+                                    marginTop: '20vh',
+                                }
+                            })
                             this.DisplayAllCities();
                         } else {
                             console.log(res.data.message);
@@ -232,7 +237,7 @@ export default class City extends Component {
             }
             else{
                 message.error({
-                    content: 'City Name length between 3 to 24', className: 'custom-class',
+                    content: 'City Name length between 3 to 24 and contains alphabets', className: 'custom-class',
                     style: {
                         marginTop: '20vh',
                     }
@@ -249,7 +254,7 @@ export default class City extends Component {
     };
     
     handleCancel(){
-        this.setState({isModalVisible:false,cName:''});
+        this.setState({isModalVisible:false,cName:'',state_Id:0,city_Id:0,sName:null});
     };
 
     handleChange = (e) => {
@@ -258,7 +263,8 @@ export default class City extends Component {
             this.setState({cName: value});
         }
         else if(e){
-            this.setState({state_Id: e});
+            var sn=this.state.states.find(s=>s.state_Id == e).sName;
+            this.setState({state_Id: e,sName:sn});
         }
     }
     render() {
