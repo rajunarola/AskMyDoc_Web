@@ -14,22 +14,22 @@ export const DoctorSignin = (props) => {
     };
 
     return (
-        <div class="container register">
-            <div class="row">
-                <div class="col-md-3 register-left">
+        <div className="container register">
+            <div className="row">
+                <div className="col-md-3 register-left">
                     <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
                     <h3>Welcome To</h3>
                     <h2>Ask My Doc</h2>
                     <p>"LIVE FOR OTHERS IS THE WORTHFUL LIFE"</p>
                 </div>
 
-                <div class="col-md-9 register-right">
+                <div className="col-md-9 register-right">
 
-                    <div class="tab-content" id="myTabContent">
+                    <div className="tab-content" id="myTabContent">
 
-                        <h3 class="register-heading">Doctor Registration</h3>
-                        <div class="row register-form">
-                            <div class="col-md-6">
+                        <h3 className="register-heading">Doctor Registration</h3>
+                        <div className="row register-form">
+                            <div className="col-md-6">
                                 <Form name="register" initialValues={{ remember: false }}>
                                     <Form.Item name="email" rules={[{
                                         required: true,
@@ -84,7 +84,7 @@ export const DoctorSignin = (props) => {
                                     </Form.Item>
                                 </Form>
                             </div>
-                            <div class="col-md-6">
+                            <div className="col-md-6">
                                 <Form.Item name="gender" label="Gender" >
                                     <Radio.Group onChange={onChange} value={value}>
                                         <Radio value={1}>Male</Radio>

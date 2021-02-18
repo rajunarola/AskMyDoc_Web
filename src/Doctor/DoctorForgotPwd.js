@@ -14,22 +14,22 @@ export const DoctorForgotPwd = (props) => {
     };
 
     return (
-        <div class="container register">
-            <div class="row">
-                <div class="col-md-3 register-left">
+        <div className="container register">
+            <div className="row">
+                <div className="col-md-3 register-left">
                     <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
                     <h3>Welcome To</h3>
                     <h2>Ask My Doc</h2>
                     <p>"LIVE FOR OTHERS IS THE WORTHFUL LIFE"</p>
                 </div>
 
-                <div class="col-md-9 register-right">
+                <div className="col-md-9 register-right">
 
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <h3 class="register-heading">Forgot Password</h3>
-                            <div class="row register-form">
-                                <div class="col-md-9">
+                    <div className="tab-content" id="myTabContent">
+                        <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <h3 className="register-heading">Forgot Password</h3>
+                            <div className="row register-form">
+                                <div className="col-md-9">
                                     <Form name="register" initialValues={{ remember: false }}>
                                         <Form.Item name="email" label="Email" rules={[{
                                             required: true,
