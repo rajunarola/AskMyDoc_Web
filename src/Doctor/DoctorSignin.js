@@ -191,25 +191,25 @@ export const DoctorSignUp = (props) => {
 
 
     return (
-        <div class="container-fluid register">
-            <div class="row">
-                <div class="col-md-3 register-left">
+        <div className="container-fluid register">
+            <div className="row">
+                <div className="col-md-3 register-left">
                     <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
                     <h3>Welcome To</h3>
                     <h2>Ask My Doc</h2>
                     <p>"LIVE FOR OTHERS IS THE WORTHFUL LIFE"</p>
                 </div>
 
-                <div class="col-md-9 register-right">
+                <div className="col-md-9 register-right">
 
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <h3 class="register-heading">Doctor Registration</h3>
+                    <div classNameuch="tab-content" id="myTabContent">
+                        <div classNameuch="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <h3 classNameuch="register-heading">Doctor Registration</h3>
 
 
                             <Form name="register" initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={OnFinishFailed} encType="multipart/form-data">
-                                <div class="row register-form">
-                                    <div class="col-md-6">
+                                <div classNameuch="row register-form">
+                                    <div classNameuch="col-md-6">
                                         <Form.Item name="fname" rules={[{
                                             required: true,
                                             message: 'Must Enter the First Name.'
@@ -284,7 +284,7 @@ export const DoctorSignUp = (props) => {
 
                                         {/* <input type="Button" value="upload" onClick={UploadFile} /> */}
                                     </div>
-                                    <div class="col-md-6">
+                                    <div classNameuch="col-md-6">
                                         <Form.Item label="Gender" rules={[{
                                             required: true,
                                             message: 'Must select the Gender'
