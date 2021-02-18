@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDom from 'react-dom';
 import { withRouter } from 'react-router-dom';
 
@@ -8,9 +8,10 @@ import { login } from '../../Service/AdminService';
 
 function AdminLogin(props) {
 
-  console.log('props.history',props.history)
+  
 
-  let loading = false;
+  const [loading,setLoading] = useState();
+
   const openNotification = type => {
     notification[type]({
       message: 'Oops Wrong Credentail..!',
@@ -30,21 +31,24 @@ function AdminLogin(props) {
   }
 
   const onFinish = values => {
-    console.log('Received values of form: ', values);
-    loading = true;
-    login(values).then(res => {
+   
+    setLoading({loading:true});
+     login(values).then(res => {
       if (res.data.status === "Success") {
-        console.log(res.data.result.token)
-        localStorage.setItem('adminid', res.data.result.admin.admin_Master_Id);
+        
+      
         localStorage.setItem('AccessToken', res.data.result.token);
-        loading = false;
+        setLoading({loading:false});
         props.history.push(`/admin/admindashboard`);
       } else {
         openNotification('error')
+        setLoading({loading:false});
       }
     }).catch(function (error) {
       openNetworkErrorNotification('error', error)
+      setLoading({loading:true});
     });
+
   };
 
   return (

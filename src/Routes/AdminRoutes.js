@@ -7,6 +7,7 @@ import States from '../Admin/States';
 import Specialization from '../Admin/Specialization';
 import Degree from '../Admin/Degree';
 import City from '../Admin/City';
+import ApprovalRequest from '../Admin/ApprovalRequest';
 
 function AdminRoutes() {
     return ( 
@@ -16,6 +17,8 @@ function AdminRoutes() {
             <Route path="/admin/state" exact={true} component={States} />
             <Route path="/admin/specialization" exact={true} component={Specialization} />
             <Route path="/admin/degree" exact={true} component={Degree} />
+            <Route path="/admin/approvalrequest" exact={true} component={ApprovalRequest} />
+
             <Route path="/admin/city" exact={true} component={City} />
             <Route path="/admin/changepassword" exact={true} component={ChangePassword} />
         </Switch>

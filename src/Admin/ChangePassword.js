@@ -1,22 +1,40 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { UserOutlined, LockOutlined, HistoryOutlined, UploadOutlined, EnvironmentOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import AdminHeader from '../_Layout/Admin/AdminHeader';
 import AdminFooter from '../_Layout/Admin/AdminFooter';
 import AdminSidebar from '../_Layout/Admin/AdminSidebar';
-import {adminchangepassword } from '../Service/AdminService';
+import {changepassword } from '../Service/AdminService';
 
 function ChangePassword() {
 
   const onfinish=(value)=>
   {
-    adminchangepassword({'Password':value.newpassword})
+ 
+    changepassword(value.oldpassword,value.newpassword)
     .then(res=>{
-      console.log(res);
+      if(res.data.statusCode==200)
+      {
+        message.success({
+          content: res.data.message, className: 'custom-class',
+          style: {
+              marginTop: '20vh',
+          }
+      })
+      }
+      else
+      {
+        message.error({
+          content: res.data.message, className: 'custom-class',
+          style: {
+              marginTop: '20vh',
+          }
+      })
+      }
     })
-console.log(value);
+
   }
   return (
     <div>
@@ -67,7 +85,21 @@ console.log(value);
                         <Form.Item
                     
                           name="newpassword"
-                          rules={[{ required: true, message: 'Please input your new password!' }]}
+                          hasFeedback
+                          rules={[
+                            { required: true, message: 'Please input your new password!' },
+                            ({ getFieldValue }) => ({
+                              validator(_, value) {
+                                if (!value || getFieldValue('newpassword').length>5 && getFieldValue('newpassword').length<10) {
+                                  return Promise.resolve();
+                                }
+                              
+                                return Promise.reject('password between 5 to 10 charecter');
+                              },
+                            })
+                          
+                          ]
+                          }
                         >
                            <Input.Password
                           placeholder="new password" prefix={<LockOutlined />} allowClear
@@ -76,13 +108,29 @@ console.log(value);
                         </Form.Item>
                         <label><span style={{color:"red"}}>*</span>Confirm Password</label>
                         <Form.Item
+                        name="confirmpassword"
+                    dependencies={['newpassword']}
+                    hasFeedback
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please confirm your password!',
+                      },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue('newpassword') === value) {
+                            return Promise.resolve();
+                          }
                         
-                          name="confirmpassword"
-                          rules={[{ required: true, message: 'Please input your confirm password!' }]}
+                          return Promise.reject('The two passwords that you entered do not match!');
+                        },
+                      }),
+                    ]}
                         >
                          <Input.Password
                           placeholder="comfirm password" prefix={<LockOutlined />} allowClear
                           iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+
                           />
                         </Form.Item>
                         <Button type="primary" htmlType="submit">ChangePassword</Button>

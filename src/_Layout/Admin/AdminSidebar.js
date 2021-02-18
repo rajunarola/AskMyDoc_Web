@@ -71,6 +71,12 @@ export default function AdminSidebar()
                             <p> Degree </p>
                         </Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/admin/approvalrequest'>
+                            <i class="fas fa-paper-plane nav-icon"></i>
+                            <p> Approval Request </p>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
             {/* <!-- /.sidebar-menu --> */}

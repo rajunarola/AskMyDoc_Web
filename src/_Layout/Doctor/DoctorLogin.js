@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import ReactDom from 'react-dom';
 import { Form, Input, Button, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -7,7 +7,7 @@ import { login } from '../../Service/DoctorService';
 
 
 export const DoctorLogin = (props) => {
-    let loading = false;
+    const [loading,setLoading] = useState();
     const openNotification = type => {
         notification[type]({
             message: 'Wrong Credential..!!',
@@ -28,20 +28,22 @@ export const DoctorLogin = (props) => {
         props.history.push('DoctorSignin');
     }
     const onFinish = values => {
-        console.log("Received value from form :", values);
-        loading = true;
+       
+        setLoading({loading:true})
         login(values).then(res => {
             if (res.data.status === "Success") {
                 console.log(res.data.result.token)
                 localStorage.setItem('dcotorid', res.data.result.doctor.doctor_Id);
                 localStorage.setItem('Token', res.data.result.token);
-                loading = false;
+                setLoading({loading:false})
                 props.history.push("doctor/appointmentdetails");
             } else {
                 openNotification('error')
+                setLoading({loading:false})
             }
         }).catch(function (error) {
             openNetworkErrorNotification('error', error)
+            setLoading({loading:false})
         });
     }
     return (

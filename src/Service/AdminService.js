@@ -2,8 +2,8 @@
 import axios from 'axios';
 
 //#region LOGIN API
-export function login(users) {
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Account/AdminLogin`, users)
+export async function login(users) {
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Account/AdminLogin`, users)
 }
 //#endregion
 
@@ -120,12 +120,15 @@ export function EditDegree(DegreeMaster_Id) {
 }
 //#endregion
 
-//#region 
-export function adminchangepassword(newpassword) {
+//#region changepassword
+
+
+
+export function changepassword(oldpassword,newpassword) {
     var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
     }
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Comman/changepassword`,newpassword,{'headers':headers})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Comman/changepassword?oldpassword=${oldpassword}&&newpassword=${newpassword}`,null,{'headers':headers})
 }
 //#endregion
