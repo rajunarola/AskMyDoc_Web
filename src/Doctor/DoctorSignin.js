@@ -202,14 +202,14 @@ export const DoctorSignUp = (props) => {
 
                 <div className="col-md-9 register-right">
 
-                    <div classNameuch="tab-content" id="myTabContent">
-                        <div classNameuch="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <h3 classNameuch="register-heading">Doctor Registration</h3>
+                    <div className="tab-content" id="myTabContent">
+                        <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <h3 className="register-heading">Doctor Registration</h3>
 
 
                             <Form name="register" initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={OnFinishFailed} encType="multipart/form-data">
-                                <div classNameuch="row register-form">
-                                    <div classNameuch="col-md-6">
+                                <div className="row register-form">
+                                    <div className="col-md-6">
                                         <Form.Item name="fname" rules={[{
                                             required: true,
                                             message: 'Must Enter the First Name.'
@@ -284,7 +284,7 @@ export const DoctorSignUp = (props) => {
 
                                         {/* <input type="Button" value="upload" onClick={UploadFile} /> */}
                                     </div>
-                                    <div classNameuch="col-md-6">
+                                    <div className="col-md-6">
                                         <Form.Item label="Gender" rules={[{
                                             required: true,
                                             message: 'Must select the Gender'
