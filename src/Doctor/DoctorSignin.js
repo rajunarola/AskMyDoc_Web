@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { UploadPhoto ,register,UploadDocument} from '../Service/DoctorService';
+import { UploadPhoto ,register,UploadDocument,GetState,GetAllSpecilization,GetAllDegree,GetOneCity} from '../Service/DoctorService';
 import { Form, Input, Radio, DatePicker, Upload, Button, Select, notification } from 'antd';
-
 import { UserOutlined, LockOutlined, UploadOutlined, EnvironmentOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 
 import './DoctorSignin.css';
@@ -102,6 +101,7 @@ export const DoctorSignUp = (props) => {
                 //imageName = res.data.result.imageName;
                 console.log(res.data);
                 notification.success({
+                    message : 'Register Successfull',
                     content: res.data.message, className: 'custom-class',
                     style: {
                         marginTop: '20vh',
@@ -117,6 +117,7 @@ export const DoctorSignUp = (props) => {
             }
         }).catch(function (err) {
             notification.error({
+                message:'Oops Somthing Went Wrong..!',
                 content: err, className: 'custom-class',
                 style: {
                     marginTop: '20vh',
@@ -135,41 +136,66 @@ export const DoctorSignUp = (props) => {
     const [specialization, setSpecialization] = React.useState([]);
     const [city, setCity] = React.useState([]);
     const [degree, setDegree] = React.useState([]);
-    const [insert, setInsert] = React.useState([]);
-    React.useEffect(() => {
+    React.useEffect( () => {
+        GetState().then(res=>{
+            if(res.data.status==="Success"){
+                setItems(res.data.result.map(({ sName, state_Id }) => ({ label: sName, value: state_Id })));
+            }else{
+                notification.error({
+                    content:res.data.message,className:'custom-class',
+                    style:{
+                        marginTop:'20h',
+                    }
+                }).catch(function(err){
+                    notification.error({
+                        message:'Oops Somthing Went Wrong..!',
+                        style: {
+                            marginTop: '20vh',
+                        }
+                    })
+                })
+            }
+        });
+        GetAllSpecilization().then(res=>{
+            if(res.data.status==="Success"){
+                setSpecialization(res.data.result);
+            }else{
+                notification.error({
+                    content:res.data.message,className:'custom-class',
+                    style:{
+                        marginTop:'20h',
+                    }
+                }).catch(function(err){
+                    notification.error({
+                        message:'Oops Somthing Went Wrong..!',
+                        style: {
+                            marginTop: '20vh',
+                        }
+                    })
+                })
+            }
+        });
+        GetAllDegree().then(res=>{
+            if(res.data.status==="Success"){
+                setDegree(res.data.result);
+            }else{
+                notification.error({
+                    content:res.data.message,className:'custom-class',
+                    style:{
+                        marginTop:'20h',
+                    }
+                }).catch(function(err){
+                    notification.error({
+                        message:'Oops Somthing Went Wrong..!',
+                        style: {
+                            marginTop: '20vh',
+                        }
+                    })
+                })
+            }
+        })
 
-        async function AddData() {
-            const res = await fetch('https://localhost:44338/api/Doctor/Add');
-            const body = await res.json();
-            console.log(body);
-            setInsert(body.result);
-        }
-        async function GetState() {
-            const res = await fetch('https://localhost:44338/api/State/GetAll');
-            const body = await res.json();
-            //console.log(body);
-            setItems(body.result.map(({ sName, state_Id }) => ({ label: sName, value: state_Id })));
-            //console.log('items', items);
-        }
-        GetState();
-
-        async function GetAllSpecilization() {
-            const res = await fetch('https://localhost:44338/api/Specialization/getallspecialization');
-            const body = await res.json();
-            console.log(body);
-            setSpecialization(body.result /*.map(({ specialization, specializationMsaster_Id }) => ({ label: specialization, value: specializationMsaster_Id }))*/);
-            //console.log('Specialization', specialization);
-        }
-        GetAllSpecilization();
-
-        async function GetDoctorDegree() {
-            const res = await fetch('https://localhost:44338/api/Degree/GetAllDegree');
-            const body = await res.json();
-            console.log(body);
-            setDegree(body.result);
-        }
-        GetDoctorDegree();
-    }, []);
+    },[]);
 
     const [value, setValue] = React.useState(1);
     const onChange = (e) => {
@@ -188,7 +214,6 @@ export const DoctorSignUp = (props) => {
         }
         GetCitys();
     }
-
 
     return (
         <div className="container-fluid register">
@@ -231,16 +256,21 @@ export const DoctorSignUp = (props) => {
                                         { max: 15, message: 'Last Name must be maximum 15 characters.' }]}>
                                             <Input placeholder="Last Name" allowClear prefix={<UserOutlined />} />
                                         </Form.Item>
-                                        <Form.Item name="email" rules={[{
-                                            type: 'email',
-                                            message: 'The input is not valid E-mail!',
-                                        },
-                                        {
-                                            required: true,
-                                            message: 'Please input your E-mail!',
-                                        }]}>
-                                            <Input placeholder="Email" allowClear prefix={<UserOutlined />} />
-                                        </Form.Item>
+                                        <div className="row col-md-9">
+                                            <Form.Item name="email" rules={[{
+                                                type: 'email',
+                                                message: 'The input is not valid E-mail!',
+                                            },
+                                            {
+                                                required: true,
+                                                message: 'Please input your E-mail!',
+                                            }]}>
+                                                <Input placeholder="Email" allowClear prefix={<UserOutlined />} />
+                                            </Form.Item>
+                                            <div className="col-md-3"><Button type="primary" >Verify</Button></div>
+                                            
+                                        </div>
+                                        
                                         <Form.Item name="password" rules={[{
                                             required: true,
                                             message: 'Must Enter the Password.'
@@ -263,14 +293,6 @@ export const DoctorSignUp = (props) => {
                                         },]}>
                                             <Input placeholder="Pincode" allowClear prefix={<LockOutlined />} />
                                         </Form.Item>
-                                        {/* <Form.Item name="profilepic" label="Profile Photo" name="image" rules={[{
-                                            required: true,
-                                            message: 'Must select the Profile Photo'
-                                        }]}>
-                                            <Upload onChange={saveFile}>
-                                                <Button icon={<UploadOutlined />} >Click To Upload</Button>
-                                            </Upload>
-                                        </Form.Item> */}
                                         <Form.Item name="profile" label="Profile Picture">
                                             <input type="file" onChange={saveFile} />
                                         </Form.Item>
@@ -285,7 +307,7 @@ export const DoctorSignUp = (props) => {
                                         {/* <input type="Button" value="upload" onClick={UploadFile} /> */}
                                     </div>
                                     <div className="col-md-6">
-                                        <Form.Item label="Gender" rules={[{
+                                        <Form.Item name="radio" label="Gender" rules={[{
                                             required: true,
                                             message: 'Must select the Gender'
                                         }]} >
