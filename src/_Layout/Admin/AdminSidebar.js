@@ -49,25 +49,25 @@ export default function AdminSidebar()
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to='/admin/state'>
-                            <i class="fas fa-archway nav-icon"></i>
+                            <i className="fas fa-archway nav-icon"></i>
                             <p> State </p>
                         </Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to='/admin/city'>
-                            <i class="fas fa-archway nav-icon"></i>
+                            <i className="fas fa-archway nav-icon"></i>
                             <p> City </p>
                         </Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to='/admin/specialization'>
-                            <i class="fas fa-user-md nav-icon"></i>
+                            <i className="fas fa-user-md nav-icon"></i>
                             <p> Specialization </p>
                         </Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to='/admin/degree'>
-                            <i class="fas fa-graduation-cap nav-icon"></i>
+                            <i className="fas fa-graduation-cap nav-icon"></i>
                             <p> Degree </p>
                         </Link>
                     </li>
