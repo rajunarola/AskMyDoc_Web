@@ -1,17 +1,194 @@
-import React from 'react';
-import { withRouter } from "react-router-dom";
-import { Form, Input, Radio, DatePicker, Upload, notification, Button, Select } from 'antd';
-import { UserOutlined, LockOutlined, HistoryOutlined, UploadOutlined, EnvironmentOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { UploadPhoto ,register,UploadDocument} from '../Service/DoctorService';
+import { Form, Input, Radio, DatePicker, Upload, Button, Select, notification } from 'antd';
+
+import { UserOutlined, LockOutlined, UploadOutlined, EnvironmentOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+
 import './DoctorSignin.css';
+import axios from "axios";
 
 
-export const DoctorSignin = (props) => {
+export const DoctorSignUp = (props) => {
+
+    //For Profile Photo
+    const [file, setFile] = useState();
+    //For Degree
+    const [degreeFile, setDegreeFile] = useState();
+
+    const saveFile = (e) => {
+        console.log(e.target.files[0]);
+        setFile(e.target.files[0]);
+    }
+
+    const saveDegree = (e) => {
+        console.log(e.target.files[0]);
+        setDegreeFile(e.target.files[0]);
+    }
+
+    const onFinish = async (values) => {
+        console.log('success', values);
+        const formDataPhoto = new FormData();
+        formDataPhoto.append("file", file);
+        console.log(file.name);
+        var imageName="";
+        var document = "";
+        await UploadPhoto(formDataPhoto).then(res => {
+            if (res.data.status === "Success") {
+                imageName = res.data.result.imageName;
+                
+            } else {
+                notification.error({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+            }
+        }).catch(function (err) {
+            notification.error({
+                content: err, className: 'custom-class',
+                style: {
+                    marginTop: '20vh',
+                }
+            })
+        });
+        const formDataDegree = new FormData();
+        formDataDegree.append("file",degreeFile);
+        console.log(degreeFile.name);
+        await UploadDocument(formDataDegree).then(res => {
+            if (res.data.status === "Success") {
+                document = res.data.result.imageName;
+            } else {
+                notification.error({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+            }
+        }).catch(function (err) {
+            notification.error({
+                content: err, className: 'custom-class',
+                style: {
+                    marginTop: '20vh',
+                }
+            })
+        });
+        var dob=new Date(values.dob.toString());
+        console.log(dob.toDateString());
+        var exdate = new Date(values.exdate.toString());
+        console.log(exdate.toDateString());
+        const doctorvalues = {
+            "email":values.email,
+            "fName": values.fname,
+            "mName": values.mname,
+            "lName": values.lname,
+            "password":values.password,
+            "gender": value,
+            "dob": dob,
+            "state_Id": values.state,
+            "city_Id": values.city,
+            "pincode": values.pincode,
+            "experienceStartDate": exdate,
+            "profilePicture": imageName,
+            "clinicAddress": values.clinicaddress,
+            "specialization_Id": values.specialization,
+            "degree_Id": values.degree,
+            "document": document         
+        };
+        console.log(doctorvalues);
+        await register(doctorvalues).then(res => {
+            if (res.data.status === "Success") {
+                //imageName = res.data.result.imageName;
+                console.log(res.data);
+                notification.success({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+            } else {
+                notification.error({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+            }
+        }).catch(function (err) {
+            notification.error({
+                content: err, className: 'custom-class',
+                style: {
+                    marginTop: '20vh',
+                }
+            })
+        });
+    }
+
+    const OnFinishFailed = (values) => {
+        console.log('success', values);
+    }
+
+
     let loading = false;
+    const [items, setItems] = React.useState([]);
+    const [specialization, setSpecialization] = React.useState([]);
+    const [city, setCity] = React.useState([]);
+    const [degree, setDegree] = React.useState([]);
+    const [insert, setInsert] = React.useState([]);
+    React.useEffect(() => {
+
+        async function AddData() {
+            const res = await fetch('https://localhost:44338/api/Doctor/Add');
+            const body = await res.json();
+            console.log(body);
+            setInsert(body.result);
+        }
+        async function GetState() {
+            const res = await fetch('https://localhost:44338/api/State/GetAll');
+            const body = await res.json();
+            //console.log(body);
+            setItems(body.result.map(({ sName, state_Id }) => ({ label: sName, value: state_Id })));
+            //console.log('items', items);
+        }
+        GetState();
+
+        async function GetAllSpecilization() {
+            const res = await fetch('https://localhost:44338/api/Specialization/getallspecialization');
+            const body = await res.json();
+            console.log(body);
+            setSpecialization(body.result /*.map(({ specialization, specializationMsaster_Id }) => ({ label: specialization, value: specializationMsaster_Id }))*/);
+            //console.log('Specialization', specialization);
+        }
+        GetAllSpecilization();
+
+        async function GetDoctorDegree() {
+            const res = await fetch('https://localhost:44338/api/Degree/GetAllDegree');
+            const body = await res.json();
+            console.log(body);
+            setDegree(body.result);
+        }
+        GetDoctorDegree();
+    }, []);
+
     const [value, setValue] = React.useState(1);
     const onChange = (e) => {
         console.log('radio checked', e.target.value);
         setValue(e.target.value);
     };
+
+    const getAllCity = id => {
+        console.log(id);
+        async function GetCitys() {
+            const res = await fetch('https://localhost:44338/api/Account/getallcitiesbystate?stateid=' + id);
+            const body = await res.json();
+            console.log(body);
+            if (body.result.length)
+                setCity(body.result.map(c => <Select.Option key={c.city_Id}>{c.cName}</Select.Option>));
+        }
+        GetCitys();
+    }
+
 
     return (
         <div class="container-fluid register">
@@ -26,108 +203,174 @@ export const DoctorSignin = (props) => {
                 <div class="col-md-9 register-right">
 
                     <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <h3 class="register-heading">Doctor Registration</h3>
 
-                        <h3 class="register-heading">Doctor Registration</h3>
-                        <div class="row register-form">
-                            <div class="col-md-6">
-                                <Form name="register" initialValues={{ remember: false }}>
-                                    <Form.Item name="email" rules={[{
-                                        required: true,
-                                        type: 'email',
-                                        message: 'Must Enter the Email.'
-                                    },]}>
-                                        <Input placeholder="Email" allowClear prefix={<UserOutlined />} />
-                                    </Form.Item>
-                                    <Form.Item name="password" rules={[{
-                                        required: true,
-                                        message: 'Must Enter the Password.'
-                                    },]}>
-                                        <Input.Password
-                                            placeholder="input password" prefix={<LockOutlined />} allowClear
-                                            iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                                        />
-                                    </Form.Item>
-                                    <Form.Item name="fname" rules={[{
-                                        required: true,
-                                        message: 'Must Enter the First Name.'
-                                    },]}>
-                                        <Input placeholder="First Name" allowClear prefix={<UserOutlined />} />
-                                    </Form.Item>
-                                    <Form.Item name="mname" rules={[{
-                                        required: true,
-                                        message: 'Must Enter the Middle Name.'
-                                    },]}>
-                                        <Input placeholder="Middle Name" allowClear prefix={<UserOutlined />} />
-                                    </Form.Item>
-                                    <Form.Item name="lname" rules={[{
-                                        required: true,
-                                        message: 'Must Enter the Last Name.'
-                                    },]}>
-                                        <Input placeholder="Last Name" allowClear prefix={<UserOutlined />} />
-                                    </Form.Item>
-                                    <Form.Item rules={[{
-                                        required: true,
-                                        message: 'Must Enter the Clinic Address.'
-                                    },]}>
-                                        <Input placeholder="Clinic Address" allowClear prefix={<EnvironmentOutlined />} />
-                                    </Form.Item>
-                                    <Form.Item rules={[{
-                                        required: true,
-                                        message: 'Must Enter the Pincode.'
-                                    },]}>
-                                        <Input placeholder="Pincode" allowClear prefix={<LockOutlined />} />
-                                    </Form.Item>
-                                    <Form.Item name="profilepic" label="Profile Photo">
-                                        <Upload>
-                                            <Button icon={<UploadOutlined />} >Click To Upload</Button>
-                                        </Upload>
-                                    </Form.Item>
-                                </Form>
-                            </div>
-                            <div class="col-md-6">
-                                <Form.Item name="gender" label="Gender" >
-                                    <Radio.Group onChange={onChange} value={value}>
-                                        <Radio value={1}>Male</Radio>
-                                        <Radio value={2}>Female</Radio>
-                                        <Radio value={3}>Others</Radio>
-                                    </Radio.Group>
-                                </Form.Item>
-                                <Form.Item label="Date Of Birth">
-                                    <DatePicker />
-                                </Form.Item>
-                                <div className="row">
-                                    <Form.Item label="Experience StartDate">
-                                        <DatePicker />
-                                    </Form.Item>
+
+                            <Form name="register" initialValues={{ remember: true }} onFinish={onFinish} onFinishFailed={OnFinishFailed} encType="multipart/form-data">
+                                <div class="row register-form">
+                                    <div class="col-md-6">
+                                        <Form.Item name="fname" rules={[{
+                                            required: true,
+                                            message: 'Must Enter the First Name.'
+                                        }, { min: 5, message: 'First Name must be minimum 5 characters.' },
+                                        { max: 15, message: 'First Name must be maximum 15 characters.' }]}>
+                                            <Input placeholder="First Name" allowClear prefix={<UserOutlined />} />
+                                        </Form.Item>
+                                        <Form.Item name="mname" rules={[{
+                                            required: true,
+                                            message: 'Must Enter the Middle Name.'
+                                        }, { min: 5, message: 'Middle Name must be minimum 5 characters.' },
+                                        { max: 15, message: 'Middle Name must be maximum 15 characters.' }]}>
+                                            <Input placeholder="Middle Name" allowClear prefix={<UserOutlined />} />
+                                        </Form.Item>
+                                        <Form.Item name="lname" rules={[{
+                                            required: true,
+                                            message: 'Must Enter the Last Name.'
+                                        }, { min: 5, message: 'Last Name must be minimum 5 characters.' },
+                                        { max: 15, message: 'Last Name must be maximum 15 characters.' }]}>
+                                            <Input placeholder="Last Name" allowClear prefix={<UserOutlined />} />
+                                        </Form.Item>
+                                        <Form.Item name="email" rules={[{
+                                            type: 'email',
+                                            message: 'The input is not valid E-mail!',
+                                        },
+                                        {
+                                            required: true,
+                                            message: 'Please input your E-mail!',
+                                        }]}>
+                                            <Input placeholder="Email" allowClear prefix={<UserOutlined />} />
+                                        </Form.Item>
+                                        <Form.Item name="password" rules={[{
+                                            required: true,
+                                            message: 'Must Enter the Password.'
+                                        },{ min: 8, message: 'Password must be minimum 8 characters.' },]}>
+                                            <Input.Password
+                                                placeholder="Password" prefix={<LockOutlined />} allowClear
+                                                iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                                            />
+                                        </Form.Item>
+
+                                        <Form.Item name="clinicaddress" rules={[{
+                                            required: true,
+                                            message: 'Must Enter the Clinic Address.'
+                                        },]}>
+                                            <Input placeholder="Clinic Address" allowClear prefix={<EnvironmentOutlined />} />
+                                        </Form.Item>
+                                        <Form.Item name="pincode" rules={[{
+                                            required: true,
+                                            message: 'Must Enter the Pincode.'
+                                        },]}>
+                                            <Input placeholder="Pincode" allowClear prefix={<LockOutlined />} />
+                                        </Form.Item>
+                                        {/* <Form.Item name="profilepic" label="Profile Photo" name="image" rules={[{
+                                            required: true,
+                                            message: 'Must select the Profile Photo'
+                                        }]}>
+                                            <Upload onChange={saveFile}>
+                                                <Button icon={<UploadOutlined />} >Click To Upload</Button>
+                                            </Upload>
+                                        </Form.Item> */}
+                                        <Form.Item name="profile" label="Profile Picture">
+                                            <input type="file" onChange={saveFile} />
+                                        </Form.Item>
+
+                                        <Form.Item name="degreeimage" label="Upload Degree" rules={[{
+                                            required: true,
+                                            message: 'Must Upload the Degree'
+                                        }]}>
+                                            <input type="file" onChange={saveDegree} />
+                                        </Form.Item>
+
+                                        {/* <input type="Button" value="upload" onClick={UploadFile} /> */}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <Form.Item label="Gender" rules={[{
+                                            required: true,
+                                            message: 'Must select the Gender'
+                                        }]} >
+                                            <Radio.Group name="gender" onChange={onChange} value={value}>
+                                                <Radio value={"Male"}>Male</Radio>
+                                                <Radio value={"Female"}>Female</Radio>
+                                                <Radio value={"Other"}>Other</Radio>
+                                            </Radio.Group>
+                                        </Form.Item>
+                                        <Form.Item name="dob" label="Date Of Birth" rules={[{
+                                            required: true,
+                                            message: 'Must select the DOB'
+                                        }]}>
+                                            <DatePicker  />
+                                        </Form.Item>
+                                        <Form.Item name="exdate" label="Experience Start Date" rules={[{
+                                            required: true,
+                                            message: 'Must select the Experience Start Date'
+                                        }]}>
+                                            <DatePicker  />
+                                        </Form.Item>
+                                        <Form.Item name="specialization" rules={[{
+                                            required: true,
+                                            message: 'Must select the Specialization'
+                                        }]}>
+                                            <Select showSearch placeholder="Select Your Specialization">
+                                                {specialization.map(({ specialization, specializationMaster_Id }) => (
+                                                    <option key={specializationMaster_Id} value={specializationMaster_Id}>
+                                                        {specialization}
+                                                    </option>
+                                                ))}
+
+                                                {/* {Specialization.map(data => (
+                                                <Select.Option>{data.specialization}</Select.Option>
+                                            ))} */}
+                                            </Select>
+                                        </Form.Item>
+                                        <Form.Item name="degree" rules={[{
+                                            required: true,
+                                            message: 'Must select the Doctor Degree'
+                                        }]}>
+                                            <Select showSearch placeholder="Select Your degree">
+                                                {degree.map(({ degree, degreeMaster_Id }) => (
+                                                    <option key={degreeMaster_Id} value={degreeMaster_Id}>
+                                                        {degree}
+                                                    </option>
+                                                ))}
+                                            </Select>
+                                        </Form.Item>
+
+
+
+                                        <Form.Item name="state" rules={[{
+                                            required: true,
+                                            message: 'Must select the State'
+                                        }]} >
+                                            <Select showSearch placeholder="Select Your State" onChange={e => getAllCity(e)}>
+                                                {items.map(({ label, value }) => (
+                                                    <option key={value} value={value}>
+                                                        {label}
+                                                    </option>
+                                                ))}
+                                            </Select>
+                                        </Form.Item>
+                                        <Form.Item name="city" rules={[{
+                                            required: true,
+                                            message: 'Must select the City'
+                                        }]}>
+                                            <Select placeholder="Select Your City" showSearch >
+                                                {city}
+                                            </Select>
+                                        </Form.Item>
+                                        <Button type="primary" htmlType="submit" loading={loading} >Register</Button>
+                                    </div>
                                 </div>
+                            </Form>
 
-                                <Form.Item name="experianceinyear" rules={[{
-                                    required: true,
-                                    message: 'Must Enter the Experiance in year.'
-                                },]}>
-                                    <Input placeholder="Experiance in years" prefix={<HistoryOutlined />} />
-                                </Form.Item>
-                                <Form.Item  >
-                                    <Select placeholder="Select Your State">
-
-                                    </Select>
-                                </Form.Item>
-                                <Form.Item>
-                                    <Select placeholder="Select Your City">
-
-                                    </Select>
-                                </Form.Item>
-                                <Button type="primary" htmlType="submit" loading={loading} >Register</Button>
-                            </div>
                         </div>
-
 
                     </div>
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }
 
-export default withRouter(DoctorSignin);
+export default DoctorSignUp
