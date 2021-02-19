@@ -18,12 +18,13 @@ export default class Specialization extends Component {
             loading: false,
             visible: false,
             data: [],
-            isModalVisible: false
+            isModalVisible: false,
+            modeltitle:"Add Degree"
         }
     }
     handleEdit = (id) => {
 
-        this.setState({ isModalVisible: true })
+        this.setState({ isModalVisible: true,modeltitle:"Edit Degree" })
         GetDegree(id)
             .then(res => {
                 
@@ -146,7 +147,7 @@ export default class Specialization extends Component {
     }
 
     showModal = () => {
-        this.setState({ isModalVisible: true });
+        this.setState({ isModalVisible: true ,modeltitle:"Add Degree"});
     };
 
     handleOk = values => {
@@ -280,7 +281,7 @@ export default class Specialization extends Component {
                                         <div className="card-header">
                                             <h3 className="card-title">
                                                 <div className="float-right btn btn-secondary" onClick={() => { this.showModal() }}>Add Degree</div>
-                                                <Modal title="Add Degree" visible={this.state.isModalVisible} onOk={() => { this.handleOk() }} onCancel={() => { this.handleCancel() }} >
+                                                <Modal title={this.state.modeltitle} visible={this.state.isModalVisible} onOk={() => { this.handleOk() }} onCancel={() => { this.handleCancel() }} >
                                                     <label>Degree Name</label>
                                                     <input type="text"
                                                         className="form-control"

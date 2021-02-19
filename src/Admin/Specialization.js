@@ -18,11 +18,12 @@ export default class Specialization extends Component {
             loading: false,
             visible: false,
             data: [],
-            isModalVisible: false
+            isModalVisible: false,
+            modeltitle:"Add Specialization"
         }
     }
     handleEdit = (id) => {
-        this.setState({ isModalVisible: true })
+        this.setState({ isModalVisible: true,modeltitle:"Edit Specialization"})
         Getspecialization(id)
             .then(res => {
                 this.setState({ SpecializationName: res.data.result.specialization, specializationMaster_Id: res.data.result.specializationMaster_Id })
@@ -141,7 +142,7 @@ export default class Specialization extends Component {
     }
 
     showModal = () => {
-        this.setState({ isModalVisible: true });
+        this.setState({ isModalVisible: true,modeltitle:"Add Specialization" });
     };
 
     handleOk = values => {
@@ -149,6 +150,7 @@ export default class Specialization extends Component {
             if (this.state.SpecializationName.length <= 25 && /^[a-zA-Z]+$/.test(this.state.SpecializationName)) {
 
                 if (this.state.specializationMaster_Id == 0) {
+
                     Addspecialization({ 'Specialization': this.state.SpecializationName }).then(res => {
                         if (res.data.status === "Success") {
 
@@ -180,7 +182,7 @@ export default class Specialization extends Component {
                     });
                 }
                 else {
-
+                   
                     Editspecialization({ 'Specialization': this.state.SpecializationName, 'specializationMaster_Id': this.state.specializationMaster_Id }).then(res => {
                         if (res.data.status === "Success") 
                         {
@@ -275,7 +277,7 @@ export default class Specialization extends Component {
                                         <div className="card-header">
                                             <h3 className="card-title">
                                                 <div className="float-right btn btn-secondary" onClick={() => { this.showModal() }}>Add Specialization</div>
-                                                <Modal title="Add Specialization" visible={this.state.isModalVisible} onOk={() => { this.handleOk() }} onCancel={() => { this.handleCancel() }} >
+                                                <Modal title={this.state.modeltitle} visible={this.state.isModalVisible} onOk={() => { this.handleOk() }} onCancel={() => { this.handleCancel() }} >
                                                     <label>Specialization Name</label>
                                                     <input type="text"
                                                         className="form-control"

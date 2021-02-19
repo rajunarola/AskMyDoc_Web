@@ -64,7 +64,7 @@ function ChangePassword() {
                 <div className="col-md-12 col-lg-12">
                   <div className="card">
                     <div className="card-header">
-                      <h3 className="card-title"></h3>
+                      <h3 className="card-title" style={{color:'black'}}>Admin Change Password </h3>
                     </div>
                     <div className="card-body">
                       <div className=" row justify-content-center">
@@ -90,11 +90,11 @@ function ChangePassword() {
                             { required: true, message: 'Please input your new password!' },
                             ({ getFieldValue }) => ({
                               validator(_, value) {
-                                if (!value || getFieldValue('newpassword').length>5 && getFieldValue('newpassword').length<10) {
+                                if (!value || getFieldValue('newpassword').length>6 && getFieldValue('newpassword').length<10) {
                                   return Promise.resolve();
                                 }
                               
-                                return Promise.reject('password between 5 to 10 charecter');
+                                return Promise.reject('password between 6 to 10 charecter');
                               },
                             })
                           

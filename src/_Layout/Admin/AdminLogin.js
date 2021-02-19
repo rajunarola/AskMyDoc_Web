@@ -9,7 +9,11 @@ import { login } from '../../Service/AdminService';
 function AdminLogin(props) {
 
   
-
+  useEffect(() => {
+    if (localStorage.getItem('AccessToken')) {
+      props.history.push('/admin/admindashboard')
+    }
+  });
   const [loading,setLoading] = useState();
 
   const openNotification = type => {
@@ -32,21 +36,27 @@ function AdminLogin(props) {
 
   const onFinish = values => {
    
-    setLoading({loading:true});
+    setLoading(true);
      login(values).then(res => {
       if (res.data.status === "Success") {
         
       
         localStorage.setItem('AccessToken', res.data.result.token);
+        localStorage.setItem('AdminEmail', res.data.result.admin.email);
+
         setLoading({loading:false});
         props.history.push(`/admin/admindashboard`);
       } else {
+        setLoading(false);
+        console.log(loading);
         openNotification('error')
-        setLoading({loading:false});
+  
       }
     }).catch(function (error) {
+      setLoading(false);
+      console.log(loading);
       openNetworkErrorNotification('error', error)
-      setLoading({loading:true});
+ 
     });
 
   };
@@ -85,7 +95,12 @@ function AdminLogin(props) {
                       required: true,
                       type: 'email',
                       message: 'Please input your valid Email!',
+                      
                     },
+                    {
+                      max:25,
+                      message:'email is too long..'
+                    }
                   ]}
                 >
                   <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
@@ -97,6 +112,11 @@ function AdminLogin(props) {
                       required: true,
                       message: 'Please input your Password!',
                     },
+                    {
+                      max:10,
+                      min:6,
+                      message:'Password must between 5 to 10'
+                    }
                   ]}
                 >
                   <Input

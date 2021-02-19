@@ -122,13 +122,17 @@ export function EditDegree(DegreeMaster_Id) {
 
 //#region changepassword
 
-
-
 export function changepassword(oldpassword,newpassword) {
     var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
     }
     return axios.post(process.env.REACT_APP_SERVER_URL + `/Comman/changepassword?oldpassword=${oldpassword}&&newpassword=${newpassword}`,null,{'headers':headers})
+}
+//#endregion
+
+//#region Total Approval Request 
+export function GetApprovalRequestCount() {
+    return axios.get(process.env.REACT_APP_SERVER_URL + `/ApprovalRequest/getapprovalrequests`)
 }
 //#endregion
