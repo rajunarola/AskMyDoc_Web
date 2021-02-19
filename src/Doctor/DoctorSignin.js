@@ -1,154 +1,257 @@
 import React, { useState } from 'react';
-import { UploadPhoto ,register,UploadDocument,GetState,GetAllSpecilization,GetAllDegree,GetOneCity} from '../Service/DoctorService';
-import { Form, Input, Radio, DatePicker, Upload, Button, Select, notification } from 'antd';
+import { UploadPhoto, register, UploadDocument, GetState, GetAllSpecilization, GetAllDegree, sendmail ,verifyemail} from '../Service/DoctorService';
+import { Form, Input, Radio, DatePicker, Upload, Button, Select, notification ,InputNumber } from 'antd';
 import { UserOutlined, LockOutlined, UploadOutlined, EnvironmentOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-
 import './DoctorSignin.css';
-import axios from "axios";
 
 
 export const DoctorSignUp = (props) => {
 
+    const [btnsubmit, setBtnsubmit] = useState(true);
+    const [verifybtn, setVerifybtn] = useState(false);
+    const [isdoctorverify, setIsdoctorverify] = useState(false);
+    const [loading,setLoading]= useState(false);
+    const [email,setEmail] =useState();
     //For Profile Photo
     const [file, setFile] = useState();
     //For Degree
     const [degreeFile, setDegreeFile] = useState();
+    const [token,setToken] = useState("");
 
     const saveFile = (e) => {
-        console.log(e.target.files[0]);
         setFile(e.target.files[0]);
     }
 
     const saveDegree = (e) => {
-        console.log(e.target.files[0]);
         setDegreeFile(e.target.files[0]);
     }
 
+    const setEmailOnChange = (e) =>{
+        setEmail(e.target.value);
+    }
+
+    const verifyEmail = ()=>{
+        setLoading(true);
+        if(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,8})+$/.test(email))
+        {
+            sendmail(email).then(res => {
+                if (res.data.status === "Success") {
+                    console.log(res.data.result.verifyToken);
+                    setToken(res.data.result.verifyToken);
+                    setBtnsubmit(false);
+                    setVerifybtn(true);
+                    setLoading(false);
+                    notification.success({
+                        message: res.data.message, className: 'custom-class',
+                        style: {
+                            marginTop: '10vh',
+                        }
+                    })
+                } else {
+                    setVerifybtn(false);
+                    setLoading(false);
+                    notification.error({
+                        message: res.data.message, className: 'custom-class',
+                        style: {
+                            marginTop: '10vh',
+                        }
+                    })
+                }
+            }).catch(function (err) {
+                setVerifybtn(false);
+                setLoading(false);    
+                notification.error({
+                    message: err, className: 'custom-class',
+                    style: {
+                        marginTop: '10vh',
+                    }
+                })
+            });
+        }
+        else{
+            setLoading(false);
+            notification.error({
+                message: "Please Enter Currect Email For Verification", className: 'custom-class',
+                style: {
+                    marginTop: '20vh',
+                }
+            })
+        }
+    }
+
     const onFinish = async (values) => {
-        console.log('success', values);
-        const formDataPhoto = new FormData();
-        formDataPhoto.append("file", file);
-        console.log(file.name);
-        var imageName="";
-        var document = "";
-        await UploadPhoto(formDataPhoto).then(res => {
-            if (res.data.status === "Success") {
-                imageName = res.data.result.imageName;
-                
-            } else {
+        setLoading(true);
+        setBtnsubmit(true);
+        if(token.length >0)
+        {
+            console.log('success', values);
+            verifyemail(values.code,token).then(res => {
+                if (res.data.status === "Success") {
+                    console.log(res.data);
+                    setBtnsubmit(false);
+                    setLoading(false);
+                    setIsdoctorverify(res.data.result.verify);
+                    notification.success({
+                        message: res.data.message, className: 'custom-class',
+                        style: {
+                            marginTop: '10vh',
+                        }
+                    })
+                } else {
+                    setBtnsubmit(false);
+                    setLoading(false);
+                    notification.error({
+                        message: res.data.message, className: 'custom-class',
+                        style: {
+                            marginTop: '10vh',
+                        }
+                    })
+                }
+            }).catch(function (err) {
+                setBtnsubmit(false);
+                setLoading(false);    
                 notification.error({
-                    content: res.data.message, className: 'custom-class',
+                    message: err, className: 'custom-class',
                     style: {
-                        marginTop: '20vh',
+                        marginTop: '10vh',
                     }
                 })
+            });
+            if(isdoctorverify)
+            {
+                const formDataPhoto = new FormData();
+                formDataPhoto.append("file", file);
+                var imageName = "";
+                var document = "";
+                await UploadPhoto(formDataPhoto).then(res => {
+                    if (res.data.status === "Success") {
+                        imageName = res.data.result.imageName;
+        
+                    } else {
+                        notification.error({
+                            message: res.data.message, className: 'custom-class',
+                            style: {
+                                marginTop: '20vh',
+                            }
+                        })
+                    }
+                }).catch(function (err) {
+                    notification.error({
+                        message: err, className: 'custom-class',
+                        style: {
+                            marginTop: '20vh',
+                        }
+                    })
+                });
+                const formDataDegree = new FormData();
+                formDataDegree.append("file", degreeFile);
+                await UploadDocument(formDataDegree).then(res => {
+                    if (res.data.status === "Success") {
+                        document = res.data.result.imageName;
+                    } else {
+                        notification.error({
+                            message: res.data.message, className: 'custom-class',
+                            style: {
+                                marginTop: '20vh',
+                            }
+                        })
+                    }
+                }).catch(function (err) {
+                    notification.error({
+                        message: err, className: 'custom-class',
+                        style: {
+                            marginTop: '20vh',
+                        }
+                    })
+                });
+                var dob = new Date(values.dob.toString());
+                var exdate = new Date(values.exdate.toString());
+                const doctorvalues = {
+                    "email": values.email,
+                    "fName": values.fname,
+                    "mName": values.mname,
+                    "lName": values.lname,
+                    "password": values.password,
+                    "gender": value,
+                    "dob": dob,
+                    "state_Id": values.state,
+                    "city_Id": values.city,
+                    "pincode": values.pincode,
+                    "experienceStartDate": exdate,
+                    "profilePicture": imageName,
+                    "clinicAddress": values.clinicaddress,
+                    "specialization_Id": values.specialization,
+                    "degree_Id": values.degree,
+                    "document": document
+                };
+                console.log(doctorvalues);
+                await register(doctorvalues).then(res => {
+                    if (res.data.status === "Success") {
+                        //imageName = res.data.result.imageName;
+                        console.log(res.data);
+                        notification.success({
+                            message: res.data.message, className: 'custom-class',
+                            style: {
+                                marginTop: '20vh',
+                            }
+                        })
+                    } else {
+                        notification.error({
+                            message: res.data.message, className: 'custom-class',
+                            style: {
+                                marginTop: '20vh',
+                            }
+                        })
+                    }
+                }).catch(function (err) {
+                    notification.error({
+                        message: err, className: 'custom-class',
+                        style: {
+                            marginTop: '20vh',
+                        }
+                    })
+                });
             }
-        }).catch(function (err) {
+        }
+        else{
             notification.error({
-                content: err, className: 'custom-class',
+                message: "Please Enter Currect Email For Verification", className: 'custom-class',
                 style: {
                     marginTop: '20vh',
                 }
             })
-        });
-        const formDataDegree = new FormData();
-        formDataDegree.append("file",degreeFile);
-        console.log(degreeFile.name);
-        await UploadDocument(formDataDegree).then(res => {
-            if (res.data.status === "Success") {
-                document = res.data.result.imageName;
-            } else {
-                notification.error({
-                    content: res.data.message, className: 'custom-class',
-                    style: {
-                        marginTop: '20vh',
-                    }
-                })
-            }
-        }).catch(function (err) {
-            notification.error({
-                content: err, className: 'custom-class',
-                style: {
-                    marginTop: '20vh',
-                }
-            })
-        });
-        var dob=new Date(values.dob.toString());
-        console.log(dob.toDateString());
-        var exdate = new Date(values.exdate.toString());
-        console.log(exdate.toDateString());
-        const doctorvalues = {
-            "email":values.email,
-            "fName": values.fname,
-            "mName": values.mname,
-            "lName": values.lname,
-            "password":values.password,
-            "gender": value,
-            "dob": dob,
-            "state_Id": values.state,
-            "city_Id": values.city,
-            "pincode": values.pincode,
-            "experienceStartDate": exdate,
-            "profilePicture": imageName,
-            "clinicAddress": values.clinicaddress,
-            "specialization_Id": values.specialization,
-            "degree_Id": values.degree,
-            "document": document         
-        };
-        console.log(doctorvalues);
-        await register(doctorvalues).then(res => {
-            if (res.data.status === "Success") {
-                //imageName = res.data.result.imageName;
-                console.log(res.data);
-                notification.success({
-                    message : 'Register Successfull',
-                    content: res.data.message, className: 'custom-class',
-                    style: {
-                        marginTop: '20vh',
-                    }
-                })
-            } else {
-                notification.error({
-                    content: res.data.message, className: 'custom-class',
-                    style: {
-                        marginTop: '20vh',
-                    }
-                })
-            }
-        }).catch(function (err) {
-            notification.error({
-                message:'Oops Somthing Went Wrong..!',
-                content: err, className: 'custom-class',
-                style: {
-                    marginTop: '20vh',
-                }
-            })
-        });
+        }
     }
 
     const OnFinishFailed = (values) => {
         console.log('success', values);
+        notification.error({
+            message: "Please Fill All The Fields", className: 'custom-class',
+            style: {
+                marginTop: '20vh',
+            }
+        })
     }
 
 
-    let loading = false;
+    
     const [items, setItems] = React.useState([]);
     const [specialization, setSpecialization] = React.useState([]);
     const [city, setCity] = React.useState([]);
     const [degree, setDegree] = React.useState([]);
-    React.useEffect( () => {
-        GetState().then(res=>{
-            if(res.data.status==="Success"){
+    React.useEffect(() => {
+        GetState().then(res => {
+            if (res.data.status === "Success") {
                 setItems(res.data.result.map(({ sName, state_Id }) => ({ label: sName, value: state_Id })));
-            }else{
+            } else {
                 notification.error({
-                    content:res.data.message,className:'custom-class',
-                    style:{
-                        marginTop:'20h',
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20h',
                     }
-                }).catch(function(err){
+                }).catch(function (err) {
                     notification.error({
-                        message:'Oops Somthing Went Wrong..!',
+                        message: 'Oops Somthing Went Wrong..!',
                         style: {
                             marginTop: '20vh',
                         }
@@ -156,18 +259,18 @@ export const DoctorSignUp = (props) => {
                 })
             }
         });
-        GetAllSpecilization().then(res=>{
-            if(res.data.status==="Success"){
+        GetAllSpecilization().then(res => {
+            if (res.data.status === "Success") {
                 setSpecialization(res.data.result);
-            }else{
+            } else {
                 notification.error({
-                    content:res.data.message,className:'custom-class',
-                    style:{
-                        marginTop:'20h',
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20h',
                     }
-                }).catch(function(err){
+                }).catch(function (err) {
                     notification.error({
-                        message:'Oops Somthing Went Wrong..!',
+                        message: 'Oops Somthing Went Wrong..!',
                         style: {
                             marginTop: '20vh',
                         }
@@ -175,18 +278,18 @@ export const DoctorSignUp = (props) => {
                 })
             }
         });
-        GetAllDegree().then(res=>{
-            if(res.data.status==="Success"){
+        GetAllDegree().then(res => {
+            if (res.data.status === "Success") {
                 setDegree(res.data.result);
-            }else{
+            } else {
                 notification.error({
-                    content:res.data.message,className:'custom-class',
-                    style:{
-                        marginTop:'20h',
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20h',
                     }
-                }).catch(function(err){
+                }).catch(function (err) {
                     notification.error({
-                        message:'Oops Somthing Went Wrong..!',
+                        message: 'Oops Somthing Went Wrong..!',
                         style: {
                             marginTop: '20vh',
                         }
@@ -195,20 +298,20 @@ export const DoctorSignUp = (props) => {
             }
         })
 
-    },[]);
+    }, []);
 
     const [value, setValue] = React.useState(1);
     const onChange = (e) => {
-        console.log('radio checked', e.target.value);
+        //console.log('radio checked', e.target.value);
         setValue(e.target.value);
     };
 
     const getAllCity = id => {
-        console.log(id);
+        //console.log(id);
         async function GetCitys() {
             const res = await fetch('https://localhost:44338/api/Account/getallcitiesbystate?stateid=' + id);
             const body = await res.json();
-            console.log(body);
+            //console.log(body);
             if (body.result.length)
                 setCity(body.result.map(c => <Select.Option key={c.city_Id}>{c.cName}</Select.Option>));
         }
@@ -265,16 +368,28 @@ export const DoctorSignUp = (props) => {
                                                 required: true,
                                                 message: 'Please input your E-mail!',
                                             }]}>
-                                                <Input placeholder="Email" allowClear prefix={<UserOutlined />} />
+                                                <Input placeholder="Email" allowClear onChange={setEmailOnChange} prefix={<UserOutlined />} />
                                             </Form.Item>
-                                            <div className="col-md-3"><Button type="primary" >Verify</Button></div>
+                                            <div className="col-md-3">
+
+                                            <Button type="primary" onClick={verifyEmail} disabled={verifybtn} loading={loading} >Verify</Button>
+                                            </div>
+                                            
+                                            <Form.Item name="code" rules={[
+                                            {
+                                                pattern: /^[\d]{6}$/,
+                                                message: "code length must be 6 and Digit Only",
+                                            }]}>
+                                                <Input placeholder="Code" allowClear prefix={<LockOutlined />} />
+                                            </Form.Item>
                                             
                                         </div>
-                                        
+
                                         <Form.Item name="password" rules={[{
                                             required: true,
                                             message: 'Must Enter the Password.'
-                                        },{ min: 8, message: 'Password must be minimum 8 characters.' },]}>
+                                        }, { min: 6, message: 'Password must be minimum 6 characters.' },
+                                        { max: 10, message: "Password length can't be more then 10" }]}>
                                             <Input.Password
                                                 placeholder="Password" prefix={<LockOutlined />} allowClear
                                                 iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
@@ -321,13 +436,13 @@ export const DoctorSignUp = (props) => {
                                             required: true,
                                             message: 'Must select the DOB'
                                         }]}>
-                                            <DatePicker  />
+                                            <DatePicker />
                                         </Form.Item>
                                         <Form.Item name="exdate" label="Experience Start Date" rules={[{
                                             required: true,
                                             message: 'Must select the Experience Start Date'
                                         }]}>
-                                            <DatePicker  />
+                                            <DatePicker />
                                         </Form.Item>
                                         <Form.Item name="specialization" rules={[{
                                             required: true,
@@ -380,7 +495,8 @@ export const DoctorSignUp = (props) => {
                                                 {city}
                                             </Select>
                                         </Form.Item>
-                                        <Button type="primary" htmlType="submit" loading={loading} >Register</Button>
+                                        <div className="red">Please Verify Email First</div>
+                                        <Button type="primary" htmlType="submit" disabled={btnsubmit} loading={loading} >Register</Button>
                                     </div>
                                 </div>
                             </Form>

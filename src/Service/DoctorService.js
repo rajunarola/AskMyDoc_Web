@@ -32,3 +32,16 @@ export function GetAllDegree(){
 export function GetOneCity(id){
     return axios.get(process.env.REACT_APP_SERVER_URL + `/Account/getallcitiesbystate?stateid=${id}`)
 }
+
+export async function sendmail(email){
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Comman/sendmail?To=`+email);
+}
+
+export async function verifyemail(code,token)
+{
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+token 
+    }
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/verifyemail?code=`+code ,null, { headers: headers});
+}

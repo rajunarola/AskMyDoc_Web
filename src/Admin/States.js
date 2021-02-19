@@ -151,7 +151,7 @@ export default class States extends Component {
                             this.setState({isModalVisible:false,sName:""});
                             this.DisplayAllState();
                         } else {
-                            console.log(res.data.message);
+                            //console.log(res.data.message);
                             message.error({
                                 content: res.data.message, className: 'custom-class',
                                 style: {
@@ -179,7 +179,7 @@ export default class States extends Component {
                             })
                             this.DisplayAllState();
                         } else {
-                            console.log(res.data.message);
+                            //console.log(res.data.message);
                             message.error({
                                 content: res.data.message, className: 'custom-class',
                                 style: {

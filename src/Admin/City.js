@@ -47,7 +47,7 @@ export default class City extends Component {
                     <Button type="dashed"><DeleteOutlined/> </Button>
                     </Popconfirm></div>
                 });
-                console.log('City',res.data.result);
+                //console.log('City',res.data.result);
                 this.setState({data:[{
                     columns: [
                         {
@@ -89,7 +89,7 @@ export default class City extends Component {
             await GetAllStates().then(res => {
                 if (res.data.status === "Success") {
                     this.setState({states:res.data.result});
-                    console.log('States ',this.state.states);
+                    //console.log('States ',this.state.states);
                 } else {
                     message.error({
                         content: res.data.message, className: 'custom-class',
@@ -114,7 +114,7 @@ export default class City extends Component {
         GetOneCity(id).then(res => {
             if (res.data.status === "Success") {
                 var sn= this.state.states.find(s=>s.state_Id == res.data.result.state_Id).sName
-                console.log(sn);
+                //console.log(sn);
                 this.setState({ 
                     modeltitle:"Edit City",
                     isModalVisible:true,
@@ -189,7 +189,7 @@ export default class City extends Component {
                             })
                             this.DisplayAllCities();
                         } else {
-                            console.log(res.data.message);
+                            //console.log(res.data.message);
                             message.error({
                                 content: res.data.message, className: 'custom-class',
                                 style: {
@@ -217,7 +217,7 @@ export default class City extends Component {
                                 }
                             })
                         } else {
-                            console.log(res.data.message);
+                            //.log(res.data.message);
                             message.error({
                                 content: res.data.message, className: 'custom-class',
                                 style: {

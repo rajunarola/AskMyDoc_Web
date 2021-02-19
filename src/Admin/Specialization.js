@@ -71,12 +71,6 @@ export default class Specialization extends Component {
         })
     }
 
-    onFinish = (values) => {
-        console.log('Success:', values);
-    };
-    onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
     componentDidMount() {
         if (localStorage.getItem('AccessToken') === null) {
             this.props.history.push('/admin')
@@ -152,7 +146,7 @@ export default class Specialization extends Component {
                     Addspecialization({ 'Specialization': this.state.SpecializationName }).then(res => {
                         if (res.data.status === "Success") {
 
-                            console.log(res.data.result)
+                            //console.log(res.data.result)
                             this.setState({ isModalVisible: false, SpecializationName: "" });
                             message.success({
                                 content: 'Specialization Has Been Added.!', className: 'custom-class',
@@ -162,7 +156,7 @@ export default class Specialization extends Component {
                             })
                             this.DisplayAllSpecialization();
                         } else {
-                            console.log(res.data.message);
+                            //console.log(res.data.message);
                             message.error({
                                 content: res.data.message, className: 'custom-class',
                                 style: {
@@ -184,7 +178,7 @@ export default class Specialization extends Component {
                     Editspecialization({ 'Specialization': this.state.SpecializationName, 'specializationMaster_Id': this.state.specializationMaster_Id }).then(res => {
                         if (res.data.status === "Success") 
                         {
-                            console.log(res.data.result)
+                            //console.log(res.data.result)
                             this.setState({ isModalVisible: false, SpecializationName: "", specializationMaster_Id: 0 });
                             message.success({
                                 content: 'Specialization Has Been Updated.!', className: 'custom-class',
@@ -196,7 +190,7 @@ export default class Specialization extends Component {
                         }
                          else 
                          {
-                            console.log(res.data.message);
+                            //console.log(res.data.message);
                             message.error({
                                 content: res.data.message, className: 'custom-class',
                                 style: {

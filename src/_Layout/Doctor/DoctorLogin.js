@@ -29,21 +29,21 @@ export const DoctorLogin = (props) => {
     }
     const onFinish = values => {
        
-        setLoading({loading:true})
+        setLoading(true)
         login(values).then(res => {
             if (res.data.status === "Success") {
-                console.log(res.data.result.token)
+                //console.log(res.data.result.token)
                 localStorage.setItem('dcotorid', res.data.result.doctor.doctor_Id);
                 localStorage.setItem('Token', res.data.result.token);
-                setLoading({loading:false})
+                setLoading(false)
                 props.history.push("doctor/appointmentdetails");
             } else {
                 openNotification('error')
-                setLoading({loading:false})
+                setLoading(false)
             }
         }).catch(function (error) {
             openNetworkErrorNotification('error', error)
-            setLoading({loading:false})
+            setLoading(false)
         });
     }
     return (
