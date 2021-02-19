@@ -8,17 +8,28 @@ import AdminHeader from '../_Layout/Admin/AdminHeader';
 import AdminFooter from '../_Layout/Admin/AdminFooter';
 import AdminSidebar from '../_Layout/Admin/AdminSidebar';
 
-export default class Specialization extends Component {
+export default class ApprovalRequest extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            specializationMaster_Id: 0,
-            SpecializationName: "",
+            doctor_id: 0,
+            email: " ",
+            fname:" ",
+            mname:" ",
+            lname:" ",
+            gender:" ",
+            dob:" ",
+            state_id:0,
+            city_id:0,
+            pincode:" ",
+            exdate:" ",
+            clinicAdd:" ",
+            profilePic:" ",
             loading: false,
             visible: false,
             data: [],
-            isModalVisible: false
+           // isModalVisible: false
         }
     }
     handleEdit = (id) => {
@@ -92,23 +103,29 @@ export default class Specialization extends Component {
             if (res.data.status === "Success") {
 
                 res.data.result.map(item => {
-                    item.action = <div><Button type="dashed" onClick={(id) => this.handleEdit(item.specializationMaster_Id)}><EditOutlined /></Button> <Popconfirm title="Are you sure to delete this Specialization?"
-                        onConfirm={(id) => this.confirm(item.specializationMaster_Id)}
-                        okText="Yes"
-                        cancelText="No">
-                        <Button type="dashed" ><DeleteOutlined /></Button>
-                    </Popconfirm></div>
+                    item.action = <div><Button type="dashed" onClick={(id) => this.handleEdit(item.specializationMaster_Id)}><EditOutlined /></Button>
+                    <Button type="primary" >Accept</Button>
+                    <Button type="primary" danger>Reject</Button>
+                    <Button type="default" >Show Details</Button></div>
+                    
                 });
         
                 this.setState({
                     data: [{
                         columns: [
                             {
-                                label: 'Specialization Name',
-                                field: 'specialization',
+                                label: 'Email',
+                                field: 'email',
+                                sort: 'asc',
+                                width: 100
+                            },
+                            {
+                                label: 'Name',
+                                field: 'fname',
                                 sort: 'asc',
                                 width: 150
                             },
+                            
                             {
                                 label: 'Action',
                                 field: 'action',
@@ -255,12 +272,12 @@ export default class Specialization extends Component {
                         <div className="container-fluid">
                             <div className="row mb-2">
                                 <div className="col-sm-6">
-                                    <h1>Specialization</h1>
+                                    <h1>Approval Request</h1>
                                 </div>
                                 <div className="col-sm-6">
                                     <ol className="breadcrumb float-sm-right">
                                         <li className="breadcrumb-item"><a href="#">Home</a></li>
-                                        <li className="breadcrumb-item active">Specialization</li>
+                                        <li className="breadcrumb-item active">Approval Request</li>
                                     </ol>
                                 </div>
                             </div>
@@ -273,9 +290,10 @@ export default class Specialization extends Component {
                                 <div className="col-md-12 col-lg-12">
                                     <div className="card">
                                         <div className="card-header">
+                                        <label>Doctor List</label>
                                             <h3 className="card-title">
-                                                <div className="float-right btn btn-secondary" onClick={() => { this.showModal() }}>Add Specialization</div>
-                                                <Modal title="Add Specialization" visible={this.state.isModalVisible} onOk={() => { this.handleOk() }} onCancel={() => { this.handleCancel() }} >
+                                                
+                                                {/* <Modal title="Add Specialization" visible={this.state.isModalVisible} onOk={() => { this.handleOk() }} onCancel={() => { this.handleCancel() }} >
                                                     <label>Specialization Name</label>
                                                     <input type="text"
                                                         className="form-control"
@@ -284,7 +302,7 @@ export default class Specialization extends Component {
                                                         value={this.state.SpecializationName}
                                                         onChange={(e) => { this.handleChange(e) }}
                                                     />
-                                                </Modal>
+                                                </Modal> */}
                                             </h3>
                                         </div>
                                         <div className="card-body">
