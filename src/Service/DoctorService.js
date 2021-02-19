@@ -16,3 +16,19 @@ export async function UploadDocument(formData) {
 export function register(users) {
     return axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/register`, users)
 }
+
+export function GetState(){
+    return axios.get(process.env.REACT_APP_SERVER_URL+`/State/GetAll`)
+}
+
+export function GetAllSpecilization(){
+    return axios.get(process.env.REACT_APP_SERVER_URL+`/Specialization/getallspecialization`)
+}
+
+export function GetAllDegree(){
+    return axios.get(process.env.REACT_APP_SERVER_URL+`/Degree/GetAllDegree`)
+}
+
+export function GetOneCity(id){
+    return axios.get(process.env.REACT_APP_SERVER_URL + `/Account/getallcitiesbystate?stateid=${id}`)
+}

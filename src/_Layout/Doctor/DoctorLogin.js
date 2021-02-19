@@ -60,14 +60,19 @@ export const DoctorLogin = (props) => {
                                 <Form.Item name="email" rules={[{
                                     required: true,
                                     type: 'email',
-                                    message: "Must Enter the email."
+                                    message: "Must Enter the email.",
+                                    max:25
                                 },]}
                                 >
                                     <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
                                 </Form.Item>
                                 <Form.Item name="password" rules={[{
                                     required: true,
-                                    message: 'Must Enter the Password.',
+                                    message: 'Must Enter the Password.'},{
+                                    min:6,
+                                    message:"password Minimum length must be 6"},{
+                                    max:10,
+                                    message:"Password length can't be more then 10"
                                 },]}>
                                     <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
                                 </Form.Item>
