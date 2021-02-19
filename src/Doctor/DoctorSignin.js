@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UploadPhoto, register, UploadDocument, GetState, GetAllSpecilization, GetAllDegree, sendmail ,verifyemail} from '../Service/DoctorService';
+import { UploadPhoto, register, UploadDocument, GetState, GetAllSpecilization, GetAllDegree, sendmail ,verifyemail,GetCityByState} from '../Service/DoctorService';
 import { Form, Input, Radio, DatePicker, Upload, Button, Select, notification ,InputNumber } from 'antd';
 import { UserOutlined, LockOutlined, UploadOutlined, EnvironmentOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import './DoctorSignin.css';
@@ -251,7 +251,7 @@ export const DoctorSignUp = (props) => {
                     }
                 }).catch(function (err) {
                     notification.error({
-                        message: 'Oops Somthing Went Wrong..!',
+                        message:err,
                         style: {
                             marginTop: '20vh',
                         }
@@ -270,7 +270,7 @@ export const DoctorSignUp = (props) => {
                     }
                 }).catch(function (err) {
                     notification.error({
-                        message: 'Oops Somthing Went Wrong..!',
+                        message: err,
                         style: {
                             marginTop: '20vh',
                         }
@@ -289,7 +289,7 @@ export const DoctorSignUp = (props) => {
                     }
                 }).catch(function (err) {
                     notification.error({
-                        message: 'Oops Somthing Went Wrong..!',
+                        message: err,
                         style: {
                             marginTop: '20vh',
                         }
@@ -307,15 +307,25 @@ export const DoctorSignUp = (props) => {
     };
 
     const getAllCity = id => {
-        //console.log(id);
-        async function GetCitys() {
-            const res = await fetch('https://localhost:44338/api/Account/getallcitiesbystate?stateid=' + id);
-            const body = await res.json();
-            //console.log(body);
-            if (body.result.length)
-                setCity(body.result.map(c => <Select.Option key={c.city_Id}>{c.cName}</Select.Option>));
-        }
-        GetCitys();
+        GetCityByState(id).then(res => {
+            if (res.data.status === "Success") {
+                setCity(res.data.result.map(c => <Select.Option key={c.city_Id}>{c.cName}</Select.Option>));
+            } else {
+                notification.error({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20h',
+                    }
+                }).catch(function (err) {
+                    notification.error({
+                        message: err,
+                        style: {
+                            marginTop: '20vh',
+                        }
+                    })
+                })
+            }
+        })
     }
 
     return (
@@ -341,21 +351,21 @@ export const DoctorSignUp = (props) => {
                                         <Form.Item name="fname" rules={[{
                                             required: true,
                                             message: 'Must Enter the First Name.'
-                                        }, { min: 5, message: 'First Name must be minimum 5 characters.' },
+                                        }, { min: 3, message: 'First Name must be minimum 3 characters.' },
                                         { max: 15, message: 'First Name must be maximum 15 characters.' }]}>
                                             <Input placeholder="First Name" allowClear prefix={<UserOutlined />} />
                                         </Form.Item>
                                         <Form.Item name="mname" rules={[{
                                             required: true,
                                             message: 'Must Enter the Middle Name.'
-                                        }, { min: 5, message: 'Middle Name must be minimum 5 characters.' },
+                                        }, { min: 3, message: 'Middle Name must be minimum 3 characters.' },
                                         { max: 15, message: 'Middle Name must be maximum 15 characters.' }]}>
                                             <Input placeholder="Middle Name" allowClear prefix={<UserOutlined />} />
                                         </Form.Item>
                                         <Form.Item name="lname" rules={[{
                                             required: true,
                                             message: 'Must Enter the Last Name.'
-                                        }, { min: 5, message: 'Last Name must be minimum 5 characters.' },
+                                        }, { min: 3, message: 'Last Name must be minimum 3 characters.' },
                                         { max: 15, message: 'Last Name must be maximum 15 characters.' }]}>
                                             <Input placeholder="Last Name" allowClear prefix={<UserOutlined />} />
                                         </Form.Item>
@@ -495,8 +505,7 @@ export const DoctorSignUp = (props) => {
                                                 {city}
                                             </Select>
                                         </Form.Item>
-                                        <div className="red">Please Verify Email First</div>
-                                        <Button type="primary" htmlType="submit" disabled={btnsubmit} loading={loading} >Register</Button>
+                                        <Button type="primary" htmlType="submit" className="ant-btn ant-btn-primary" disabled={btnsubmit} loading={loading} >Register</Button>
                                     </div>
                                 </div>
                             </Form>

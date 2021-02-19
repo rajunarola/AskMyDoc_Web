@@ -21,6 +21,10 @@ export function GetState(){
     return axios.get(process.env.REACT_APP_SERVER_URL+`/State/GetAll`)
 }
 
+export async function GetCityByState(id){
+    return await axios.get(process.env.REACT_APP_SERVER_URL+`/Account/getallcitiesbystate?stateid=`+id)
+}
+
 export function GetAllSpecilization(){
     return axios.get(process.env.REACT_APP_SERVER_URL+`/Specialization/getallspecialization`)
 }

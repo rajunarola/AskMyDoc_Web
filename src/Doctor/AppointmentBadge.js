@@ -10,6 +10,9 @@ function AppointmentBadge(props) {
         if (localStorage.getItem('Token') === null) {
             props.history.push('/')
         }
+        if (localStorage.getItem('AccessToken')!== null) {
+            props.history.push('/admin/admindashboard')
+          }
       })
     const { SubMenu } = Menu;
     const { Header, Content, Sider } = Layout;

@@ -36,7 +36,7 @@ export const DoctorLogin = (props) => {
                 localStorage.setItem('dcotorid', res.data.result.doctor.doctor_Id);
                 localStorage.setItem('Token', res.data.result.token);
                 setLoading(false)
-                props.history.push("doctor/appointmentdetails");
+                props.history.push("doctor/doctordashboard");
             } else {
                 openNotification('error')
                 setLoading(false)

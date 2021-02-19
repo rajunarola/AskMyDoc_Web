@@ -95,7 +95,7 @@
     padding-bottom: 5%;
 }
 
-.red{
-    color: red;
-    margin: 5px 0px 5px;
+.ant-btn-primary{
+    color:white !important;
+    background: #1890ff !important;
 }

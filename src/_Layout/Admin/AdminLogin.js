@@ -10,7 +10,10 @@ function AdminLogin(props) {
 
   
   useEffect(() => {
-    if (localStorage.getItem('AccessToken')) {
+    if(localStorage.getItem('Token')!== null){
+      props.history.push('/doctor/doctordashboard');
+    }
+    if (localStorage.getItem('AccessToken')!== null) {
       props.history.push('/admin/admindashboard')
     }
   });

@@ -14,6 +14,9 @@ function Doctordashboard(props) {
       if (localStorage.getItem('Token') === null) {
           props.history.push('/')
       }
+      if (localStorage.getItem('AccessToken')!== null) {
+        props.history.push('/admin/admindashboard')
+      }
     })
     return (
 
