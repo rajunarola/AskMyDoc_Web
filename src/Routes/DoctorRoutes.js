@@ -16,7 +16,7 @@ function DoctorRoutes() {
             <Route path='/doctor/appointmentdetails' exact={true} component={AppointmentBadge} />
             <Route path='/doctorsignin' exact={true} component={DoctorSignin} />
             <Route path='/forgotpwd' exact={true} component={DoctorForgotPwd} />
-            <Route path='doctor/resetpassword' exact={true} component={ResetPassword} />
+            <Route path='/doctor/resetpassword' exact={true} component={ResetPassword} />
 
             <Route path="/" exact={true} component={DoctorLogin} />
         </Switch>
