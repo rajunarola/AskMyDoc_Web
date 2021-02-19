@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Modal, message, Form, Input, notification, Popconfirm,Drawer, Button, Col, Row, Select, DatePicker } from 'antd';
 import { MDBDataTable, MDBBtn } from 'mdbreact';
 import { DeleteOutlined, EditOutlined, CheckOutlined, CloseOutlined, FolderViewOutlined } from '@ant-design/icons'
-import {  getallapprovalrequest,getapprovalrequestprofile } from '../Service/AdminService';
+import {  getallapprovalrequest,RequestApproved } from '../Service/AdminService';
 import AdminHeader from '../_Layout/Admin/AdminHeader';
 import AdminFooter from '../_Layout/Admin/AdminFooter';
 import AdminSidebar from '../_Layout/Admin/AdminSidebar';
@@ -71,16 +71,43 @@ export default class ApprovalRequest extends Component {
         }
     }
 
+    approvalrequest = (id,status)=>{
+        RequestApproved(id,status).then(res=>{
+            if (res.data.status === "Success") {
+                message.success({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                });
+            } else {
+                message.error({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+            }
+        }).catch(function (err) {
+            message.error({
+                content: err, className: 'custom-class',
+                style: {
+                    marginTop: '20vh',
+                }
+            })
+        });
+    }
+
     DisplayAllApprovalRequest() {
 
         getallapprovalrequest().then(res => {
-console.log(res)
+        console.log(res)
             if (res.data.status === "Success") {
 
                 res.data.result.approvallist.map(item => {
                     item.profilePic = <div><img className="img-circle img-bordered" src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${item.profilePicture}&type=1`} height="50px" width="50px" /></div>
                     item.action = <div>
-                        <Button type="dashed"><CheckOutlined />Accept </Button> <Button type="dashed" danger><CloseOutlined />Reject </Button> <Button type="dashed" onClick={() => this.showModal(item.doctor_Id)} ><FolderViewOutlined />View </Button></div>
+                        <Button type="dashed" onClick={()=> this.approvalrequest(item.doctor_Id,true)}><CheckOutlined />Accept </Button> <Button type="dashed" onClick={()=> this.approvalrequest(item.doctor_Id,false)} danger><CloseOutlined />Reject </Button> <Button type="dashed" onClick={() => this.showModal(item.doctor_Id)} ><FolderViewOutlined />View </Button></div>
 
                 });
 

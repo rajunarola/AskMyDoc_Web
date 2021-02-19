@@ -141,9 +141,13 @@ export function getallapprovalrequest() {
     return axios.get(process.env.REACT_APP_SERVER_URL + `/ApprovalRequest/getapprovalrequests`)
 }
 
-export function getapprovalrequestprofile(id) {
-   
-    return axios.get(process.env.REACT_APP_SERVER_URL + `/ApprovalRequest/getapprovalrequestprofile?id=${id}`)
+export function RequestApproved(id,status)
+{
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+    }
+    return axios.post(process.env.REACT_APP_SERVER_URL+`/ApprovalRequest/approvalrequest?doctorid=${id}&approval=${status}`,null,{'headers':headers})
 }
 
 //#endregion
