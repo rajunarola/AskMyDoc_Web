@@ -135,4 +135,15 @@ export function changepassword(oldpassword,newpassword) {
 export function GetApprovalRequestCount() {
     return axios.get(process.env.REACT_APP_SERVER_URL + `/ApprovalRequest/getapprovalrequests`)
 }
+
+export function getallapprovalrequest() {
+   
+    return axios.get(process.env.REACT_APP_SERVER_URL + `/ApprovalRequest/getapprovalrequests`)
+}
+
+export function getapprovalrequestprofile(id) {
+   
+    return axios.get(process.env.REACT_APP_SERVER_URL + `/ApprovalRequest/getapprovalrequestprofile?id=${id}`)
+}
+
 //#endregion
