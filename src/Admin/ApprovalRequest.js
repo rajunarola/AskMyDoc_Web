@@ -80,6 +80,7 @@ export default class ApprovalRequest extends Component {
                         marginTop: '20vh',
                     }
                 });
+                this.DisplayAllApprovalRequest();
             } else {
                 message.error({
                     content: res.data.message, className: 'custom-class',
