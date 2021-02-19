@@ -7,6 +7,7 @@ import DoctorRoutes from './Routes/DoctorRoutes';
 import 'antd/dist/antd.css';
 import './style.css';
 import { createBrowserHistory } from "history";
+import './assests/css/DoctorSignin.css';
 
 const history = createBrowserHistory();
 function App() {

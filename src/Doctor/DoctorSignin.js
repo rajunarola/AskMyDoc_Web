@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { UploadPhoto, register, UploadDocument, GetState, GetAllSpecilization, GetAllDegree, sendmail ,verifyemail,GetCityByState} from '../Service/DoctorService';
 import { Form, Input, Radio, DatePicker, Upload, Button, Select, notification ,InputNumber } from 'antd';
 import { UserOutlined, LockOutlined, UploadOutlined, EnvironmentOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import './DoctorSignin.css';
+// import './DoctorSignin.css';
+import moment from 'moment';
 
 
 export const DoctorSignUp = (props) => {
@@ -461,11 +462,17 @@ export const DoctorSignUp = (props) => {
                                         }]}>
                                             <DatePicker />
                                         </Form.Item>
-                                        <Form.Item name="exdate" label="Experience Start Date" rules={[{
+                                        <Form.Item name="exdate" label="Experience Start Date"
+                                        
+                                         rules={[{
                                             required: true,
-                                            message: 'Must select the Experience Start Date'
+                                            message: 'Must select the Experience Start Date' 
+                                            
                                         }]}>
-                                            <DatePicker />
+                                            <DatePicker disabledDate={(current) => {
+                                                return moment().add(-1, 'days') <= current ||
+                                                    moment().add(1, 'month') <= current;
+                                                }}  />
                                         </Form.Item>
                                         <Form.Item name="specialization" rules={[{
                                             required: true,
