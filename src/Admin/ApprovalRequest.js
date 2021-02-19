@@ -130,7 +130,7 @@ export default class ApprovalRequest extends Component {
                                 label: 'Action',
                                 field: 'action',
                                 sort: 'asc',
-                                width: 270
+                                width: 200
                             }
                         ],
                         rows: res.data.result
