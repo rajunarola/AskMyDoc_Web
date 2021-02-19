@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from "react-router-dom";
 import { Form, Input, Radio, DatePicker, Upload, notification, Button, Select } from 'antd';
 import { UserOutlined, LockOutlined, HistoryOutlined, UploadOutlined, EnvironmentOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import './DoctorSignin.css';
+// import './DoctorSignin.css';
 
 
 export const DoctorForgotPwd = (props) => {

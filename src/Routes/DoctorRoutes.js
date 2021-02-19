@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch} from 'react-router-dom';
 import DoctorLogin from '../_Layout/Doctor/DoctorLogin';
-import Doctordashboard from '../Doctor/Doctordashboard';
+import Doctordashboard from '../Doctor/doctordashboard';
 import PatientList from '../Doctor/PatientList';
 import AppointmentBadge from '../Doctor/AppointmentBadge';
 import DoctorSignin from '../Doctor/DoctorSignin';
