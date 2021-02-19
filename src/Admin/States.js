@@ -150,6 +150,12 @@ export default class States extends Component {
                         if (res.data.status === "Success") {
                             this.setState({isModalVisible:false,sName:""});
                             this.DisplayAllState();
+                            message.success({
+                                content:'State added successfully', className: 'custom-class',
+                                style: {
+                                    marginTop: '20vh',
+                                }
+                            })
                         } else {
                             //console.log(res.data.message);
                             message.error({
@@ -235,7 +241,7 @@ export default class States extends Component {
                     <div className="container-fluid">
                         <div className="row mb-2">
                             <div className="col-sm-6">
-                                <h1>States</h1>
+                                <h1>State</h1>
                             </div>
                             <div className="col-sm-6">
                                 <ol className="breadcrumb float-sm-right">

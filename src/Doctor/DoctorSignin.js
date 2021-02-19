@@ -11,7 +11,7 @@ export const DoctorSignUp = (props) => {
     const [verifybtn, setVerifybtn] = useState(false);
     const [isdoctorverify, setIsdoctorverify] = useState(false);
     const [loading,setLoading]= useState(false);
-    const [email,setEmail] =useState();
+    const [email,setEmail] =useState("");
     //For Profile Photo
     const [file, setFile] = useState();
     //For Degree
@@ -32,51 +32,64 @@ export const DoctorSignUp = (props) => {
 
     const verifyEmail = ()=>{
         setLoading(true);
-        if(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,8})+$/.test(email))
+        if(email != "")
         {
-            sendmail(email).then(res => {
-                if (res.data.status === "Success") {
-                    console.log(res.data.result.verifyToken);
-                    setToken(res.data.result.verifyToken);
-                    setBtnsubmit(false);
-                    setVerifybtn(true);
-                    setLoading(false);
-                    notification.success({
-                        message: res.data.message, className: 'custom-class',
-                        style: {
-                            marginTop: '10vh',
-                        }
-                    })
-                } else {
+            if(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,8})+$/.test(email))
+            {
+                sendmail(email).then(res => {
+                    if (res.data.status === "Success") {
+                        console.log(res.data.result.verifyToken);
+                        setToken(res.data.result.verifyToken);
+                        setBtnsubmit(false);
+                        setVerifybtn(true);
+                        setLoading(false);
+                        notification.success({
+                            message: res.data.message, className: 'custom-class',
+                            style: {
+                                marginTop: '10vh',
+                            }
+                        })
+                    } else {
+                        setVerifybtn(false);
+                        setLoading(false);
+                        notification.error({
+                            message: res.data.message, className: 'custom-class',
+                            style: {
+                                marginTop: '10vh',
+                            }
+                        })
+                    }
+                }).catch(function (err) {
                     setVerifybtn(false);
-                    setLoading(false);
+                    setLoading(false);    
                     notification.error({
-                        message: res.data.message, className: 'custom-class',
+                        message: err, className: 'custom-class',
                         style: {
                             marginTop: '10vh',
                         }
                     })
-                }
-            }).catch(function (err) {
-                setVerifybtn(false);
-                setLoading(false);    
+                });
+            }
+            else{
+                setLoading(false);
                 notification.error({
-                    message: err, className: 'custom-class',
+                    message: "Please Enter Valid Email", className: 'custom-class',
                     style: {
-                        marginTop: '10vh',
+                        marginTop: '20vh',
                     }
                 })
-            });
+            }
         }
         else{
             setLoading(false);
             notification.error({
-                message: "Please Enter Currect Email For Verification", className: 'custom-class',
+                message: "Please Enter Email For Verification", className: 'custom-class',
                 style: {
                     marginTop: '20vh',
                 }
             })
         }
+
     }
 
     const onFinish = async (values) => {
@@ -215,7 +228,7 @@ export const DoctorSignUp = (props) => {
         }
         else{
             notification.error({
-                message: "Please Enter Currect Email For Verification", className: 'custom-class',
+                message: "Please Enter Email For Verification", className: 'custom-class',
                 style: {
                     marginTop: '20vh',
                 }
