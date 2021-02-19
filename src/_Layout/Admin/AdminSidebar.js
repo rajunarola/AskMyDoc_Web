@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from 'react-router-dom';
-
+import 'antd/dist/antd.css';
+import {GetApprovalRequestCount} from '../../Service/AdminService';
+import { Badge, Space, Switch } from 'antd';
+import { ClockCircleOutlined } from '@ant-design/icons';
 
 export default function AdminSidebar()
 {
+    const [adminname,setAdminname]=useState();
+    const [count,setCount]=useState();
+
+    useEffect(() => {
+        GetApprovalRequestCount()
+        .then(res=>{
+            setCount(res.data.result.requestcount)
+        })
+        setAdminname(localStorage.getItem('AdminEmail'))
+      },[]);
+      
+    
     return(
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
             {/* <!-- Brand Logo --> */}
@@ -20,7 +35,7 @@ export default function AdminSidebar()
                     <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image"/>
                 </div>
                 <div className="info">
-                    <a href="#" className="d-block">Admin Name</a>
+                    <a href="#" className="d-block">{adminname}</a>
                 </div>
             </div>
 
@@ -75,6 +90,14 @@ export default function AdminSidebar()
                         <Link className="nav-link" to='/admin/approvalrequest'>
                             <i class="fas fa-paper-plane nav-icon"></i>
                             <p> Approval Request </p>
+                            &nbsp;
+                            <Badge
+                            className="site-badge-count-109"
+                            count={count}
+                            style={{ backgroundColor: '#52c41a' }}
+                            >
+
+                            </Badge>
                         </Link>
                     </li>
                 </ul>
