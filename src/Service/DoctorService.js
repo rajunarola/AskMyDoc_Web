@@ -49,3 +49,7 @@ export async function verifyemail(code,token)
     }
     return await axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/verifyemail?code=`+code ,null, { headers: headers});
 }
+export async function checkemailavailability(email){
+   
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Doctor/checkemailavailability?email=${email}`,null);
+}

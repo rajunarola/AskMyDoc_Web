@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import ReactDom from 'react-dom';
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button, notification, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { withRouter } from "react-router-dom";
 import { login } from '../../Service/DoctorService';
@@ -8,19 +8,9 @@ import { login } from '../../Service/DoctorService';
 
 export const DoctorLogin = (props) => {
     const [loading,setLoading] = useState();
-    const openNotification = type => {
-        notification[type]({
-            message: 'Wrong Credential..!!',
-            description: 'Login Failed'
-        });
-    };
-    const openNetworkErrorNotification = (type, error) => {
-        notification[type]({
-            message: 'Oops Somthing Went Wrong..!',
-            description:
-                'Message : ' + error,
-        });
-    };
+   
+    
+   
     const handleRedirect = () => {
         props.history.push('forgotpwd');
     };
@@ -38,11 +28,11 @@ export const DoctorLogin = (props) => {
                 setLoading(false)
                 props.history.push("doctor/doctordashboard");
             } else {
-                openNotification('error')
+                notification.error({message:res.data.message})
                 setLoading(false)
             }
-        }).catch(function (error) {
-            openNetworkErrorNotification('error', error)
+        }).catch(function (errormsg) {
+            notification.error({message:errormsg})
             setLoading(false)
         });
     }
