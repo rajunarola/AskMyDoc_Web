@@ -19,20 +19,7 @@ function AdminLogin(props) {
   });
   const [loading,setLoading] = useState();
 
-  const openNotification = type => {
-    notification[type]({
-      message: 'Oops Wrong Credentail..!',
-      description:
-        'login attempt fail',
-    });
-  };
-  const openNetworkErrorNotification = (type, error) => {
-    notification[type]({
-      message: 'Oops Somthing Went Wrong..!',
-      description:
-        'Message : ' + error,
-    });
-  };
+ 
   const handleRedirect = () => {
   console.log('changepassword')
   }
@@ -52,13 +39,13 @@ function AdminLogin(props) {
       } else {
         setLoading(false);
         console.log(loading);
-        openNotification('error')
+        notification.error({message:res.data.message})
   
       }
-    }).catch(function (error) {
+    }).catch(function (errormsg) {
       setLoading(false);
       console.log(loading);
-      openNetworkErrorNotification('error', error)
+      notification.error({message:errormsg})
  
     });
 
