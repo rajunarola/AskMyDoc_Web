@@ -31,7 +31,8 @@ export const DoctorForgotPwd = (props) => {
             }
         })
         .catch(function(errormsg){
-console.error(errormsg);
+            console.error(errormsg);
+            setLoading(false);
         });
       
     }
