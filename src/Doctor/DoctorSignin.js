@@ -470,7 +470,7 @@ export const DoctorSignUp = (props) => {
                                             
                                         }]}>
                                             <DatePicker disabledDate={(current) => {
-                                                return moment().add(-1, 'days') <= current ||
+                                                return moment().add('days') <= current ||
                                                     moment().add(1, 'month') <= current;
                                                 }}  />
                                         </Form.Item>
