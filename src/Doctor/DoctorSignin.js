@@ -105,12 +105,7 @@ export const DoctorSignUp = (props) => {
                     setBtnsubmit(false);
                     setLoading(false);
                     setIsdoctorverify(res.data.result.verify);
-                    notification.success({
-                        message: res.data.message, className: 'custom-class',
-                        style: {
-                            marginTop: '10vh',
-                        }
-                    })
+                    
                 } else {
                     setBtnsubmit(false);
                     setLoading(false);
@@ -133,6 +128,8 @@ export const DoctorSignUp = (props) => {
             });
             if(isdoctorverify)
             {
+                setLoading(true);
+                setBtnsubmit(true);
                 const formDataPhoto = new FormData();
                 formDataPhoto.append("file", file);
                 var imageName = "";
@@ -142,6 +139,8 @@ export const DoctorSignUp = (props) => {
                         imageName = res.data.result.imageName;
         
                     } else {
+                        setBtnsubmit(false);
+                        setLoading(false);
                         notification.error({
                             message: res.data.message, className: 'custom-class',
                             style: {
@@ -150,6 +149,8 @@ export const DoctorSignUp = (props) => {
                         })
                     }
                 }).catch(function (err) {
+                    setBtnsubmit(false);
+                    setLoading(false);
                     notification.error({
                         message: err, className: 'custom-class',
                         style: {
@@ -163,6 +164,8 @@ export const DoctorSignUp = (props) => {
                     if (res.data.status === "Success") {
                         document = res.data.result.imageName;
                     } else {
+                        setBtnsubmit(false);
+                        setLoading(false);
                         notification.error({
                             message: res.data.message, className: 'custom-class',
                             style: {
@@ -171,6 +174,8 @@ export const DoctorSignUp = (props) => {
                         })
                     }
                 }).catch(function (err) {
+                    setBtnsubmit(false);
+                    setLoading(false);
                     notification.error({
                         message: err, className: 'custom-class',
                         style: {
@@ -178,6 +183,8 @@ export const DoctorSignUp = (props) => {
                         }
                     })
                 });
+                setLoading(true);
+                setBtnsubmit(true);
                 var dob = new Date(values.dob.toString());
                 var exdate = new Date(values.exdate.toString());
                 const doctorvalues = {
@@ -201,8 +208,9 @@ export const DoctorSignUp = (props) => {
                 console.log(doctorvalues);
                 await register(doctorvalues).then(res => {
                     if (res.data.status === "Success") {
-                        //imageName = res.data.result.imageName;
                         console.log(res.data);
+                        setBtnsubmit(false);
+                        setLoading(false);
                         notification.success({
                             message: res.data.message, className: 'custom-class',
                             style: {
@@ -210,6 +218,8 @@ export const DoctorSignUp = (props) => {
                             }
                         })
                     } else {
+                        setBtnsubmit(false);
+                        setLoading(false);
                         notification.error({
                             message: res.data.message, className: 'custom-class',
                             style: {
@@ -218,6 +228,8 @@ export const DoctorSignUp = (props) => {
                         })
                     }
                 }).catch(function (err) {
+                    setBtnsubmit(false);
+                    setLoading(false);
                     notification.error({
                         message: err, className: 'custom-class',
                         style: {
@@ -228,8 +240,10 @@ export const DoctorSignUp = (props) => {
             }
         }
         else{
+            setBtnsubmit(true);
+            setLoading(false);
             notification.error({
-                message: "Please Enter Email For Verification", className: 'custom-class',
+                message: "Please Verify Email First", className: 'custom-class',
                 style: {
                     marginTop: '20vh',
                 }
@@ -525,7 +539,7 @@ export const DoctorSignUp = (props) => {
                                                 {city}
                                             </Select>
                                         </Form.Item>
-                                        <Button type="primary" htmlType="submit" className="ant-btn ant-btn-primary" disabled={btnsubmit} loading={loading} >Register</Button>
+                                        <Button type="primary" htmlType="submit" title="Please Verify Email First" className="ant-btn ant-btn-primary" disabled={btnsubmit} loading={loading} >Register</Button>
                                     </div>
                                 </div>
                             </Form>
