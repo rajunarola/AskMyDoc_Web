@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ReactDom from 'react-dom';
 import { withRouter } from 'react-router-dom';
 
 import { Form, Input, Button, Checkbox, notification, Space } from 'antd';
@@ -8,45 +7,40 @@ import { login } from '../../Service/AdminService';
 
 function AdminLogin(props) {
 
-  
+
   useEffect(() => {
-    if(localStorage.getItem('Token')!== null){
+    if (localStorage.getItem('Token') !== null) {
       props.history.push('/doctor/doctordashboard');
     }
-    if (localStorage.getItem('AccessToken')!== null) {
+    if (localStorage.getItem('AccessToken') !== null) {
       props.history.push('/admin/admindashboard')
     }
   });
-  const [loading,setLoading] = useState();
-
- 
-  const handleRedirect = () => {
-  console.log('changepassword')
-  }
+  const [loading, setLoading] = useState();
 
   const onFinish = values => {
-   
+
     setLoading(true);
-     login(values).then(res => {
+    login(values).then(res => {
       if (res.data.status === "Success") {
-        
-      
+
+
         localStorage.setItem('AccessToken', res.data.result.token);
         localStorage.setItem('AdminEmail', res.data.result.admin.email);
 
-        setLoading({loading:false});
+        setLoading({ loading: false });
         props.history.push(`/admin/admindashboard`);
       } else {
         setLoading(false);
         console.log(loading);
-        notification.error({message:res.data.message})
-  
+        notification.error({ message: res.data.message })
+
       }
     }).catch(function (errormsg) {
       setLoading(false);
       console.log(loading);
-      notification.error({message:errormsg})
- 
+      notification.error({ message: errormsg })
+
     });
 
   };
@@ -85,11 +79,11 @@ function AdminLogin(props) {
                       required: true,
                       type: 'email',
                       message: 'Please input your valid Email!',
-                      
+
                     },
                     {
-                      max:25,
-                      message:'email is too long..'
+                      max: 25,
+                      message: 'email is too long..'
                     }
                   ]}
                 >
@@ -103,9 +97,9 @@ function AdminLogin(props) {
                       message: 'Please input your Password!',
                     },
                     {
-                      max:10,
-                      min:6,
-                      message:'Password must between 5 to 10'
+                      max: 10,
+                      min: 6,
+                      message: 'Password must between 5 to 10'
                     }
                   ]}
                 >
@@ -124,21 +118,21 @@ function AdminLogin(props) {
                 </Form.Item>
 
                 <Form.Item>
-                <div className="d-flex justify-content-center">
-                <Button type="primary" loading={loading} htmlType="submit" className="login-form-button">
-                    Log in
+                  <div className="d-flex justify-content-center">
+                    <Button type="primary" loading={loading} htmlType="submit" className="login-form-button">
+                      Log in
                   </Button><br />
-                </div>
-                 
+                  </div>
+
 
                 </Form.Item>
               </Form>
 
             </div>
             <div className="card-footer">
-             
+
               <div className="d-flex justify-content-center">
-                
+
               </div>
             </div>
           </div>
