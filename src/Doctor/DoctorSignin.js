@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { UploadPhoto, register, UploadDocument, GetState, GetAllSpecilization, GetAllDegree, sendmail ,verifyemail,GetCityByState} from '../Service/DoctorService';
-import { Form, Input, Radio, DatePicker, Upload, Button, Select, notification ,InputNumber } from 'antd';
+import { UploadPhoto, register, UploadDocument, GetState, GetAllSpecilization, GetAllDegree, sendmail, verifyemail, GetCityByState } from '../Service/DoctorService';
+import { Form, Input, Radio, DatePicker, Upload, Button, Select, notification, InputNumber } from 'antd';
 import { UserOutlined, LockOutlined, UploadOutlined, EnvironmentOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 // import './DoctorSignin.css';
 import moment from 'moment';
@@ -11,13 +11,13 @@ export const DoctorSignUp = (props) => {
     const [btnsubmit, setBtnsubmit] = useState(true);
     const [verifybtn, setVerifybtn] = useState(false);
     const [isdoctorverify, setIsdoctorverify] = useState(false);
-    const [loading,setLoading]= useState(false);
-    const [email,setEmail] =useState("");
+    const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState("");
     //For Profile Photo
     const [file, setFile] = useState();
     //For Degree
     const [degreeFile, setDegreeFile] = useState();
-    const [token,setToken] = useState("");
+    const [token, setToken] = useState("");
 
     const saveFile = (e) => {
         setFile(e.target.files[0]);
@@ -27,16 +27,14 @@ export const DoctorSignUp = (props) => {
         setDegreeFile(e.target.files[0]);
     }
 
-    const setEmailOnChange = (e) =>{
+    const setEmailOnChange = (e) => {
         setEmail(e.target.value);
     }
 
-    const verifyEmail = ()=>{
+    const verifyEmail = () => {
         setLoading(true);
-        if(email != "")
-        {
-            if(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,8})+$/.test(email))
-            {
+        if (email != "") {
+            if (/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,8})+$/.test(email)) {
                 sendmail(email).then(res => {
                     if (res.data.status === "Success") {
                         console.log(res.data.result.verifyToken);
@@ -62,7 +60,7 @@ export const DoctorSignUp = (props) => {
                     }
                 }).catch(function (err) {
                     setVerifybtn(false);
-                    setLoading(false);    
+                    setLoading(false);
                     notification.error({
                         message: err, className: 'custom-class',
                         style: {
@@ -71,7 +69,7 @@ export const DoctorSignUp = (props) => {
                     })
                 });
             }
-            else{
+            else {
                 setLoading(false);
                 notification.error({
                     message: "Please Enter Valid Email", className: 'custom-class',
@@ -81,7 +79,7 @@ export const DoctorSignUp = (props) => {
                 })
             }
         }
-        else{
+        else {
             setLoading(false);
             notification.error({
                 message: "Please Enter Email For Verification", className: 'custom-class',
@@ -96,16 +94,15 @@ export const DoctorSignUp = (props) => {
     const onFinish = async (values) => {
         setLoading(true);
         setBtnsubmit(true);
-        if(token.length >0)
-        {
+        if (token.length > 0) {
             console.log('success', values);
-            verifyemail(values.code,token).then(res => {
+            verifyemail(values.code, token).then(res => {
                 if (res.data.status === "Success") {
                     console.log(res.data);
                     setBtnsubmit(false);
                     setLoading(false);
                     setIsdoctorverify(res.data.result.verify);
-                    
+
                 } else {
                     setBtnsubmit(false);
                     setLoading(false);
@@ -118,7 +115,7 @@ export const DoctorSignUp = (props) => {
                 }
             }).catch(function (err) {
                 setBtnsubmit(false);
-                setLoading(false);    
+                setLoading(false);
                 notification.error({
                     message: err, className: 'custom-class',
                     style: {
@@ -126,8 +123,7 @@ export const DoctorSignUp = (props) => {
                     }
                 })
             });
-            if(isdoctorverify)
-            {
+            if (isdoctorverify) {
                 setLoading(true);
                 setBtnsubmit(true);
                 const formDataPhoto = new FormData();
@@ -137,7 +133,7 @@ export const DoctorSignUp = (props) => {
                 await UploadPhoto(formDataPhoto).then(res => {
                     if (res.data.status === "Success") {
                         imageName = res.data.result.imageName;
-        
+
                     } else {
                         setBtnsubmit(false);
                         setLoading(false);
@@ -239,7 +235,7 @@ export const DoctorSignUp = (props) => {
                 });
             }
         }
-        else{
+        else {
             setBtnsubmit(true);
             setLoading(false);
             notification.error({
@@ -262,7 +258,7 @@ export const DoctorSignUp = (props) => {
     }
 
 
-    
+
     const [items, setItems] = React.useState([]);
     const [specialization, setSpecialization] = React.useState([]);
     const [city, setCity] = React.useState([]);
@@ -279,7 +275,7 @@ export const DoctorSignUp = (props) => {
                     }
                 }).catch(function (err) {
                     notification.error({
-                        message:err,
+                        message: err,
                         style: {
                             marginTop: '20vh',
                         }
@@ -410,17 +406,17 @@ export const DoctorSignUp = (props) => {
                                             </Form.Item>
                                             <div className="col-md-3">
 
-                                            <Button type="primary" onClick={verifyEmail} disabled={verifybtn} loading={loading} >Verify</Button>
+                                                <Button type="primary" onClick={verifyEmail} disabled={verifybtn} loading={loading} >Verify</Button>
                                             </div>
-                                            
+
                                             <Form.Item name="code" rules={[
-                                            {
-                                                pattern: /^[\d]{6}$/,
-                                                message: "code length must be 6 and Digit Only",
-                                            }]}>
+                                                {
+                                                    pattern: /^[\d]{6}$/,
+                                                    message: "code length must be 6 and Digit Only",
+                                                }]}>
                                                 <Input placeholder="Code" allowClear prefix={<LockOutlined />} />
                                             </Form.Item>
-                                            
+
                                         </div>
 
                                         <Form.Item name="password" rules={[{
@@ -477,16 +473,16 @@ export const DoctorSignUp = (props) => {
                                             <DatePicker />
                                         </Form.Item>
                                         <Form.Item name="exdate" label="Experience Start Date"
-                                        
-                                         rules={[{
-                                            required: true,
-                                            message: 'Must select the Experience Start Date' 
-                                            
-                                        }]}>
+
+                                            rules={[{
+                                                required: true,
+                                                message: 'Must select the Experience Start Date'
+
+                                            }]}>
                                             <DatePicker disabledDate={(current) => {
                                                 return moment().add('days') <= current ||
                                                     moment().add(1, 'month') <= current;
-                                                }}  />
+                                            }} />
                                         </Form.Item>
                                         <Form.Item name="specialization" rules={[{
                                             required: true,
