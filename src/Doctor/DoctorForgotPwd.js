@@ -20,7 +20,9 @@ export const DoctorForgotPwd = (props) => {
         .then(res=>{
             if(res.data.status=="Success")
             {
+                
                 notification.success({message:'Reset Password Link Has been Sent To Your Email.!'})
+                 localStorage.setItem('ResetPasswordToken',res.data.result.verifyResetPasswordToken);
                 setLoading(false)
             }
             else
@@ -32,8 +34,7 @@ export const DoctorForgotPwd = (props) => {
         })
         .catch(function(errormsg){
             console.error(errormsg);
-            notification.error(errormsg)
-            setLoading(false);
+            setLoading(false)
         });
       
     }

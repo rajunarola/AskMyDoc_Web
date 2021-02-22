@@ -1,10 +1,10 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import ReactDom from 'react-dom';
 import { Form, Input,Button } from 'antd';
 import { LockOutlined,  EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 
-function ResetPassword()
+function ResetPassword(props)
 {
     const [loading,setLoading] = React.useState();
     const [value, setValue] = React.useState(1);
@@ -13,6 +13,12 @@ function ResetPassword()
         setValue(e.target.value);
     };
 
+    useEffect(()=>{
+      if(localStorage.getItem('ResetPasswordToken')==null)
+      {
+props.history.push('/')
+      }
+    },[])
     const onFinish=(values)=>{
         setLoading(true)
        
