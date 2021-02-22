@@ -98,14 +98,15 @@ export const DoctorSignUp = (props) => {
         setBtnsubmit(true);
         if(token.length >0)
         {
-            console.log('success', values);
-            verifyemail(values.code,token).then(res => {
+            //console.log('success', values);
+            var status= false;
+            await verifyemail(values.code,token).then(res => {
                 if (res.data.status === "Success") {
                     console.log(res.data);
-                    setBtnsubmit(false);
-                    setLoading(false);
+                    //setBtnsubmit(false);
+                    //setLoading(false);
                     setIsdoctorverify(res.data.result.verify);
-                    
+                    status=true;
                 } else {
                     setBtnsubmit(false);
                     setLoading(false);
@@ -126,7 +127,7 @@ export const DoctorSignUp = (props) => {
                     }
                 })
             });
-            if(isdoctorverify)
+            if(isdoctorverify || status)
             {
                 setLoading(true);
                 setBtnsubmit(true);
@@ -217,6 +218,7 @@ export const DoctorSignUp = (props) => {
                                 marginTop: '20vh',
                             }
                         })
+                        setTimeout(function(){ props.history.push('/'); }, 2000);  
                     } else {
                         setBtnsubmit(false);
                         setLoading(false);

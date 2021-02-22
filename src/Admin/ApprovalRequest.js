@@ -36,33 +36,7 @@ export default class ApprovalRequest extends Component {
             isModalVisible: false
         }
     }
-    handleEdit = (id) => {
-        // this.setState({ isModalVisible: true })
-        // Getspecialization(id)
-        //     .then(res => {
-        //         this.setState({ SpecializationName: res.data.result.specialization, specializationMaster_Id: res.data.result.specializationMaster_Id })
-        //     })
 
-
-    }
-    confirm = (id) => {
-
-    }
-    cancel = (e) => {
-        message.success({
-            content: 'Record Deleted', className: 'custom-class',
-            style: {
-                marginTop: '20vh',
-            }
-        })
-    }
-
-    onFinish = (values) => {
-        console.log('Success:', values);
-    };
-    onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
     componentDidMount() {
         if (localStorage.getItem('AccessToken') === null) {
             this.props.history.push('/admin')
@@ -168,42 +142,31 @@ export default class ApprovalRequest extends Component {
     showModal = (id) => {
         this.setState({ isModalVisible: true });
             
-           var ap=this.state.data[0].rows.filter((res)=>{
-               return res.doctor_Id==id;
-           })
-
-                this.setState({
-                    profilePic:ap[0].profilePicture,
-                    fname:ap[0].fName,
-                    mname:ap[0].mName,
-                    lname:ap[0].lName,
-                    email:ap[0].email,
-                    dob:ap[0].dob,
-                    exdate:ap[0].experienceInYear,
-                    gender:ap[0].gender,
-                    pincode:ap[0].pincode,
-                    SpecializationName:ap[0].SpecializationName,
-                    degreename:ap[0].degreeName,
-                    document:ap[0].document
-                })
-                console.log(ap[0]);
-            
-        
-       
-    };
-
-    handleOk = values => {
-
+        var ap=this.state.data[0].rows.filter((res)=>{
+            return res.doctor_Id==id;
+        })
+        var dt= new Date(ap[0].dob);
+        this.setState({
+            profilePic:ap[0].profilePicture,
+            fname:ap[0].fName,
+            mname:ap[0].mName,
+            lname:ap[0].lName,
+            email:ap[0].email,
+            dob:dt.toLocaleDateString(),
+            exdate:ap[0].experienceInYear,
+            gender:ap[0].gender,
+            pincode:ap[0].pincode,
+            SpecializationName:ap[0].SpecializationName,
+            degreename:ap[0].degreeName,
+            document:ap[0].document
+        })
+        console.log(ap[0]);  
     };
 
     handleCancel=()=> {
         this.setState({ isModalVisible: false});
     };
 
-    handleChange = (e) => {
-        const { id, value } = e.target;
-        this.setState({ SpecializationName: value });
-    }
 
     render() {
 
@@ -254,9 +217,7 @@ export default class ApprovalRequest extends Component {
                                                                 </Form.Item>
                                                             </Col>
                                                             <Col span={12}>
-                                                                <Form.Item
-                                                                 
-                                                                >
+                                                                <Form.Item>
                                                                     <label>Dr .{this.state.fname} {this.state.mname} {this.state.lname} </label><br/>
                                                                     <label>{this.state.email}</label>
                                                                 </Form.Item>
@@ -264,41 +225,31 @@ export default class ApprovalRequest extends Component {
                                                         </Row>
                                                         <Row gutter={16}>
                                                             <Col span={12}>
-                                                                <Form.Item
-                                                                   
-                                                                >
+                                                                <Form.Item>
                                                                     <label>Experience :{this.state.exdate} Year</label><br/> <label>Gender :</label><label>{this.state.gender}</label>
                                                                 </Form.Item>
                                                             </Col>
                                                             <Col span={12}>
-                                                                <Form.Item
-                                                                    
-                                                                >
-                                                                   <labe>DOB :{this.state.dob}</labe>
+                                                                <Form.Item>
+                                                                   <label>DOB :{this.state.dob}</label>
                                                                 </Form.Item>
                                                             </Col>
                                                         </Row>
                                                         <Row gutter={16}>
                                                             <Col span={12}>
-                                                                <Form.Item
-                                                                   
-                                                                >
+                                                                <Form.Item>
                                                                     <label>Degree Name :{this.state.degreename}</label>
                                                                 </Form.Item>
                                                             </Col>
                                                             <Col span={12}>
-                                                                <Form.Item
-                                                                    
-                                                                >
+                                                                <Form.Item>
                                                                     <label>Pincode :{this.state.pincode}</label>
                                                                 </Form.Item>
                                                             </Col>
                                                         </Row>
                                                         <Row gutter={16}>
                                                             <Col span={24}>
-                                                                <Form.Item
-                                                                   
-                                                                >
+                                                                <Form.Item>
                                                                     <label>Document</label><br/>
                                                                     <img  src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${this.state.document}&type=3`} height="200px" width="400px"/>
                                                                 </Form.Item>
