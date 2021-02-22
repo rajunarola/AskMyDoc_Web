@@ -1,8 +1,10 @@
 import React,{useEffect} from 'react';
 import ReactDom from 'react-dom';
-import { Form, Input,Button } from 'antd';
+import { Form, Input,Button,message } from 'antd';
 import { LockOutlined,  EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
+import {ResetPasswordService} from '../Service/DoctorService';
+
 
 function ResetPassword(props)
 {
@@ -21,10 +23,30 @@ props.history.push('/')
     },[])
     const onFinish=(values)=>{
         setLoading(true)
-       
-        .catch(function(errormsg){
-console.error(errormsg);
-        });
+        console.log(values);
+        ResetPasswordService({'Password':values.confirmpassword})
+        .then(res=>{
+          if(res.data.status=="Fail")
+          {
+
+             message.error({content:'Your Link Has Been Expire Link Expire'})
+             localStorage.clear();
+
+          }
+          if(res.data.result.verify==true)
+          {
+            message.success({content:res.data.message})
+            props.history.push('/')
+          }
+
+
+        })
+        .catch(function(err){
+
+          console.log(err);
+        })
+        
+      
       
     }
 
@@ -45,7 +67,7 @@ console.error(errormsg);
                         <h3 className="register-heading">Forgot Password</h3>
                         <div className="row register-form">
                             <div className="col-md-9">
-                            <Form>
+                            <Form onFinish={onFinish}>
                         
                         <label><span style={{color:"red"}}>*</span>New Password</label>
                         <Form.Item

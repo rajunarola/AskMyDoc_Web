@@ -53,3 +53,12 @@ export async function checkemailavailability(email){
    
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/Doctor/checkemailavailability?email=${email}`,null);
 }
+
+export async function ResetPasswordService(data){
+   
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+localStorage.getItem('ResetPasswordToken') 
+    }
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/resetpassword`,data,{headers:headers});
+}
