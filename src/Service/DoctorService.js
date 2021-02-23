@@ -81,3 +81,20 @@ export async function ResetPasswordService(data) {
     }
     return await axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/resetpassword`, data, { headers: headers });
 }
+
+
+export async function AddDoctorTimeSlot(data){
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+    }
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/DoctorTimeSlot/addTimeSlot`, data, { headers: headers });
+}
+
+export async function getDoctorAllTimeSlot(){
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+    }
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/DoctorTimeSlot/getDoctorTimeSlotList`,{ headers: headers });
+}
