@@ -23,12 +23,10 @@ import { UserOutlined, LaptopOutlined, NotificationOutlined,SettingFilled,FormOu
           defaultOpenKeys={['sub1']}
           style={{ height: '100%', borderRight: 0 }}
         >
-          <SubMenu key="sub1" icon={<LaptopOutlined />} title="Time Slot">
-          <Menu.Item key="1"><Link to="/doctor/appointmentdetails">Home</Link></Menu.Item>
-            <Menu.Item key="2">Availability Time Slot</Menu.Item>
-            
-         
-          </SubMenu>
+          <Menu.Item key="1"><Link to="/doctor/doctordashboard">Home</Link></Menu.Item>
+
+          <Menu.Item key="2" icon={<LaptopOutlined />}><Link to="/doctor/timeslots">Time Slot</Link> </Menu.Item>
+
           <SubMenu key="sub2" icon={<UserOutlined />} title="Patient">
             <Menu.Item key="3"><Link to="/doctor/patientlist">Patient List</Link></Menu.Item>
        
