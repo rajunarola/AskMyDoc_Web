@@ -8,6 +8,7 @@ import 'antd/dist/antd.css';
 import './style.css';
 import { createBrowserHistory } from "history";
 import './assests/css/DoctorSignin.css';
+import PatientRoutes from './Routes/PatientRoutes';
 
 const history = createBrowserHistory();
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Router history={history}>
           <AdminRoutes />
           <DoctorRoutes />
+          <PatientRoutes/>
       </Router>
     </div>
   );
