@@ -94,27 +94,14 @@ export const DoctorSignUp = (props) => {
     const onFinish = async (values) => {
         setLoading(true);
         setBtnsubmit(true);
-<<<<<<< HEAD
         if (token.length > 0) {
             console.log('success', values);
             verifyemail(values.code, token).then(res => {
-=======
-        if(token.length >0)
-        {
-            //console.log('success', values);
-            var status= false;
-            await verifyemail(values.code,token).then(res => {
->>>>>>> 9e6d565637510d663151ce904fd546c66c696a5f
                 if (res.data.status === "Success") {
                     console.log(res.data);
                     //setBtnsubmit(false);
                     //setLoading(false);
                     setIsdoctorverify(res.data.result.verify);
-<<<<<<< HEAD
-
-=======
-                    status=true;
->>>>>>> 9e6d565637510d663151ce904fd546c66c696a5f
                 } else {
                     setBtnsubmit(false);
                     setLoading(false);
@@ -135,12 +122,7 @@ export const DoctorSignUp = (props) => {
                     }
                 })
             });
-<<<<<<< HEAD
             if (isdoctorverify) {
-=======
-            if(isdoctorverify || status)
-            {
->>>>>>> 9e6d565637510d663151ce904fd546c66c696a5f
                 setLoading(true);
                 setBtnsubmit(true);
                 const formDataPhoto = new FormData();
@@ -230,7 +212,7 @@ export const DoctorSignUp = (props) => {
                                 marginTop: '20vh',
                             }
                         })
-                        setTimeout(function(){ props.history.push('/'); }, 2000);  
+                        setTimeout(function () { props.history.push('/'); }, 2000);
                     } else {
                         setBtnsubmit(false);
                         setLoading(false);

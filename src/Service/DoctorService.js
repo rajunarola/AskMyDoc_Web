@@ -71,10 +71,7 @@ export function ChangePassword(oldpassword, newpassword) {
     }
     return axios.post(process.env.REACT_APP_SERVER_URL + `/Comman/changepassword?oldpassword=${oldpassword}&&newpassword=${newpassword}`, null, { headers: headers })
 }
-export async function checkemailavailability(email) {
 
-    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Doctor/checkemailavailability?email=${email}`, null);
-}
 
 export async function ResetPasswordService(data) {
 
