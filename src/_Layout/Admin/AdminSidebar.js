@@ -94,6 +94,12 @@ export default function AdminSidebar()
                             </Badge>
                         </Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to='/admin/doctor'>
+                            <i className="fas fa-user-md nav-icon"></i>
+                            <p> Doctors </p>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
             {/* <!-- /.sidebar-menu --> */}

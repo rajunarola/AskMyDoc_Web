@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router} from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import AdminRoutes from './Routes/AdminRoutes';
 import DoctorRoutes from './Routes/DoctorRoutes';
 import 'antd/dist/antd.css';
@@ -14,7 +14,7 @@ const history = createBrowserHistory();
 function App() {
   const history = createBrowserHistory({
     basename: '/'
-    });
+  });
   return (
     <div className="App">
       <Router history={history}>

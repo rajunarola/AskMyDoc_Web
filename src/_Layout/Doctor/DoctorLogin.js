@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDom from 'react-dom';
 import { Form, Input, Button, notification, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -7,10 +7,10 @@ import { login } from '../../Service/DoctorService';
 
 
 export const DoctorLogin = (props) => {
-    const [loading,setLoading] = useState();
-   
-    
-   
+    const [loading, setLoading] = useState();
+
+
+
     const handleRedirect = () => {
         props.history.push('forgotpwd');
     };
@@ -18,7 +18,7 @@ export const DoctorLogin = (props) => {
         props.history.push('DoctorSignin');
     }
     const onFinish = values => {
-       
+
         setLoading(true)
         login(values).then(res => {
             if (res.data.status === "Success") {
@@ -28,11 +28,11 @@ export const DoctorLogin = (props) => {
                 setLoading(false)
                 props.history.push("doctor/doctordashboard");
             } else {
-                notification.error({message:res.data.message})
+                notification.error({ message: res.data.message })
                 setLoading(false)
             }
         }).catch(function (errormsg) {
-            notification.error({message:errormsg})
+            notification.error({ message: errormsg })
             setLoading(false)
         });
     }
@@ -51,18 +51,20 @@ export const DoctorLogin = (props) => {
                                     required: true,
                                     type: 'email',
                                     message: "Must Enter the email.",
-                                    max:25
+                                    max: 25
                                 },]}
                                 >
                                     <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
                                 </Form.Item>
                                 <Form.Item name="password" rules={[{
                                     required: true,
-                                    message: 'Must Enter the Password.'},{
-                                    min:6,
-                                    message:"password Minimum length must be 6"},{
-                                    max:10,
-                                    message:"Password length can't be more then 10"
+                                    message: 'Must Enter the Password.'
+                                }, {
+                                    min: 6,
+                                    message: "password Minimum length must be 6"
+                                }, {
+                                    max: 10,
+                                    message: "Password length can't be more then 10"
                                 },]}>
                                     <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
                                 </Form.Item>

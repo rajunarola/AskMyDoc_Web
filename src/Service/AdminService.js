@@ -151,3 +151,9 @@ export function RequestApproved(id,status)
 }
 
 //#endregion
+
+//#region Doctor List
+export async function getallDoctor() {
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Doctor/GetAll`)
+}
+//#endregion
