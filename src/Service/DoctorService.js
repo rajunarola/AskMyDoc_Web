@@ -108,3 +108,11 @@ export async function getDoctorAppointment()
     }
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/Appointment/appointmentlist`,{ headers: headers });
 }
+export async function GetPatientList() {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+ localStorage.getItem('Token')
+    }
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Appointment/patienthistorylist`,{headers:headers})
+}
+ 

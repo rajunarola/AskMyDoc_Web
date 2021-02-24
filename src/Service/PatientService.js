@@ -23,4 +23,3 @@ export async function varifypatientemail(code,token) {
     }
     return await axios.post(process.env.REACT_APP_SERVER_URL + `/Appointment/patientemailverify?code=${code}`,null,{'headers':headers})
 }
- 
