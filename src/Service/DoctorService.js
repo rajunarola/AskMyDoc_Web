@@ -98,3 +98,13 @@ export async function getDoctorAllTimeSlot(){
     }
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/DoctorTimeSlot/getDoctorTimeSlotList`,{ headers: headers });
 }
+
+
+export async function getDoctorAppointment()
+{
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+    }
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Appointment/appointmentlist`,{ headers: headers });
+}

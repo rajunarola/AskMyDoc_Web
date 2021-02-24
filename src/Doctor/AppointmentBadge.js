@@ -1,23 +1,92 @@
-import React,{useEffect} from 'react';
-import { withRouter } from 'react-router-dom';
-import { message,Menu, Card, Col, Row,Layout } from 'antd';
+import React, { Component } from 'react';
+import { Layout,message } from 'antd';
 import DoctorHeader from '../_Layout/Doctor/DoctorHeader';
 import SidePanel from '../_Layout/Doctor/SidePanel';
+import { MDBDataTable } from 'mdbreact';
+import {getDoctorAppointment} from "../Service/DoctorService";
 
-function AppointmentBadge(props) {
-
-    useEffect(() => {
-        if (localStorage.getItem('Token') === null) {
-            props.history.push('/')
+export default class AppointmentBadge extends Component {
+    constructor(props)
+    {
+        super(props);
+        this.state={
+            data:[]
         }
-        if (localStorage.getItem('AccessToken')!== null) {
-            props.history.push('/admin/admindashboard')
-          }
-      })
-    const { SubMenu } = Menu;
-    const { Header, Content, Sider } = Layout;
-    return (
-        <div>
+    }
+
+    componentDidMount(){
+        if (localStorage.getItem('Token') === null) {
+            this.props.history.push('/')
+        }
+        else{
+            this.displayAllAppointment();
+        }
+        if (localStorage.getItem('AccessToken') !== null) {
+            this.props.history.push('/admin/admindashboard')
+        }
+    }
+
+    displayAllAppointment(){
+        getDoctorAppointment().then(res => {
+            if (res.data.status === "Success") {
+                res.data.result.map(item=>{
+                    var dt= new Date(item.aP_Date);
+                    item.aP_Date=dt.getDate()+"-"+ Number( dt.getMonth() + 1 )+"-"+dt.getFullYear();
+                    item.document=<a target="_blank" href={`https://localhost:44338/api/Comman/GetFile?file=${item.document}&type=2`}> <img src={`https://localhost:44338/api/Comman/GetFile?file=${item.document}&type=2`} height="100" width="100"/></a>
+                });
+                console.log("data =>",res.data);
+                this.setState({data:[{
+                    columns: [
+                        {
+                            label: 'Date',
+                            field: 'aP_Date',
+                            width: 250
+                        },
+                        {
+                            label:'Time Slot',
+                            field:'timeSlot',
+                            width: 50
+                        },
+                        {
+                            label: 'patient Name',
+                            field: 'patientName',
+                            width: 270
+                        },
+                        {
+                            label:'Contact No',
+                            field:'contactNo',
+                            width: 150
+                        },
+                        {
+                            label:'Document',
+                            field:'document',
+                            width: 150
+                        }
+                    ],
+                    rows:res.data.result
+                }]});
+            } else {
+                message.error({
+                    content: res.data.message, className: 'custom-class',
+                    style: {
+                        marginTop: '20vh',
+                    }
+                })
+            }
+        }).catch(function (err) {
+            message.error({
+                content: err, className: 'custom-class',
+                style: {
+                    marginTop: '20vh',
+                }
+            })
+        });
+    }
+
+    render() {
+        const { Content} = Layout;
+        return (
+            
             <Layout>
 
                 <DoctorHeader />
@@ -34,30 +103,11 @@ function AppointmentBadge(props) {
                                 minHeight: 280,
                             }}
                         >
-                            <div className="site-card-wrapper">
-                                <Row gutter={16}>
-                                    <Col span={8}>
-                                        <Card title="Today's Appointments" >
-                                            5
-        </Card>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Card title="Total Appointments">
-                                            10
-        </Card>
-                                    </Col>
-                                    <Col span={8}>
-                                        <Card title="No.of Patients" >
-                                            15
-        </Card>
-                                    </Col>
-                                </Row>
-                            </div>
+                            <MDBDataTable btn striped bordered hover data={this.state.data[0]}/>
                         </Content>
                     </Layout>
                 </Layout>
             </Layout>
-        </div>
-    );
+        )
+    }
 }
-export default withRouter(AppointmentBadge)
