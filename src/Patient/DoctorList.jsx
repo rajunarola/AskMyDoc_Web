@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
@@ -10,7 +11,6 @@ const { Search } = Input;
 const { Dragger } = Upload;
 
 
-
 function DoctorList() {
 
 
@@ -20,7 +20,7 @@ function DoctorList() {
     const [doctorid, setDoctorid] = useState();
     const [radiovalue, radiosetValue] = useState(1);
     const [timeslotdata, setTimeslotdata] = useState([]);
-    
+
     //for file
     const [fileList, updateFileList] = useState([]);
     const props = {
@@ -90,34 +90,33 @@ function DoctorList() {
     const setBookappointmentmodelfn = (id) => {
         $(`#${id}`).fadeToggle(1000);
 
-        var ids=data.filter(g=>g.doctor_Id!=id);
-        ids.map((items)=>{
+        var ids = data.filter(g => g.doctor_Id != id);
+        ids.map((items) => {
             $(`#${items.doctor_Id}`).fadeOut();
         })
         console.log(ids)
         setDoctorid(id);
-        
-    setTimeslotdata([])
+
+        setTimeslotdata([])
     }
     const onChangedate = (e) => {
-    
+
         if (e != null) {
-       
+
             var exdate = new Date(e.toString());
-      
+
             gettimeslot(doctorid, exdate.toLocaleDateString())
                 .then(res => {
-                
+
                     if (res.data.result == null) {
                         message.info({ content: 'Doctor is Not Available on this Date' })
                     }
                     else {
-                       
-                            if(res.data.statusCode==200)
-                            {
+
+                        if (res.data.statusCode == 200) {
                             setTimeslotdata(res.data.result.timeSlots)
-                            }
-                        
+                        }
+
 
                     }
                 }).catch(function (err) {
@@ -129,7 +128,7 @@ function DoctorList() {
     return (
         <div className="container">
             <div className="col-lg-12 justify-content-center bg-light" style={{ paddingBottom: '20px', marginBottom: '20px' }}>
-               
+
                 <div class="form-check form-check-inline" style={{ float: 'right' }}>
 
 
@@ -220,8 +219,8 @@ function DoctorList() {
                                                     <Radio value={3}>08:30-08:40</Radio>
                                                     <Radio value={4}>08:40-08:50</Radio> */}
 
-                                                    {timeslotdata.map((slotitems)=>{
-                                                        return( <Radio value={slotitems.timeSlotStart+slotitems.timeSlotEnd}>{slotitems.timeSlotStart}-To-{slotitems.timeSlotEnd}</Radio>
+                                                    {timeslotdata.map((slotitems) => {
+                                                        return (<Radio value={slotitems.timeSlotStart + slotitems.timeSlotEnd}>{slotitems.timeSlotStart}-To-{slotitems.timeSlotEnd}</Radio>
                                                         )
                                                     })}
 
@@ -236,7 +235,7 @@ function DoctorList() {
                                         <Row>
 
 
-
+                                            <hr/>
                                             <fieldset>
                                                 <legend>Patient Details</legend>
                                                 <Form>
@@ -269,7 +268,7 @@ function DoctorList() {
                                                                 ]}
                                                             >
                                                                 <Input />
-                                                                
+
                                                             </Form.Item>
 
                                                         </Col>
@@ -289,16 +288,16 @@ function DoctorList() {
                                                                 <Input />
                                                             </Form.Item>
                                                             <Form.Item
-                                                             
+
                                                             >
-                                                                
+
                                                                 <Button type="primary">Send OTP</Button>
                                                             </Form.Item>
 
                                                         </Col>
                                                         <Col>
-                                                        
-                                                        <Form.Item
+
+                                                            <Form.Item
                                                                 label="Varification Code"
                                                                 name="code"
 
@@ -313,8 +312,8 @@ function DoctorList() {
                                                                     },
                                                                 ]}
                                                             >
-                                                                
-                                                                <Input/>
+
+                                                                <Input />
                                                             </Form.Item>
                                                         </Col>
 
