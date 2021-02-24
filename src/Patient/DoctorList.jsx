@@ -10,7 +10,6 @@ const { Search } = Input;
 const { Dragger } = Upload;
 
 
-
 function DoctorList() {
 
 
@@ -339,7 +338,7 @@ console.log(otp);
                                         <Row>
 
 
-
+                                            <hr/>
                                             <fieldset>
                                                 <legend>Patient Details</legend>
                                                 <Form onFinish={onFinishAppointment}>
