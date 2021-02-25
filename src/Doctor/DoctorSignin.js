@@ -132,7 +132,6 @@ export const DoctorSignUp = (props) => {
                 await UploadPhoto(formDataPhoto).then(res => {
                     if (res.data.status === "Success") {
                         imageName = res.data.result.imageName;
-
                     } else {
                         setBtnsubmit(false);
                         setLoading(false);

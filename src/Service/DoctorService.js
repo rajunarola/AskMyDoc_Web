@@ -89,11 +89,23 @@ export async function getAllDoctorDegree() {
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/DoctorDegree/getalldocotordegree`, { headers: headers })
 }
 
-export function EditData(data) {
+
+export async function AddDoctorTimeSlot(data) {
     var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('Token')
     }
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/DoctorTimeSlot/addTimeSlot`, data, { headers: headers });
+}
+
+export async function getDoctorAllTimeSlot() {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+    }
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/DoctorTimeSlot/getDoctorTimeSlotList`, { headers: headers });
+}
+export function EditData(data) {
     return axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/Edit`, data, { headers: headers });
 }
 
@@ -114,3 +126,27 @@ export async function EditSpecialization(data) {
             headers: headers
         })
 }
+
+
+export async function getDoctorAppointment() {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+    }
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Appointment/appointmentlist`, { headers: headers });
+}
+export async function GetPatientList() {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+    }
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Appointment/patienthistorylist`, { headers: headers })
+}
+export async function GetDoctorDashboardData() {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+    }
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/DoctorDashboard/getdashboarddata`, { headers: headers })
+}
+

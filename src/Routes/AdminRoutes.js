@@ -11,6 +11,7 @@ import ApprovalRequest from '../Admin/ApprovalRequest';
 import DoctorList from '../Admin/DoctorList';
 
 function AdminRoutes() {
+    
     return ( 
         <Switch>
             <Route path="/admin" exact={true} component={AdminLogin} />

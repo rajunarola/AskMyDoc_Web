@@ -32,7 +32,7 @@ import { UserOutlined, LaptopOutlined, NotificationOutlined,SettingFilled,FormOu
        
           </SubMenu>
           <SubMenu key="sub3" icon={<NotificationOutlined />} title="Appointments">
-            <Menu.Item key="4">Appointment List</Menu.Item>
+            <Menu.Item key="4"><Link to="/doctor/appointmentdetails"></Link> Appointment List</Menu.Item>
            
           </SubMenu>
           <SubMenu key="sub4" icon={<FormOutlined />} title="No Objection">

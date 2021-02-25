@@ -64,7 +64,7 @@ export default function AdminSidebar()
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to='/admin/city'>
-                            <i className="fas fa-archway nav-icon"></i>
+                            <i class="fas fa-building  nav-icon"></i>
                             <p> City </p>
                         </Link>
                     </li>
@@ -82,7 +82,7 @@ export default function AdminSidebar()
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to='/admin/approvalrequest'>
-                            <i class="fas fa-paper-plane nav-icon"></i>
+                            <i className="fas fa-paper-plane nav-icon"></i>
                             <p> Approval Request </p>
                             &nbsp;
                             <Badge
