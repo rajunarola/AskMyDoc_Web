@@ -71,6 +71,8 @@ console.log(otp);
                 if (res.data.statusCode == 200) {
                     if(res.data.result!=null)
                     {
+                        console.log('check data')
+                        console.log(res.data.result);
                        setAppointmentToken(res.data.result.appointmentToken);
                         console.log(appointmentToken);
                         message.success(res.data.message);
@@ -78,10 +80,14 @@ console.log(otp);
                     }
                     else
                     {
-                        message.error(res.data.message);
+                        message.success(res.data.message);
+                        console.log(res.data.message);
                     }
                     
                 }
+            })
+            .catch(function(err){
+                message.error(err);
             })
 
     }
@@ -98,7 +104,7 @@ console.log(otp);
         console.log(otp);
         varifypatientemail(otp,appointmentToken)
         .then(res=>{
-            if(res.data.statusCode=200)
+            if(res.data.statusCode==200)
             {
                 message.success(res.data.message);
                 setTimeout(() => {
