@@ -18,7 +18,7 @@ function ResetPassword(props)
     useEffect(()=>{
       if(localStorage.getItem('ResetPasswordToken')==null)
       {
-props.history.push('/')
+props.history.push('/doctor')
       }
     },[])
     const onFinish=(values)=>{
