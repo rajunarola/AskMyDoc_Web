@@ -276,7 +276,7 @@ console.log(otp);
             <div className="row justify-content-center">
                 <div className="row justify-content-center">
 
-
+                {/* {data.filter(name=>name.fName.includes('P')).map((items) => { */}
                     {data.map((items) => {
                         return (
                             <div className="justify-content-center">

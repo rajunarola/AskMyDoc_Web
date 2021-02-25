@@ -53,7 +53,7 @@ function DoctorHeader(props) {
 
   const logout = () => {
     localStorage.clear();
-    window.location.href = "/";
+    window.location.href = "/doctor";
   }
 
   const onView = () => {

@@ -115,4 +115,11 @@ export async function GetPatientList() {
     }
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/Appointment/patienthistorylist`,{headers:headers})
 }
+export async function GetDoctorDashboardData() {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+ localStorage.getItem('Token')
+    }
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/DoctorDashboard/getdashboarddata`,{headers:headers})
+}
  

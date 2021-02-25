@@ -12,6 +12,7 @@ import ChangePassword from "../Doctor/DoctorChangePassword";
 import TimeSlots from '../Doctor/TimeSlots';
 
 function DoctorRoutes() {
+    
     return (
         <Switch>
             <Route path='/doctor/doctordashboard' exact={true} component={Doctordashboard} />
