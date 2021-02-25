@@ -106,6 +106,10 @@ export async function getDoctorAllTimeSlot() {
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/DoctorTimeSlot/getDoctorTimeSlotList`, { headers: headers });
 }
 export function EditData(data) {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+    }
     return axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/Edit`, data, { headers: headers });
 }
 

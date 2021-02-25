@@ -408,7 +408,7 @@ function DoctorDetail(props) {
           <Layout style={{ padding: '0 24px 24px' }}>
             <Content className="site-layout-background" style={{ padding: 24, margin: 0, minHeight: 290, }} >
               <div className="site-card-wrapper">
-                <h1>Doctor </h1>
+                <h2>Doctor Profile</h2>
 
                 <Tabs defaultActiveKey="1" onChange={callback}>
                   <TabPane tab="Doctor Profile" key="1">

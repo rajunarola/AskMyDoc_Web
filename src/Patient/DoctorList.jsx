@@ -1,13 +1,15 @@
+import $ from 'jquery';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import { gettimeslot } from '../Service/PatientService';
-import { Card, Drawer, Button, Col, Row, Avatar, Input, Dropdown, Menu, Pagination, Select, DatePicker, Radio, Form, Upload, message, InputNumber,Modal } from 'antd';
-import { getalldoctors, UploadPhoto, Bookappointment,varifypatientemail } from '../Service/PatientService';
+import { Card, Drawer, Button, Col, Row, Avatar, Input, Dropdown, Menu, Pagination, Select, DatePicker, Radio, Form, Upload, message, InputNumber, Modal } from 'antd';
+import { getalldoctors, UploadPhoto, Bookappointment, varifypatientemail } from '../Service/PatientService';
 import { LockOutlined, EyeInvisibleOutlined, EyeTwoTone, RedEnvelopeOutlined, EnvironmentOutlined, CalendarOutlined, InboxOutlined, UploadOutlined } from '@ant-design/icons';
 import moment from 'moment';
 const { Search } = Input;
 const { Dragger } = Upload;
+
 
 
 function DoctorList() {
@@ -26,14 +28,14 @@ function DoctorList() {
     const [visible, setVisible] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [modalText, setModalText] = useState();
-    const [appointmentToken,setAppointmentToken]=useState();
+    const [appointmentToken, setAppointmentToken] = useState();
     const [otp, setOtp] = useState();
 
-    const getOTP=(e)=>{
-setOtp(e.target.value);
-console.log('otp');
-console.log(e.target.value);
-console.log(otp);
+    const getOTP = (e) => {
+        setOtp(e.target.value);
+        console.log('otp');
+        console.log(e.target.value);
+        console.log(otp);
     }
     const onFinishAppointment = async (values) => {
 
@@ -67,26 +69,24 @@ console.log(otp);
         Bookappointment(appointment)
             .then(res => {
                 console.log('appointment response-----------------------');
-           
+
                 if (res.data.statusCode == 200) {
-                    if(res.data.result!=null)
-                    {
+                    if (res.data.result != null) {
                         console.log('check data')
                         console.log(res.data.result);
-                       setAppointmentToken(res.data.result.appointmentToken);
+                        setAppointmentToken(res.data.result.appointmentToken);
                         console.log(appointmentToken);
                         message.success(res.data.message);
                         showModal();
                     }
-                    else
-                    {
+                    else {
                         message.success(res.data.message);
                         console.log(res.data.message);
                     }
-                    
+
                 }
             })
-            .catch(function(err){
+            .catch(function (err) {
                 message.error(err);
             })
 
@@ -95,35 +95,34 @@ console.log(otp);
 
     const showModal = () => {
         setVisible(true);
-      };
-    
-      const handleOk = (e) => {
-        
+    };
+
+    const handleOk = (e) => {
+
         setConfirmLoading(true);
         console.log(appointmentToken);
         console.log(otp);
-        varifypatientemail(otp,appointmentToken)
-        .then(res=>{
-            if(res.data.statusCode==200)
-            {
-                message.success(res.data.message);
-                setTimeout(() => {
-                    setVisible(false);
-                    setConfirmLoading(false);
-                  }, 2000);
-            }
-            else{
-                message.error(res.data.message);
-            }
-        })
-   
-        
-      };
-    
-      const handleCancel = () => {
+        varifypatientemail(otp, appointmentToken)
+            .then(res => {
+                if (res.data.statusCode == 200) {
+                    message.success(res.data.message);
+                    setTimeout(() => {
+                        setVisible(false);
+                        setConfirmLoading(false);
+                    }, 2000);
+                }
+                else {
+                    message.error(res.data.message);
+                }
+            })
+
+
+    };
+
+    const handleCancel = () => {
         console.log('Clicked cancel button');
-       
-      };
+
+    };
 
 
 
@@ -276,7 +275,7 @@ console.log(otp);
             <div className="row justify-content-center">
                 <div className="row justify-content-center">
 
-                {/* {data.filter(name=>name.fName.includes('P')).map((items) => { */}
+                    {/* {data.filter(name=>name.fName.includes('P')).map((items) => { */}
                     {data.map((items) => {
                         return (
                             <div className="justify-content-center">
@@ -344,7 +343,7 @@ console.log(otp);
                                         <Row>
 
 
-                                            <hr/>
+                                            <hr />
                                             <fieldset>
                                                 <legend>Patient Details</legend>
                                                 <Form onFinish={onFinishAppointment}>
@@ -454,7 +453,7 @@ console.log(otp);
                                 >
                                     <p>Enter Varification Code Sent To Your Email</p>
                                     <lable>Varification Code </lable>
-                                    <input type="number" name="code" onChange={(e)=>getOTP(e)}/>
+                                    <input type="number" name="code" onChange={(e) => getOTP(e)} />
 
                                 </Modal>
                             </div>
