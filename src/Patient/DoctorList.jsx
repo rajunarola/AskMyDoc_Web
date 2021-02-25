@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
@@ -28,6 +29,7 @@ function DoctorList() {
     const [modalText, setModalText] = useState();
     const [appointmentToken,setAppointmentToken]=useState();
     const [otp, setOtp] = useState();
+    const [searchvalue, setSearchvalue] = useState();
 
     const getOTP=(e)=>{
 setOtp(e.target.value);
@@ -71,10 +73,9 @@ console.log(otp);
                 if (res.data.statusCode == 200) {
                     if(res.data.result!=null)
                     {
-                        console.log('check data')
-                        console.log(res.data.result);
+                        
                        setAppointmentToken(res.data.result.appointmentToken);
-                        console.log(appointmentToken);
+                       
                         message.success(res.data.message);
                         showModal();
                     }
@@ -140,10 +141,43 @@ console.log(otp);
 
     const { Option } = Select;
 
-    const onSearchtxt = value => console.log(value);
-
+    const onSearchtxt = value => {
+        console.log(value.target.value);
+        if(value.target.value!="")
+        {
+            
+            setData([]);
+           setSearchvalue(value.target.value.toString().toLowerCase());
+           
+         setData(data1.filter(name=>name.fName.toString().toLowerCase().includes(value.target.value)));
+           
+           return data;
+        }
+        else
+        {
+            setSearchvalue(null);
+            setData(data1);
+            return data;
+            
+        }
+        console.log(data);
+    }
     function onChange(value) {
         console.log(`selected ${value}`);
+        if(value!="all")
+        {
+            setData([]);
+            setSearchvalue(value.toString().toLowerCase());
+            
+          setData(data1.filter(name=>name.gender.toString().toLowerCase()==value));
+          return data;
+        }
+        else{
+            setData(data1);
+            return data;
+        }
+       
+       
     }
 
     function onBlur() {
@@ -174,7 +208,7 @@ console.log(otp);
 
 
     const [data, setData] = useState([]);
-
+    const [data1, setData1] = useState([]);
     const onPageChange = (e) => {
 
         setCurrentpage(e);
@@ -187,6 +221,7 @@ console.log(otp);
                 if (res.data.statusCode == 200) {
 
                     setData(res.data.result)
+                    setData1(res.data.result)
                     setCount(res.data.result.length)
                 }
 
@@ -245,7 +280,8 @@ console.log(otp);
                         allowClear
                         enterButton="Search"
                         size="middle"
-                        onSearch={onSearchtxt}
+                        onChange={onSearchtxt}
+                        
                     />
                 </div>
                 <div class="form-check form-check-inline" style={{ float: 'right' }}>
@@ -264,7 +300,7 @@ console.log(otp);
                     >
                         <Option value="male">Male</Option>
                         <Option value="female">Female</Option>
-
+                        <Option value="all">Both</Option>
                     </Select>
                 </div>
                 <div class="form-check form-check-inline">
@@ -275,198 +311,197 @@ console.log(otp);
 
             <div className="row justify-content-center">
                 <div className="row justify-content-center">
+                
+                  {data.map((items)=>{
+                       return (
+                        <div className="justify-content-center">
+                            <Card hoverable={true} title={`Dr. ` + items.fName + ' ' + items.mName + ' ' + items.lName} key={items.doctor_Id} extra={<Button style={{borderRadius:'10px'}} type="primary" onClick={() => setBookappointmentmodelfn(items.doctor_Id)} ><CalendarOutlined /> Book Appointment</Button>} style={{ width: 1000, borderColor: 'gray', borderRadius: '5px' }}>
+                                <Row gutter={16}>
+                                    <Col span={8}>
 
-                {/* {data.filter(name=>name.fName.includes('P')).map((items) => { */}
-                    {data.map((items) => {
-                        return (
-                            <div className="justify-content-center">
-                                <Card title={`Dr. ` + items.fName + ' ' + items.mName + ' ' + items.lName} key={items.doctor_Id} extra={<Button type="primary" onClick={() => setBookappointmentmodelfn(items.doctor_Id)} ><CalendarOutlined /> Book Appointment</Button>} style={{ width: 800, borderColor: 'gray', borderRadius: '5px' }}>
+                                        <Avatar shape="square" className="img-bordered" style={{ borderRadius: '10px' }} size={100} src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${items.profilePicture}&type=1`} ></Avatar>
+
+                                    </Col>
+                                    <Col span={8}>
+
+                                        <label><i className="fas fa-user-md"></i> Dr. {items.fName} {items.mName} {items.lName} </label><br />
+                                        <label><RedEnvelopeOutlined /> {items.email}</label><br />
+                                        <label><EnvironmentOutlined /> clinic Address</label><br />
+                                        <label><i className="far fa-building"></i> {items.stateName} | <i className="far fa-building"></i> {items.cityName} </label><br />
+                                        <label>Gender : {items.gender}</label>
+                                    </Col>
+                                    <Col span={8}>
+
+                                        <label><i className="fas fa-stethoscope"></i> {items.specializationName}</label><br />
+                                        <label><i className="fas fa-user-graduate"></i> {items.degreeName}</label><br />
+                                        <label> Experience :{items.experienceInYear} Year</label><br />
+                                        <label><i className="fas fa-user-clock"></i> Mon - Fri</label>
+
+                                    </Col>
+
+                                </Row>
+                            </Card>
+
+                            <p></p>
+                            <div id={items.doctor_Id} style={{ display: 'none' }}>
+                                <Card title="Appointment" style={{ width: 1000, borderColor: 'gray', borderRadius: '5px' }}>
                                     <Row gutter={16}>
                                         <Col span={8}>
 
-                                            <Avatar shape="square" className="img-bordered" style={{ borderRadius: '10px' }} size={100} src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${items.profilePicture}&type=1`} ></Avatar>
+                                            <DatePicker onChange={(e) => onChangedate(e)} disabledDate={(current) => {
+                                                return moment().add(-1, 'days') >= current ||
+                                                    moment().add(-1, 'month') >= current;
+                                            }} />
 
+                                        </Col>
+                                        <Col span={16}>
+
+                                            <Radio.Group onChange={(e) => onChangeradio(e)} value={radiovalue}>
+                                                {/* <Radio value={1}>08.10-8.20</Radio>
+                                                <Radio value={2}>08:20-08:30</Radio>
+                                                <Radio value={3}>08:30-08:40</Radio>
+                                                <Radio value={4}>08:40-08:50</Radio> */}
+
+                                                {timeslotdata.map((slotitems) => {
+
+                                                    return (<Radio value={slotitems.timeSlot_Id} label={`${slotitems.timeSlotStart}-To-${slotitems.timeSlotEnd}`}>{slotitems.timeSlotStart}-To-{slotitems.timeSlotEnd}</Radio>
+                                                    )
+                                                })}
+
+                                            </Radio.Group>
                                         </Col>
                                         <Col span={8}>
 
-                                            <label><i className="fas fa-user-md"></i> Dr. {items.fName} {items.mName} {items.lName} </label><br />
-                                            <label><RedEnvelopeOutlined /> {items.email}</label><br />
-                                            <label><EnvironmentOutlined /> clinic Address</label><br />
-                                            <label><i className="far fa-building"></i> {items.stateName} | <i className="far fa-building"></i> {items.cityName} </label><br />
-                                            <label>Gender : {items.gender}</label>
-                                        </Col>
-                                        <Col span={8}>
-
-                                            <label><i className="fas fa-stethoscope"></i> {items.specializationName}</label><br />
-                                            <label><i className="fas fa-user-graduate"></i> {items.degreeName}</label><br />
-                                            <label> Experience :{items.experienceInYear} Year</label><br />
-                                            <label><i className="fas fa-user-clock"></i> Mon - Fri</label>
 
                                         </Col>
 
                                     </Row>
+                                    <Row>
+
+
+                                        <hr/>
+                                        <fieldset>
+                                            <legend>Patient Details</legend>
+                                            <Form onFinish={onFinishAppointment}>
+                                                <Row gutter={16}>
+                                                    <Col span={12}>
+                                                        <Form.Item
+                                                            label="Patient Name"
+                                                            name="patientname"
+                                                            rules={[
+                                                                {
+                                                                    required: true,
+                                                                    message: 'Please input your name!',
+                                                                },
+                                                            ]}
+                                                        >
+                                                            <Input />
+                                                        </Form.Item>
+                                                        <Form.Item
+                                                            label="Patient Email"
+                                                            name="patientemail"
+                                                            rules={[
+                                                                {
+                                                                    required: true,
+                                                                    message: 'Please input your name!',
+                                                                },
+                                                                {
+                                                                    type: 'email',
+                                                                    message: 'please enter the valid email',
+                                                                },
+                                                            ]}
+                                                        >
+                                                            <Input />
+
+                                                        </Form.Item>
+
+                                                    </Col>
+                                                    <Col span={12}>
+                                                        <Form.Item
+                                                            label="Patient Contact"
+                                                            name="patientcontact"
+                                                            rules={[
+                                                                {
+                                                                    required: true,
+                                                                    message: 'Please input your contact Number!',
+                                                                },
+
+
+                                                            ]}
+                                                        >
+                                                            <Input />
+                                                        </Form.Item>
+                                                        <Form.Item
+                                                            label="Age"
+                                                            name="age"
+
+                                                            rules={[
+                                                                {
+                                                                    required: true,
+                                                                    message: 'Please input your age!',
+                                                                },
+                                                                {
+                                                                    type: 'number',
+
+                                                                    message: 'please enter the valid age',
+                                                                },
+                                                            ]}
+                                                        >
+                                                            <InputNumber placeholder="Age (Max Age :100,  Min Age:1)" size={'large'} min={1} max={100} />
+
+                                                        </Form.Item>
+
+                                                    </Col>
+                                                    <Col>
+
+
+                                                    </Col>
+
+                                                    <Col span={10}>
+                                                        <label class="form-label" for="customFile">Upload Image</label>
+                                                        <input type="file" class="form-control" onChange={(e) => onfileChange(e)} id="patientfile" />
+                                                        <p></p>
+                                                    </Col>
+                                                    <Col>
+
+
+                                                    </Col>
+                                                </Row>
+                                                <Row style={{ float: 'right' }}>
+                                                    <Button type="primary" htmlType="submit" disabled={apbtn} >Confirm Appointment</Button>
+
+                                                </Row>
+                                            </Form>
+                                        </fieldset>
+
+                                    </Row>
                                 </Card>
-
                                 <p></p>
-                                <div id={items.doctor_Id} style={{ display: 'none' }}>
-                                    <Card title="Appointment" style={{ width: 800, borderColor: 'gray', borderRadius: '5px' }}>
-                                        <Row gutter={16}>
-                                            <Col span={8}>
 
-                                                <DatePicker onChange={(e) => onChangedate(e)} disabledDate={(current) => {
-                                                    return moment().add(-1, 'days') >= current ||
-                                                        moment().add(-1, 'month') >= current;
-                                                }} />
-
-                                            </Col>
-                                            <Col span={16}>
-
-                                                <Radio.Group onChange={(e) => onChangeradio(e)} value={radiovalue}>
-                                                    {/* <Radio value={1}>08.10-8.20</Radio>
-                                                    <Radio value={2}>08:20-08:30</Radio>
-                                                    <Radio value={3}>08:30-08:40</Radio>
-                                                    <Radio value={4}>08:40-08:50</Radio> */}
-
-                                                    {timeslotdata.map((slotitems) => {
-
-                                                        return (<Radio value={slotitems.timeSlot_Id} label={`${slotitems.timeSlotStart}-To-${slotitems.timeSlotEnd}`}>{slotitems.timeSlotStart}-To-{slotitems.timeSlotEnd}</Radio>
-                                                        )
-                                                    })}
-
-                                                </Radio.Group>
-                                            </Col>
-                                            <Col span={8}>
-
-
-                                            </Col>
-
-                                        </Row>
-                                        <Row>
-
-
-                                            <hr/>
-                                            <fieldset>
-                                                <legend>Patient Details</legend>
-                                                <Form onFinish={onFinishAppointment}>
-                                                    <Row gutter={16}>
-                                                        <Col span={12}>
-                                                            <Form.Item
-                                                                label="Patient Name"
-                                                                name="patientname"
-                                                                rules={[
-                                                                    {
-                                                                        required: true,
-                                                                        message: 'Please input your name!',
-                                                                    },
-                                                                ]}
-                                                            >
-                                                                <Input />
-                                                            </Form.Item>
-                                                            <Form.Item
-                                                                label="Patient Email"
-                                                                name="patientemail"
-                                                                rules={[
-                                                                    {
-                                                                        required: true,
-                                                                        message: 'Please input your name!',
-                                                                    },
-                                                                    {
-                                                                        type: 'email',
-                                                                        message: 'please enter the valid email',
-                                                                    },
-                                                                ]}
-                                                            >
-                                                                <Input />
-
-                                                            </Form.Item>
-
-                                                        </Col>
-                                                        <Col span={12}>
-                                                            <Form.Item
-                                                                label="Patient Contact"
-                                                                name="patientcontact"
-                                                                rules={[
-                                                                    {
-                                                                        required: true,
-                                                                        message: 'Please input your contact Number!',
-                                                                    },
-
-
-                                                                ]}
-                                                            >
-                                                                <Input />
-                                                            </Form.Item>
-                                                            <Form.Item
-                                                                label="Age"
-                                                                name="age"
-
-                                                                rules={[
-                                                                    {
-                                                                        required: true,
-                                                                        message: 'Please input your age!',
-                                                                    },
-                                                                    {
-                                                                        type: 'number',
-
-                                                                        message: 'please enter the valid age',
-                                                                    },
-                                                                ]}
-                                                            >
-                                                                <InputNumber placeholder="Age (Max Age :100,  Min Age:1)" size={'large'} min={1} max={100} />
-
-                                                            </Form.Item>
-
-                                                        </Col>
-                                                        <Col>
-
-
-                                                        </Col>
-
-                                                        <Col span={10}>
-                                                            <label class="form-label" for="customFile">Upload Image</label>
-                                                            <input type="file" class="form-control" onChange={(e) => onfileChange(e)} id="patientfile" />
-                                                            <p></p>
-                                                        </Col>
-                                                        <Col>
-
-
-                                                        </Col>
-                                                    </Row>
-                                                    <Row style={{ float: 'right' }}>
-                                                        <Button type="primary" htmlType="submit" disabled={apbtn} >Confirm Appointment</Button>
-
-                                                    </Row>
-                                                </Form>
-                                            </fieldset>
-
-                                        </Row>
-                                    </Card>
-                                    <p></p>
-
-                                </div>
-                                <p></p>
-                                <Modal
-                                    title="Varify Your Email"
-                                    visible={visible}
-                                    onOk={handleOk}
-                                    confirmLoading={confirmLoading}
-                                    onCancel={handleCancel}
-                                >
-                                    <p>Enter Varification Code Sent To Your Email</p>
-                                    <lable>Varification Code </lable>
-                                    <input type="number" name="code" onChange={(e)=>getOTP(e)}/>
-
-                                </Modal>
                             </div>
+                            <p></p>
+                            <Modal
+                                title="Varify Your Email"
+                                visible={visible}
+                                onOk={handleOk}
+                                confirmLoading={confirmLoading}
+                                onCancel={handleCancel}
+                            >
+                                <p>Enter Varification Code Sent To Your Email</p>
+                                <lable>Varification Code </lable>
+                                <input type="number" name="code" onChange={(e)=>getOTP(e)}/>
 
-                        )
-                    })}
+                            </Modal>
+                        </div>
+                    )
+                  })}
 
 
 
 
                 </div>
-                <Pagination defaultCurrent={currentpage} onChange={(e) => onPageChange(e)} total={count} />
+                {searchvalue==null?<Pagination defaultCurrent={currentpage} onChange={(e) => onPageChange(e)} total={count} />:<p></p>}
+                
             </div>
         </div>
     );

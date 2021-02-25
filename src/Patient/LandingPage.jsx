@@ -20,9 +20,9 @@ function LandingPage()
             }}
             
             >
-                <Breadcrumb style={{ margin: '16px 0' }}>
+        <Breadcrumb style={{ margin: '16px 0',padding:'20px',backgroundColor:'#2980B9',color:'white' }}>
         <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>Doctor LIst</Breadcrumb.Item>
+        <Breadcrumb.Item>DoctorList</Breadcrumb.Item>
    
       </Breadcrumb>
       <div>
