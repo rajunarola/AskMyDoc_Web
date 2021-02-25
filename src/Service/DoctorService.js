@@ -17,20 +17,20 @@ export function register(users) {
     return axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/register`, users)
 }
 
-export function GetState() {
-    return axios.get(process.env.REACT_APP_SERVER_URL + `/State/GetAll`)
+export async function GetState() {
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/State/GetAll`)
 }
 
 export async function GetCityByState(id) {
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/Account/getallcitiesbystate?stateid=` + id)
 }
 
-export function GetAllSpecilization() {
-    return axios.get(process.env.REACT_APP_SERVER_URL + `/Specialization/getallspecialization`)
+export async function GetAllSpecilization() {
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Specialization/getallspecialization`)
 }
 
-export function GetAllDegree() {
-    return axios.get(process.env.REACT_APP_SERVER_URL + `/Degree/GetAllDegree`)
+export async function GetAllDegree() {
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Degree/GetAllDegree`)
 }
 
 export function GetOneCity(id) {
@@ -48,22 +48,23 @@ export async function verifyemail(code, token) {
     }
     return await axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/verifyemail?code=` + code, null, { headers: headers });
 }
+
 export async function checkemailavailability(email) {
 
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/Doctor/checkemailavailability?email=${email}`, null);
 }
-export async function getDoctorDetail() {
-    console.log('{localStorage.getIte => ', localStorage.getItem('Token'));
 
+export async function getDoctorDetail() {
     const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ` + `${localStorage.getItem('Token')}`
     }
-    return axios.get(process.env.REACT_APP_SERVER_URL + `/Doctor/GetOne?id=${localStorage.getItem('dcotorid')}`,
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Doctor/GetOne?id=${localStorage.getItem('dcotorid')}`,
         {
             headers: headers
         })
 }
+
 export function ChangePassword(oldpassword, newpassword) {
     var headers = {
         'Content-Type': 'application/json',
@@ -72,12 +73,44 @@ export function ChangePassword(oldpassword, newpassword) {
     return axios.post(process.env.REACT_APP_SERVER_URL + `/Comman/changepassword?oldpassword=${oldpassword}&&newpassword=${newpassword}`, null, { headers: headers })
 }
 
-
 export async function ResetPasswordService(data) {
-
     var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('ResetPasswordToken')
     }
     return await axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/resetpassword`, data, { headers: headers });
+}
+
+export async function getAllDoctorDegree() {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ` + localStorage.getItem('Token')
+    }
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/DoctorDegree/getalldocotordegree`, { headers: headers })
+}
+
+export function EditData(data) {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+    }
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/Edit`, data, { headers: headers });
+}
+
+export async function doctorSpecialization() {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ` + localStorage.getItem('Token')
+    }
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/DoctorSpecialization/getalldocotorspecialization`, { headers: headers })
+}
+export async function EditSpecialization(data) {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ` + `${localStorage.getItem('Token')}`
+    }
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/DoctorSpecialization/updatedoctorsepcialization`, data,
+        {
+            headers: headers
+        })
 }

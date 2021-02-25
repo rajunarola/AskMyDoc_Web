@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { getDoctorDetail } from "../../Service/DoctorService";
-import { Layout, Menu, Breadcrumb, Tooltip, Drawer, Image, notification, label, Button } from 'antd';
+import { Layout, Menu, Breadcrumb, Tooltip, Drawer, Image, notification, label, Button, message } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, SettingFilled, FormOutlined, FolderViewOutlined } from '@ant-design/icons';
 import '../../Doctor/doctordashboard.css';
 
@@ -19,13 +19,14 @@ function DoctorHeader(props) {
     setVisible(true);
 
     getDoctorDetail().then(res => {
-      console.log('res => ', res);
+      //console.log('res => ', res);
 
       if (res.data.status == "Success") {
         setDetail(res.data.result);
-        console.log('detail => ', detail);
+        //console.log('detail => ', detail);
       } else {
         notification.error({
+          message: "UnAuthorized User or Maybe Token Expire Please Re-Login",
           content: res.data.message, className: 'custom-class',
           style: {
             marginTop: '20h',
@@ -56,10 +57,6 @@ function DoctorHeader(props) {
     window.location.href = "/";
   }
 
-  const onView = () => {
-    // props.history.push("/doctordetail");
-  }
-
   return (
 
     <div>
@@ -69,7 +66,7 @@ function DoctorHeader(props) {
           <Menu theme="dark" mode="horizontal" >
             <Menu.Item key="1">Doctor Dashboard</Menu.Item>
             <Menu.Item key="2" onClick={logout} style={{ float: 'right' }}><SettingFilled />Logout</Menu.Item>
-            <Menu.Item key="3" style={{ float: 'right' }} onClick={getOneDetail}>Welcome Doctor</Menu.Item>
+            <Menu.Item key="3" style={{ float: 'right' }} onClick={getOneDetail}>Welcome Dr.{detail.fName}&nbsp;{detail.lName}</Menu.Item>
           </Menu>
         </Header>
         <Layout>
@@ -88,10 +85,9 @@ function DoctorHeader(props) {
         <div>
           <Image
             width={200}
-            height={200}
-            src="error"
-            fallback={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${detail.profilePicture}&type=1`}
+            src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${detail.profilePicture}&type=1`}
           />
+
         </div>
 
         <p><b>Dr. {detail.fName} {detail.mName} {detail.lName}</b></p>
