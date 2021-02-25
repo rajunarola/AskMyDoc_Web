@@ -18,7 +18,7 @@ export default class PatientList extends Component
   }
   componentDidMount() {
     if (localStorage.getItem('Token') === null) {
-      props.history.push('/')
+      this.props.history.push('/doctor')
 
     }
     this.displayPatientList();
