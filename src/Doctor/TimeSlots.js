@@ -225,7 +225,7 @@ export default class TimeSlots extends Component {
                     else
                         timej=j;
 
-                    options.push({label: `${timei+":"+timej}-${timei+":"+Number( Number(j)+ Number(this.state.duration))}`, value: `${timei+":"+timej}-${timei+":"+Number( Number(j)+ Number(this.state.duration))}`});
+                    options.push({label: `${timei+":"+timej}-${timei+":"+Number( Number(j)+ Number(this.state.duration))+" AM"}`, value: `${timei+":"+timej}-${timei+":"+Number( Number(j)+ Number(this.state.duration))}`});
                 }
             }
             for(var i=1;i<=5;i++)
@@ -243,7 +243,7 @@ export default class TimeSlots extends Component {
                     else
                         timej=j;
 
-                    options.push({label: `${timei+":"+timej}-${timei+":"+Number( Number(j)+ Number(this.state.duration))}`, value: `${timei+":"+timej}-${timei+":"+Number( Number(j)+ Number(this.state.duration))}`});
+                    options.push({label: `${timei+":"+timej}-${timei+":"+Number( Number(j)+ Number(this.state.duration))+" PM"}`, value: `${timei+":"+timej}-${timei+":"+Number( Number(j)+ Number(this.state.duration))}`});
                 }
             }
         }

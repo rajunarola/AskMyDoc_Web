@@ -157,3 +157,9 @@ export async function getallDoctor() {
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/Doctor/GetAll`)
 }
 //#endregion
+
+//#region Dashboard
+export async function getAdminDashboard() {
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/AdminDashboard/getAdminDashboard`,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
+}
+//#endregion

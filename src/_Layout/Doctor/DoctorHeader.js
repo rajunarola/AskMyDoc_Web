@@ -4,6 +4,7 @@ import { getDoctorDetail } from "../../Service/DoctorService";
 import { Layout, Menu, Breadcrumb, Tooltip, Drawer, Image, notification, label, Button } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, SettingFilled, FormOutlined, FolderViewOutlined } from '@ant-design/icons';
 import '../../Doctor/doctordashboard.css';
+import LOGO from '../../akymydoclogo.png';
 
 function DoctorHeader(props) {
 
@@ -67,7 +68,7 @@ function DoctorHeader(props) {
         <Header className="header">
           <div className="logo" />
           <Menu theme="dark" mode="horizontal" >
-            <Menu.Item key="1">Doctor Dashboard</Menu.Item>
+            <Menu.Item key="1"> <img src={LOGO} /></Menu.Item>
             <Menu.Item key="2" onClick={logout} style={{ float: 'right' }}><SettingFilled />Logout</Menu.Item>
             <Menu.Item key="3" style={{ float: 'right' }} onClick={getOneDetail}>Welcome Doctor</Menu.Item>
           </Menu>
