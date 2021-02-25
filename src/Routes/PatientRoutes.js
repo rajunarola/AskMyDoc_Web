@@ -6,7 +6,7 @@ import LandingPage from '../Patient/LandingPage';
 function PatientRoutes() {
     return (
         <Switch>
-            <Route path='/patient' exact={true} component={LandingPage} />
+            <Route path='/' exact={true} component={LandingPage} />
            
         </Switch>
     )

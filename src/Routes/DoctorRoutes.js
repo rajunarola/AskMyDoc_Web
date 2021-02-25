@@ -24,7 +24,7 @@ function DoctorRoutes() {
             <Route path='/doctor/changepassword' exact={true} component={ChangePassword} />
             <Route path='/doctor/timeslots' exact={true} component={TimeSlots} />
 
-            <Route path="/" exact={true} component={DoctorLogin} />
+            <Route path="/doctor" exact={true} component={DoctorLogin} />
         </Switch>
     )
 }

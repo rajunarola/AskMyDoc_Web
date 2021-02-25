@@ -26,7 +26,7 @@ export default class TimeSlots extends Component {
 
     componentDidMount() {
         if (localStorage.getItem('Token') === null) {
-            this.props.history.push('/')
+            this.props.history.push('/doctor')
         }else{
             this.DisplayTimeSlot();
         }

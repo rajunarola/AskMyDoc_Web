@@ -9,7 +9,7 @@ function Doctordashboard(props) {
   const { Content } = Layout;
   useEffect(() => {
     if (localStorage.getItem('Token') === null) {
-      props.history.push('/')
+      props.history.push('/doctor')
     }
     if (localStorage.getItem('AccessToken') !== null) {
       props.history.push('/admin/admindashboard')
