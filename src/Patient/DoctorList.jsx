@@ -19,10 +19,10 @@ function DoctorList() {
     const [count, setCount] = useState();
     const [bookappointmentmodel, setBookappointmentmodel] = useState('d-none');
     const [doctorid, setDoctorid] = useState();
-    const [radiovalue, radiosetValue] = useState(1);
+    const [radiovalue, radiosetValue] = useState(0);
     const [timeslotdata, setTimeslotdata] = useState([]);
     const [apdate, setApdate] = useState();
-    const [file, setFile] = useState();
+    const [file, setFile] = useState(null);
     const [apbtn, setApbtn] = useState(true);
     const [timeslotvalue, setTimeSlotvalue] = useState();
     const [visible, setVisible] = useState(false);
@@ -40,7 +40,11 @@ function DoctorList() {
     }
     const onFinishAppointment = async (values) => {
 
-
+        console.log(radiovalue)
+        if(file!=null)
+        {
+           if(radiovalue!=0)
+           {
         const formdata = new FormData();
         formdata.append("file", file);
         var document = null;
@@ -90,7 +94,15 @@ function DoctorList() {
             .catch(function (err) {
                 message.error(err);
             })
+        }
+        else{
+            message.error('please Select Time Slot First')
+        }
+    }
+    else{
 
+message.error('please Choose File First');
+    }
     }
 
 
@@ -100,6 +112,7 @@ function DoctorList() {
 
     const handleOk = (e) => {
 
+       
         setConfirmLoading(true);
         console.log(appointmentToken);
         console.log(otp);
@@ -114,9 +127,13 @@ function DoctorList() {
                 }
                 else {
                     message.error(res.data.message);
+                    setConfirmLoading(false);
                 }
             })
-
+            .catch(function(err){
+                setConfirmLoading(false);
+            })
+      
 
     };
 
@@ -134,6 +151,7 @@ function DoctorList() {
     const onChangeradio = e => {
         console.log('radio checked', e.target);
         radiosetValue(e.target.value);
+        console.log(radiovalue);
         setTimeSlotvalue(e.target.label);
 
     };
@@ -196,11 +214,16 @@ function DoctorList() {
         var filename = e.target.value;
         var extaintion = filename.substring(filename.lastIndexOf('.') + 1, filename.length);
         if (extaintion != 'jpeg' && extaintion != 'jpg' && extaintion != 'PNG' && extaintion != 'png' && extaintion != 'JPEG' && extaintion != 'JPG') {
-            message.error('invalid file');
+            message.error('Invalid file please select jpg or png file');
+            setFile(null);
             return false;
         }
+        else{
+            setFile(e.target.files[0]);
+            return true;
+        }
 
-        setFile(e.target.files[0]);
+       
 
 
     }
@@ -355,7 +378,7 @@ function DoctorList() {
                                         </Col>
                                         <Col span={16}>
 
-                                            <Radio.Group onChange={(e) => onChangeradio(e)} value={radiovalue}>
+                                            <Radio.Group optionType="button" onChange={(e) => onChangeradio(e)} value={radiovalue} >
                                                 {/* <Radio value={1}>08.10-8.20</Radio>
                                                 <Radio value={2}>08:20-08:30</Radio>
                                                 <Radio value={3}>08:30-08:40</Radio>
@@ -363,7 +386,7 @@ function DoctorList() {
 
                                                 {timeslotdata.map((slotitems) => {
 
-                                                    return (<Radio value={slotitems.timeSlot_Id} label={`${slotitems.timeSlotStart}-To-${slotitems.timeSlotEnd}`}>{slotitems.timeSlotStart}-To-{slotitems.timeSlotEnd}</Radio>
+                                                    return (<Radio.Button value={slotitems.timeSlot_Id} label={`${slotitems.timeSlotStart}-To-${slotitems.timeSlotEnd}`}>{slotitems.timeSlotStart}-To-{slotitems.timeSlotEnd}</Radio.Button>
                                                     )
                                                 })}
 
@@ -424,11 +447,20 @@ function DoctorList() {
                                                                     required: true,
                                                                     message: 'Please input your contact Number!',
                                                                 },
-
+                                                                {
+                                                                    pattern:/^[0-9]*$/,
+                                                                   
+                                                                    message:'please enter the valid contact number'
+                                                                },
+                                                                {
+                                                                    max:10,
+                                                                    message:'Please Enter 10 digits only'
+                                                                }
+                                                               
 
                                                             ]}
                                                         >
-                                                            <Input />
+                                                            <Input  />
                                                         </Form.Item>
                                                         <Form.Item
                                                             label="Age"
@@ -458,7 +490,7 @@ function DoctorList() {
 
                                                     <Col span={10}>
                                                         <label class="form-label" for="customFile">Upload Image</label>
-                                                        <input type="file" class="form-control" onChange={(e) => onfileChange(e)} id="patientfile" />
+                                                        <input type="file" class="form-control" onChange={(e) => onfileChange(e)} id="patientfile" accept="image/png, image/jpeg" required/>
                                                         <p></p>
                                                     </Col>
                                                     <Col>
@@ -498,7 +530,7 @@ function DoctorList() {
 
 
                 </div>
-                {searchvalue==null?<Pagination defaultCurrent={currentpage} onChange={(e) => onPageChange(e)} total={count} />:<p></p>}
+                {searchvalue==null?<Pagination defaultPageSize={10} defaultCurrent={currentpage} onChange={(e) => onPageChange(e)} total={count} />:<p></p>}
                 
             </div>
         </div>
