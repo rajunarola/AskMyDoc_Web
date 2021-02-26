@@ -24,6 +24,7 @@ export const DoctorLogin = (props) => {
             if (res.data.status === "Success") {
                 //console.log(res.data.result.token)
                 localStorage.setItem('dcotorid', res.data.result.doctor.doctor_Id);
+                localStorage.setItem('dcotorname', res.data.result.doctor.fName + " " + res.data.result.doctor.lName);
                 localStorage.setItem('Token', res.data.result.token);
                 setLoading(false)
                 props.history.push("doctor/doctordashboard");

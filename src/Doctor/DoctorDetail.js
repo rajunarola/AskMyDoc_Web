@@ -11,7 +11,10 @@ import {
   getAllDoctorDegree,
   EditData,
   UploadPhoto,
-  doctorSpecialization, EditSpecialization
+  UploadDocument,
+  doctorSpecialization,
+  updateDoctorDegree,
+  updatedoctorsepcialization
 } from "../Service/DoctorService";
 import './doctordashboard.css';
 import DoctorHeader from '../_Layout/Doctor/DoctorHeader';
@@ -23,19 +26,25 @@ function DoctorDetail(props) {
   const [detail, setDetail] = useState([]);
   const [image, setImage] = useState(null);
   const [imageName, setImageName] = useState(null)
+
+  const [degreeImg, setDegreeImg] = useState(null)
+  const [degreeName, setDegreeName] = useState(null)
+
   const [items, setItems] = React.useState([]);
   const [city, setCity] = React.useState([]);
+
   const [specialization, setSpecialization] = React.useState([]);
   const [degree, setDegree] = React.useState([]);
   const [doc, setDoc] = React.useState();
   const [docSp, setDocSp] = React.useState([])
   const [cityName, setCityName] = React.useState();
 
-
+  const formRef = useRef(null);
   const docRef = useRef(null);
   const { TabPane } = Tabs;
-  const formRef = useRef(null);
+
   useEffect(async () => {
+
     // Promise.all([getDoctorDetail(), GetState(), GetAllSpecilization(), GetAllDegree(), getAllDoctorDegree()]).then(values => {
     //   console.log('values => ', values);
     //   setDetail(values[0].data.result)
@@ -89,7 +98,6 @@ function DoctorDetail(props) {
         await setSpecialization(res.data.result);
         await doctorSpecialization().then(async res1 => {
           if (res1.data.status === "Success") {
-
             var d = res.data.result.find(f => f.specializationMaster_Id == res1.data.result[0].specializationMaster_Id);
             await setDocSp(d.specialization);
           } else {
@@ -132,6 +140,7 @@ function DoctorDetail(props) {
           if (res1.data.status === "Success") {
             var d = res.data.result.find(f => f.degreeMaster_Id == res1.data.result[0].degreeMaster_Id);
             await setDoc(d.degree);
+            // setDoc(res1.data.result);
           } else {
             notification.error({
               content: res1.data.message, className: 'custom-class',
@@ -169,7 +178,7 @@ function DoctorDetail(props) {
   const docSpecialization = async () => {
     await doctorSpecialization().then(res => {
       if (res.data.status === "Success") {
-        // setDocSp(res.data.result.map(({ SpecializationMaster_Id }) => ({ value: SpecializationMaster_Id })));
+        //setDocSp(res.data.result.map(({ SpecializationMaster_Id }) => ({ value: SpecializationMaster_Id })));
         //  console.log('spdata', res)
       } else {
         notification.error({
@@ -191,8 +200,6 @@ function DoctorDetail(props) {
       })
     })
   }
-
-
   const getOneDetail = async () => {
     await getDoctorDetail().then(async res => {
       //console.log('res => ', res);
@@ -256,31 +263,6 @@ function DoctorDetail(props) {
       }
     })
   }
-
-  // const getDegree = id => {
-  //   getDoctorDegree(id).then(res => {
-  //     if (res.data.state === "success") {
-  //       setDoc(res.data.result)
-  //       console.log('res => ', res);
-  //     }
-  //     else {
-  //       notification.error({
-  //         content: res.data.message, className: 'custom-class',
-  //         style: {
-  //           marginTop: '20h',
-  //         }
-  //       }).catch(function (err) {
-  //         notification.error({
-  //           message: err,
-  //           style: {
-  //             marginTop: '20vh',
-  //           }
-  //         })
-  //       })
-  //     }
-  //   })
-  // }
-  //console.log('doc => ', doc);
   const onFinish = async (values) => {
     console.log('values => ', values);
     const formDataPhoto = new FormData()
@@ -352,28 +334,56 @@ function DoctorDetail(props) {
     });
   }
 
-  const onSpecialization = values => {
+  const onSpecialization = async values => {
     console.log('values => ', values);
-    const spData = {
-      specialization: values.specializationMaster_Id
-    };
-    EditSpecialization(spData).then(res => {
-      if (res.data.status === "Success") {
-        console.log('EditData', res.data);
-        notification.success({
-          message: "sp is updated..!!",
-          className: 'custom-class',
-          style: {
-            marginTop: '20vh',
-          }
-        }).catch(function (err) {
+    const formDataPhoto = new FormData();
+    await formDataPhoto.append("file1", degreeName)
+    console.log("files =>", degreeName);
+    var doc = "";
+    if (degreeImg) {
+      await UploadDocument(formDataPhoto).then(res => {
+        if (res.data.status === "Success") {
+          doc = res.data.result.degreeName
+        }
+        else {
           notification.error({
-            message: err, className: 'custom-class',
+            message: "Document is Updated.",
+            message: res.data.message, className: 'custom-class',
             style: {
               marginTop: '20vh',
             }
           })
-        });
+        }
+      }).catch(function (err) {
+        notification.error({
+          message: err, className: 'custom-class',
+          message: "error..!!",
+          style: {
+            marginTop: '20vh',
+          }
+        })
+      });
+    }
+    const dsvalues = {
+      degree_Id: values.degree,
+      specialization_Id: values.specialization,
+      document: document
+    };
+    console.log('degreevalues', dsvalues);
+    updateDoctorDegree(dsvalues).then(res => {
+      if (res.data.status === "Success") {
+        console.log('doctoredegree', res.data);
+        const speaclizationvalues = {
+          specialization: values.specializationMaster_Id,
+
+        };
+        notification.success({
+          message: "Specialization & Degree is Updated..!!",
+          className: 'custom-class',
+          style: {
+            marginTop: '20vh',
+          }
+        })
       } else {
         notification.error({
           message: res.data.message, className: 'custom-class',
@@ -382,8 +392,41 @@ function DoctorDetail(props) {
           }
         })
       }
-    })
+    }).catch(function (err) {
+      notification.error({
+        message: err, className: 'custom-class',
+        style: {
+          marginTop: '20vh',
+        }
+      })
+    });
   }
+  // EditSpecialization(spData).then(res => {
+  //   if (res.data.status === "Success") {
+  //     console.log('EditData', res.data);
+  //     notification.success({
+  //       message: "sp is updated..!!",
+  //       className: 'custom-class',
+  //       style: {
+  //         marginTop: '20vh',
+  //       }
+  //     }).catch(function (err) {
+  //       notification.error({
+  //         message: err, className: 'custom-class',
+  //         style: {
+  //           marginTop: '20vh',
+  //         }
+  //       })
+  //     });
+  //   } else {
+  //     notification.error({
+  //       message: res.data.message, className: 'custom-class',
+  //       style: {
+  //         marginTop: '20vh',
+  //       }
+  //     })
+  //   }
+  // })
 
   const { Content } = Layout;
 
@@ -395,6 +438,12 @@ function DoctorDetail(props) {
     console.log('e => ', e.target.files[0]);
     setImageName(e.target.files[0])
     setImage(URL.createObjectURL(e.target.files[0]))
+  }
+
+  const onChangeDegree = (e) => {
+    console.log('e => ', e.target.files[0]);
+    setDegreeName(e.target.files[0])
+    setDegreeImg(URL.createObjectURL(e.target.files[0]))
   }
 
   //console.log('image => ', image);
@@ -531,8 +580,7 @@ function DoctorDetail(props) {
                   <TabPane tab="Specialization & Degrees" key="2">
                     <Form name="register" initialValues={{ remember: true }} onFinish={onSpecialization} ref={docRef} encType="multipart/form-data">
                       <Form.Item name="specialization" rules={[{
-                        required: true,
-                        message: 'Must select the Specialization'
+
                       }]}>
                         <Select showSearch defaultValue={docSp} placeholder="Select your specialization">
                           {specialization.map(({ specialization, specializationMaster_Id }) => (
@@ -543,8 +591,7 @@ function DoctorDetail(props) {
                         </Select>
                       </Form.Item>
                       <Form.Item name="degree" rules={[{
-                        required: true,
-                        message: 'Must select the Doctor Degree'
+
                       }]}>
                         <Select showSearch defaultValue={doc} placeholder="Select your degree">
                           {degree.map(({ degree, degreeMaster_Id }) => (
@@ -554,17 +601,17 @@ function DoctorDetail(props) {
                           ))}
                         </Select>
                       </Form.Item>
-                      <Form.Item name="degreeimage" label="Upload Degree" rules={[{
-                        required: true,
-                        message: 'Must Upload the Degree'
-                      }]}>
-                        <input type="file" />
-                      </Form.Item>
-                      <div>
+                      <label>Profile Picture</label>
+                      {/* <Form.Item name="profile" label="Profile Picture"> */}
+                      <input type="file" onChange={(e) => onChangeDegree(e)} />
+                      {/* </Form.Item> */}
+                      {degreeImg === null ? <div>
                         <img name="image" width={200} height={200}
-                          src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${detail.profilePicture}&type=3`}
+                          src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${detail.document}&type=3`}
                         />
-                      </div>
+                      </div> :
+                        <img src={degreeImg} width={200} height={200} />
+                      }
                       <Button type="primary" htmlType="submit" className="ant-btn ant-btn-primary">Update</Button>
                     </Form>
                   </TabPane>

@@ -67,7 +67,7 @@ function DoctorHeader(props) {
           <Menu theme="dark" mode="horizontal" >
             <Menu.Item key="1"> <img src={LOGO} /></Menu.Item>
             <Menu.Item key="2" onClick={logout} style={{ float: 'right' }}><SettingFilled />Logout</Menu.Item>
-            <Menu.Item key="3" style={{ float: 'right' }} onClick={getOneDetail}>Welcome Dr.{detail.fName}&nbsp;{detail.lName}</Menu.Item>
+            <Menu.Item key="3" style={{ float: 'right' }} onClick={getOneDetail}>Welcome Dr. {localStorage.getItem("dcotorname")}</Menu.Item>
           </Menu>
         </Header>
         <Layout>

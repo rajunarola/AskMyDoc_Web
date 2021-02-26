@@ -120,17 +120,6 @@ export async function doctorSpecialization() {
     }
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/DoctorSpecialization/getalldocotorspecialization`, { headers: headers })
 }
-export async function EditSpecialization(data) {
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ` + `${localStorage.getItem('Token')}`
-    }
-    return await axios.post(process.env.REACT_APP_SERVER_URL + `/DoctorSpecialization/updatedoctorsepcialization`, data,
-        {
-            headers: headers
-        })
-}
-
 
 export async function getDoctorAppointment() {
     var headers = {
@@ -153,4 +142,10 @@ export async function GetDoctorDashboardData() {
     }
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/DoctorDashboard/getdashboarddata`, { headers: headers })
 }
-
+export function updateDoctorDegree(data) {//fgdgdgdfgdfgdf
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+    }
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/Edit`, data, { headers: headers })
+}
