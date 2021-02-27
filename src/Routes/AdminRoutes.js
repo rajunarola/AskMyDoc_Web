@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import ChangePassword from '../Admin/ChangePassword';
 import AdminLogin from '../_Layout/Admin/AdminLogin';
 import Dashboard from '../Admin/Dashboard';
@@ -11,8 +11,8 @@ import ApprovalRequest from '../Admin/ApprovalRequest';
 import DoctorList from '../Admin/DoctorList';
 
 function AdminRoutes() {
-    
-    return ( 
+
+    return (
         <Switch>
             <Route path="/admin" exact={true} component={AdminLogin} />
             <Route path="/admin/admindashboard" exact={true} component={Dashboard} />
