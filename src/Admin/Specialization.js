@@ -19,11 +19,11 @@ export default class Specialization extends Component {
             visible: false,
             data: [],
             isModalVisible: false,
-            modeltitle:"Add Specialization"
+            modeltitle: "Add Specialization"
         }
     }
     handleEdit = (id) => {
-        this.setState({ isModalVisible: true,modeltitle:"Edit Specialization"})
+        this.setState({ isModalVisible: true, modeltitle: "Edit Specialization" })
         Getspecialization(id)
             .then(res => {
                 this.setState({ SpecializationName: res.data.result.specialization, specializationMaster_Id: res.data.result.specializationMaster_Id })
@@ -47,10 +47,8 @@ export default class Specialization extends Component {
                 })
                 this.DisplayAllSpecialization();
             }
-            else
-            {
-                if(res.data.status==="Fail")
-                {
+            else {
+                if (res.data.status === "Fail") {
                     message.info({
                         content: res.data.message, className: 'custom-class',
                         style: {
@@ -87,19 +85,19 @@ export default class Specialization extends Component {
             if (res.data.status === "Success") {
 
                 res.data.result.map(item => {
-                    item.action = <div><Button type="dashed" onClick={(id) => this.handleEdit(item.specializationMaster_Id)}><EditOutlined /></Button> <Popconfirm title="Are you sure to delete this Specialization?"
+                    item.action = <div><Button type="primary" onClick={(id) => this.handleEdit(item.specializationMaster_Id)}><i class="fas fa-pencil-alt"></i></Button> <Popconfirm title="Are you sure to delete this Specialization?"
                         onConfirm={(id) => this.confirm(item.specializationMaster_Id)}
                         okText="Yes"
                         cancelText="No">
-                        <Button type="dashed" ><DeleteOutlined /></Button>
+                        <Button type="danger" ><i class="fas fa-trash-alt"></i></Button>
                     </Popconfirm></div>
                 });
-        
+
                 this.setState({
                     data: [{
                         columns: [
                             {
-                                label: 'Specialization Name',
+                                label: 'Speciality',
                                 field: 'specialization',
                                 sort: 'asc',
                                 width: 150
@@ -136,7 +134,7 @@ export default class Specialization extends Component {
     }
 
     showModal = () => {
-        this.setState({ isModalVisible: true,modeltitle:"Add Specialization" });
+        this.setState({ isModalVisible: true, modeltitle: "Add Specialization" });
     };
 
     handleOk = values => {
@@ -176,10 +174,9 @@ export default class Specialization extends Component {
                     });
                 }
                 else {
-                   
+
                     Editspecialization({ 'Specialization': this.state.SpecializationName, 'specializationMaster_Id': this.state.specializationMaster_Id }).then(res => {
-                        if (res.data.status === "Success") 
-                        {
+                        if (res.data.status === "Success") {
                             //console.log(res.data.result)
                             this.setState({ isModalVisible: false, SpecializationName: "", specializationMaster_Id: 0 });
                             message.success({
@@ -190,8 +187,7 @@ export default class Specialization extends Component {
                             })
                             this.DisplayAllSpecialization();
                         }
-                         else 
-                         {
+                        else {
                             //console.log(res.data.message);
                             message.error({
                                 content: res.data.message, className: 'custom-class',
@@ -251,7 +247,7 @@ export default class Specialization extends Component {
                         <div className="container-fluid">
                             <div className="row mb-2">
                                 <div className="col-sm-6">
-                                    <h1>Specialization</h1>
+                                    <h1>Doctor Specialities</h1>
                                 </div>
                                 <div className="col-sm-6">
                                     <ol className="breadcrumb float-sm-right">

@@ -94,10 +94,10 @@ function DoctorHeader(props) {
         <p><b>Dr. {detail.fName} {detail.mName} {detail.lName}</b></p>
         <label for="Email">Email : {detail.email}</label>
         <br></br>
-        <Link to="/doctor/doctordetail" className="btn btn-primary">View Detail</Link>
+        <Link to="/doctor/doctordetail" className="btn btn-sm bg-info"><i class="far fa-eye"></i> View Detail</Link>
         <br></br>
         <br></br>
-        <Link to="/doctor/changepassword" className="btn btn-primary">Change Password</Link>
+        <Link to="/doctor/changepassword" className="btn btn-sm bg-info"><i class="fas fa-unlock-alt"></i> Change Password</Link>
         {/* <Button type="dashed" onClick={onView}><FolderViewOutlined />View Detail</Button> */}
       </Drawer>
     </div>

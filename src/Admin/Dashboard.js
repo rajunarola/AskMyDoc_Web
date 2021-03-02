@@ -1,8 +1,8 @@
-import React, { useEffect , useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { getAdminDashboard} from './../Service/AdminService';
+import { getAdminDashboard } from './../Service/AdminService';
 import { Link } from 'react-router-dom';
-import {message} from 'antd'
+import { message } from 'antd'
 import AdminHeader from '../_Layout/Admin/AdminHeader';
 import AdminFooter from '../_Layout/Admin/AdminFooter';
 import AdminSidebar from '../_Layout/Admin/AdminSidebar';
@@ -14,19 +14,19 @@ function Dashboard(props) {
         degreesCount: 0,
         specializationCount: 0,
         citiesCount: 0,
-        statesCount: 0
+        statesCount: 0,
+        appointmentCount: 0
     });
     useEffect(() => {
         if (localStorage.getItem('AccessToken') === null) {
             props.history.push('/admin')
         }
-        else{
-            if(state.statesCount==0)
-            {
-                getAdminDashboard().then(res=>{
+        else {
+            if (state.statesCount == 0) {
+                getAdminDashboard().then(res => {
                     if (res.data.status === "Success") {
                         setState(res.data.result);
-                        console.log('States ',state);
+                        console.log('States ', state);
                     } else {
                         message.error({
                             content: res.data.message, className: 'custom-class',
@@ -35,7 +35,7 @@ function Dashboard(props) {
                             }
                         })
                     }
-                }).catch(function(err){
+                }).catch(function (err) {
                     message.error({
                         content: err, className: 'custom-class',
                         style: {
@@ -45,7 +45,7 @@ function Dashboard(props) {
                 });
             }
         }
-    },[])
+    }, [])
 
     return (
         <div className="wrapper">
@@ -87,7 +87,7 @@ function Dashboard(props) {
                                                     <div className="icon">
                                                         <i className="fas fa-archway"></i>
                                                     </div>
-                                                    <Link className="nav-link" to='/admin/state'className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link>
+                                                    {/* <Link className="nav-link" to='/admin/state' className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link> */}
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-6">
@@ -95,12 +95,12 @@ function Dashboard(props) {
                                                     <div className="inner">
                                                         <h3>{state.citiesCount}</h3>
 
-                                                        <p>City</p>
+                                                        <p>Cities</p>
                                                     </div>
                                                     <div className="icon">
-                                                        <i class="fas fa-building"></i>
+                                                        <i class="fas fa-city"></i>
                                                     </div>
-                                                    <Link className="nav-link" to='/admin/city' className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link>
+                                                    {/* <Link className="nav-link" to='/admin/city' className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link> */}
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-6">
@@ -108,12 +108,12 @@ function Dashboard(props) {
                                                     <div className="inner">
                                                         <h3>{state.specializationCount}</h3>
 
-                                                        <p>Specialization</p>
+                                                        <p>Doctor Specialities</p>
                                                     </div>
                                                     <div className="icon">
                                                         <i className="fas fa-user-md "></i>
                                                     </div>
-                                                    <Link className="nav-link" to='/admin/specialization' className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link>
+                                                    {/* <Link className="nav-link" to='/admin/specialization' className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link> */}
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-6">
@@ -121,12 +121,12 @@ function Dashboard(props) {
                                                     <div className="inner">
                                                         <h3>{state.degreesCount}</h3>
 
-                                                        <p>Degree</p>
+                                                        <p>Doctor Degrees</p>
                                                     </div>
                                                     <div className="icon">
                                                         <i className="fas fa-graduation-cap "></i>
                                                     </div>
-                                                    <Link className="nav-link" to='/admin/degree' className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link>
+                                                    {/* <Link className="nav-link" to='/admin/degree' className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link> */}
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-6">
@@ -134,12 +134,12 @@ function Dashboard(props) {
                                                     <div className="inner">
                                                         <h3>{state.approvalRequestCount}</h3>
 
-                                                        <p>Approval Request</p>
+                                                        <p>Approval Requests</p>
                                                     </div>
                                                     <div className="icon">
                                                         <i className="fas fa-paper-plane "></i>
                                                     </div>
-                                                    <Link className="nav-link" to='/admin/approvalrequest' className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link>
+                                                    {/* <Link className="nav-link" to='/admin/approvalrequest' className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link> */}
                                                 </div>
                                             </div>
                                             <div className="col-lg-3 col-6">
@@ -152,7 +152,20 @@ function Dashboard(props) {
                                                     <div className="icon">
                                                         <i className="fas fa-user-md"></i>
                                                     </div>
-                                                    <Link className="nav-link" to='/admin/doctor' className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link>
+                                                    {/* <Link className="nav-link" to='/admin/doctor' className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link> */}
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-3 col-6">
+                                                <div className="small-box bg-teal">
+                                                    <div className="inner">
+                                                        <h3>{state.appointmentCount}</h3>
+
+                                                        <p>Doctor Appointments</p>
+                                                    </div>
+                                                    <div className="icon">
+                                                        <i class="fas fa-book-medical"></i>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>

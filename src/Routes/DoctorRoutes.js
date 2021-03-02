@@ -10,9 +10,10 @@ import ResetPassword from '../Doctor/ResetPassword';
 import DoctorDetail from "../Doctor/DoctorDetail";
 import ChangePassword from "../Doctor/DoctorChangePassword";
 import TimeSlots from '../Doctor/TimeSlots';
+import noObejctionForm from '../Doctor/noObejctionForm';
 
 function DoctorRoutes() {
-    
+
     return (
         <Switch>
             <Route path='/doctor/doctordashboard' exact={true} component={Doctordashboard} />
@@ -24,6 +25,7 @@ function DoctorRoutes() {
             <Route path='/doctor/doctordetail' exact={true} component={DoctorDetail} />
             <Route path='/doctor/changepassword' exact={true} component={ChangePassword} />
             <Route path='/doctor/timeslots' exact={true} component={TimeSlots} />
+            <Route path='/doctor/objectionform' exact={true} component={noObejctionForm} />
 
             <Route path="/doctor" exact={true} component={DoctorLogin} />
         </Switch>

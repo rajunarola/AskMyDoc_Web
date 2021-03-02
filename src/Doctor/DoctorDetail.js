@@ -303,6 +303,7 @@ function DoctorDetail(props) {
       pincode: values.pincode,
       experienceStartDate: moment(values.experienceStartDate).format('YYYY-MM-DD'),
       profilePicture: profilePicture,
+
       clinicAddress: values.clinicaddress,
     };
     console.log('doctorvalues', doctorvalues);
@@ -337,7 +338,7 @@ function DoctorDetail(props) {
   const onSpecialization = async values => {
     console.log('values => ', values);
     const formDataPhoto = new FormData();
-    await formDataPhoto.append("file1", degreeName)
+    formDataPhoto.append("file", degreeName)
     console.log("files =>", degreeName);
     var doc = "";
     if (degreeImg) {
@@ -401,33 +402,6 @@ function DoctorDetail(props) {
       })
     });
   }
-  // EditSpecialization(spData).then(res => {
-  //   if (res.data.status === "Success") {
-  //     console.log('EditData', res.data);
-  //     notification.success({
-  //       message: "sp is updated..!!",
-  //       className: 'custom-class',
-  //       style: {
-  //         marginTop: '20vh',
-  //       }
-  //     }).catch(function (err) {
-  //       notification.error({
-  //         message: err, className: 'custom-class',
-  //         style: {
-  //           marginTop: '20vh',
-  //         }
-  //       })
-  //     });
-  //   } else {
-  //     notification.error({
-  //       message: res.data.message, className: 'custom-class',
-  //       style: {
-  //         marginTop: '20vh',
-  //       }
-  //     })
-  //   }
-  // })
-
   const { Content } = Layout;
 
   function callback(key) {

@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Modal, message, Form, Input, Button, notification, Popconfirm } from 'antd';
 import { MDBDataTable, MDBBtn } from 'mdbreact';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { GetDegrees,GetDegree,AddDegree,DeleteDegree,EditDegree } from '../Service/AdminService';
+import { GetDegrees, GetDegree, AddDegree, DeleteDegree, EditDegree } from '../Service/AdminService';
 import AdminHeader from '../_Layout/Admin/AdminHeader';
 import AdminFooter from '../_Layout/Admin/AdminFooter';
 import AdminSidebar from '../_Layout/Admin/AdminSidebar';
@@ -19,42 +19,40 @@ export default class Specialization extends Component {
             visible: false,
             data: [],
             isModalVisible: false,
-            modeltitle:"Add Degree"
+            modeltitle: "Add Degree"
         }
     }
     handleEdit = (id) => {
 
-        this.setState({ isModalVisible: true,modeltitle:"Edit Degree" })
+        this.setState({ isModalVisible: true, modeltitle: "Edit Degree" })
         GetDegree(id)
             .then(res => {
-                
+
                 this.setState({ degree: res.data.result.degree, degreeMaster_Id: res.data.result.degreeMaster_Id })
             })
 
 
     }
     confirm = (id) => {
-       
+
         DeleteDegree(id).then(res => {
 
             if (res.data.status === "Success") {
                 this.setState({
                     data: this.state.data
                 })
-                
+
                 message.success({
                     content: 'Record Deleted', className: 'custom-class',
                     style: {
                         marginTop: '20vh',
                     }
                 })
-                
-            this.DisplayAllDegree();
+
+                this.DisplayAllDegree();
             }
-            else
-            {
-                if(res.data.status==="Fail")
-                {
+            else {
+                if (res.data.status === "Fail") {
                     message.info({
                         content: res.data.message, className: 'custom-class',
                         style: {
@@ -97,20 +95,20 @@ export default class Specialization extends Component {
             if (res.data.status === "Success") {
 
                 res.data.result.map(item => {
-                
-                    item.action = <div><Button type="dashed" onClick={(id) => this.handleEdit(item.degreeMaster_Id)}><EditOutlined /></Button> <Popconfirm title="Are you sure to delete this Degree?"
+
+                    item.action = <div><Button type="primary" onClick={(id) => this.handleEdit(item.degreeMaster_Id)}><i class="fas fa-pencil-alt"></i></Button> <Popconfirm title="Are you sure to delete this Degree?"
                         onConfirm={(id) => this.confirm(item.degreeMaster_Id)}
                         okText="Yes"
                         cancelText="No">
-                        <Button type="dashed" ><DeleteOutlined /></Button>
+                        <Button type="danger" ><i class="fas fa-trash-alt"></i></Button>
                     </Popconfirm></div>
                 });
-                
+
                 this.setState({
                     data: [{
                         columns: [
                             {
-                                label: 'Degree Name',
+                                label: 'Degree',
                                 field: 'degree',
                                 sort: 'asc',
                                 width: 150
@@ -147,7 +145,7 @@ export default class Specialization extends Component {
     }
 
     showModal = () => {
-        this.setState({ isModalVisible: true ,modeltitle:"Add Degree"});
+        this.setState({ isModalVisible: true, modeltitle: "Add Degree" });
     };
 
     handleOk = values => {
@@ -188,9 +186,8 @@ export default class Specialization extends Component {
                 else {
 
                     EditDegree({ 'degree': this.state.degree, 'degreeMaster_Id': this.state.degreeMaster_Id }).then(res => {
-                        if (res.data.status === "Success") 
-                        {
-                            
+                        if (res.data.status === "Success") {
+
                             this.setState({ isModalVisible: false, degree: "", degreeMaster_Id: 0 });
                             message.success({
                                 content: 'Degree Has Been Updated.!', className: 'custom-class',
@@ -200,8 +197,7 @@ export default class Specialization extends Component {
                             })
                             this.DisplayAllDegree();
                         }
-                         else 
-                         {
+                        else {
                             console.log(res.data.message);
                             message.error({
                                 content: res.data.message, className: 'custom-class',
@@ -261,7 +257,7 @@ export default class Specialization extends Component {
                         <div className="container-fluid">
                             <div className="row mb-2">
                                 <div className="col-sm-6">
-                                    <h1>Degree</h1>
+                                    <h1>Doctor Degrees</h1>
                                 </div>
                                 <div className="col-sm-6">
                                     <ol className="breadcrumb float-sm-right">

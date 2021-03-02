@@ -1,42 +1,39 @@
 import React, { Component } from 'react';
-import { GetAllStates, AddState , GetOneState,EditState,DeleteState} from '../Service/AdminService';
-import { Modal, message ,Button , Popconfirm} from 'antd';
+import { GetAllStates, AddState, GetOneState, EditState, DeleteState } from '../Service/AdminService';
+import { Modal, message, Button, Popconfirm } from 'antd';
 import { MDBDataTable } from 'mdbreact';
-import { DeleteOutlined,EditOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import AdminHeader from '../_Layout/Admin/AdminHeader';
 import AdminFooter from '../_Layout/Admin/AdminFooter';
 import AdminSidebar from '../_Layout/Admin/AdminSidebar';
 export default class States extends Component {
 
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
-        this.state={
-            state_Id:0,
+        this.state = {
+            state_Id: 0,
             sName: " ",
             loading: false,
             visible: false,
-            data:[],
-            isModalVisible:false,
-            modeltitle:"Add State"
+            data: [],
+            isModalVisible: false,
+            modeltitle: "Add State"
         }
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         if (localStorage.getItem('AccessToken') === null) {
             this.props.history.push('/admin')
         } else {
             this.DisplayAllState();
         }
     }
-    
-    showEditModel=(id)=>
-    {
+
+    showEditModel = (id) => {
         GetOneState(id).then(res => {
             if (res.data.status === "Success") {
-                this.setState({ modeltitle:"Edit State",isModalVisible:true,state_Id: res.data.result.state_Id,sName:res.data.result.sName});
+                this.setState({ modeltitle: "Edit State", isModalVisible: true, state_Id: res.data.result.state_Id, sName: res.data.result.sName });
             } else {
                 message.error({
                     content: res.data.message, className: 'custom-class',
@@ -55,7 +52,7 @@ export default class States extends Component {
         });
     }
 
-    Deleteconfirm=(id)=>{
+    Deleteconfirm = (id) => {
         DeleteState(id).then(res => {
             if (res.data.status === "Success") {
                 message.success({
@@ -92,31 +89,33 @@ export default class States extends Component {
         await GetAllStates().then(res => {
             if (res.data.status === "Success") {
                 res.data.result.map(item => {
-                    item.action = <div><Button type="dashed" onClick={()=>{this.showEditModel(item.state_Id)}} size="sm"><EditOutlined /> </Button> <Popconfirm title="Are you sure to delete this State?"
-                    onConfirm={()=>this.Deleteconfirm(item.state_Id)}
-                    okText="Yes"
-                    cancelText="No">
-                    <Button type="dashed"><DeleteOutlined/> </Button>
+                    item.action = <div><Button type="primary" onClick={() => { this.showEditModel(item.state_Id) }} size="sm"><i class="fas fa-pencil-alt"></i> </Button> <Popconfirm title="Are you sure to delete this State?"
+                        onConfirm={() => this.Deleteconfirm(item.state_Id)}
+                        okText="Yes"
+                        cancelText="No">
+                        <Button type="danger"><i class="fas fa-trash-alt"></i></Button>
                     </Popconfirm></div>
                 });
                 //console.log(res.data.result);
-                this.setState({data:[{
-                    columns: [
-                        {
-                            label: 'State Name',
-                            field: 'sName',
-                            sort: 'asc',
-                            width: 150
-                        },
-                        {
-                            label: 'Action',
-                            field: 'action',
-                            sort: 'asc',
-                            width: 270
-                        }
-                    ],
-                    rows:res.data.result
-                }]});              
+                this.setState({
+                    data: [{
+                        columns: [
+                            {
+                                label: 'State Name',
+                                field: 'sName',
+                                sort: 'asc',
+                                width: 150
+                            },
+                            {
+                                label: 'Action',
+                                field: 'action',
+                                sort: 'asc',
+                                width: 270
+                            }
+                        ],
+                        rows: res.data.result
+                    }]
+                });
                 //console.log('data',this.state.data);
             } else {
                 message.error({
@@ -136,22 +135,20 @@ export default class States extends Component {
         });
     }
 
-    showModal(){
-        this.setState({isModalVisible:true,modeltitle:"Add State",sName:"",state_Id:0});
+    showModal() {
+        this.setState({ isModalVisible: true, modeltitle: "Add State", sName: "", state_Id: 0 });
     };
 
     handleOk = values => {
         if (this.state.sName != "" && this.state.sName.length >= 3 && this.state.sName.length <= 25) {
-            if(/^[A-Za-z][ A-Za-z]+[A-Za-z]$/.test(this.state.sName))
-            {
-                if(this.state.state_Id == 0)
-                {
+            if (/^[A-Za-z][ A-Za-z]+[A-Za-z]$/.test(this.state.sName)) {
+                if (this.state.state_Id == 0) {
                     AddState({ 'sName': this.state.sName }).then(res => {
                         if (res.data.status === "Success") {
-                            this.setState({isModalVisible:false,sName:""});
+                            this.setState({ isModalVisible: false, sName: "" });
                             this.DisplayAllState();
                             message.success({
-                                content:'State added successfully', className: 'custom-class',
+                                content: 'State added successfully', className: 'custom-class',
                                 style: {
                                     marginTop: '20vh',
                                 }
@@ -173,10 +170,10 @@ export default class States extends Component {
                             }
                         })
                     });
-                }else{
-                    EditState({ 'state_Id':this.state.state_Id,'sName': this.state.sName }).then(res => {
+                } else {
+                    EditState({ 'state_Id': this.state.state_Id, 'sName': this.state.sName }).then(res => {
                         if (res.data.status === "Success") {
-                            this.setState({isModalVisible:false,sName:"",state_Id:0});
+                            this.setState({ isModalVisible: false, sName: "", state_Id: 0 });
                             message.success({
                                 content: res.data.message, className: 'custom-class',
                                 style: {
@@ -203,7 +200,7 @@ export default class States extends Component {
                     });
                 }
             }
-            else{
+            else {
                 message.error({
                     content: 'State Name must be alphabet', className: 'custom-class',
                     style: {
@@ -220,71 +217,71 @@ export default class States extends Component {
             });
         }
     };
-    
-    handleCancel(){
-        this.setState({isModalVisible:false,sName:'',state_Id:0});
+
+    handleCancel() {
+        this.setState({ isModalVisible: false, sName: '', state_Id: 0 });
     };
 
     handleChange = (e) => {
         const { id, value } = e.target;
-        this.setState({sName: value});
+        this.setState({ sName: value });
     }
-    
+
     render() {
-        const StateDataTable= this.state.data; 
+        const StateDataTable = this.state.data;
         return (
-        <div className="wrapper">
-            <AdminHeader />
-            <AdminSidebar />
-            <div className="content-wrapper">
-                <section className="content-header">
-                    <div className="container-fluid">
-                        <div className="row mb-2">
-                            <div className="col-sm-6">
-                                <h1>State</h1>
-                            </div>
-                            <div className="col-sm-6">
-                                <ol className="breadcrumb float-sm-right">
-                                    <li className="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li className="breadcrumb-item active">States</li>
-                                </ol>
+            <div className="wrapper">
+                <AdminHeader />
+                <AdminSidebar />
+                <div className="content-wrapper">
+                    <section className="content-header">
+                        <div className="container-fluid">
+                            <div className="row mb-2">
+                                <div className="col-sm-6">
+                                    <h1>State</h1>
+                                </div>
+                                <div className="col-sm-6">
+                                    <ol className="breadcrumb float-sm-right">
+                                        <li className="breadcrumb-item"><a href="#">Home</a></li>
+                                        <li className="breadcrumb-item active">States</li>
+                                    </ol>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                <section className="content">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-md-12 col-lg-12">
-                                <div className="card">
-                                    <div className="card-header">
-                                        <h3 className="card-title">
-                                            <div className="float-right btn btn-secondary" onClick={()=>{this.showModal()}}>Add State</div>
-                                            <Modal title={this.state.modeltitle} visible={this.state.isModalVisible} onOk={()=>{this.handleOk()}} onCancel={()=>{this.handleCancel()}} >
-                                                <label>State Name</label>
-                                                <input type="text"
-                                                    className="form-control"
-                                                    id="sName"
-                                                    placeholder="Enter State Name"
-                                                    autocomplete="off"
-                                                    value={this.state.sName}
-                                                    onChange={(e)=>{this.handleChange(e)}}
-                                                />
-                                            </Modal>
-                                        </h3>
-                                    </div>
-                                    <div className="card-body">
-                                        <MDBDataTable btn striped bordered hover data={StateDataTable[0]} />
+                    <section className="content">
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-md-12 col-lg-12">
+                                    <div className="card">
+                                        <div className="card-header">
+                                            <h3 className="card-title">
+                                                <div className="float-right btn btn-secondary" onClick={() => { this.showModal() }}>Add State</div>
+                                                <Modal title={this.state.modeltitle} visible={this.state.isModalVisible} onOk={() => { this.handleOk() }} onCancel={() => { this.handleCancel() }} >
+                                                    <label>State Name</label>
+                                                    <input type="text"
+                                                        className="form-control"
+                                                        id="sName"
+                                                        placeholder="Enter State Name"
+                                                        autocomplete="off"
+                                                        value={this.state.sName}
+                                                        onChange={(e) => { this.handleChange(e) }}
+                                                    />
+                                                </Modal>
+                                            </h3>
+                                        </div>
+                                        <div className="card-body">
+                                            <MDBDataTable btn striped bordered hover data={StateDataTable[0]} />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
+                <AdminFooter />
             </div>
-            <AdminFooter />
-        </div>
 
         )
     }
