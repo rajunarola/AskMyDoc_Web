@@ -8,7 +8,7 @@ import { checkAppointmentDetail } from '../Service/PatientService';
 import { data } from "jquery";
 
 const { TextArea } = Input;
-const socket = io.connect('http://localhost:5000');
+const socket = io.connect('https://vivek-webrtc-test2.herokuapp.com/');
 
 function Meeting(props) {
 
