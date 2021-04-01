@@ -18,11 +18,12 @@ function App() {
   return (
     <div className="App">
       <Router history={history}>
-          <AdminRoutes />
-          <DoctorRoutes />
-          <PatientRoutes/>
+        <AdminRoutes />
+        <DoctorRoutes />
+        <PatientRoutes />
       </Router>
     </div>
+
   );
 }
 

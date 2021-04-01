@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
-import { Layout,message } from 'antd';
+import { Layout, message, Button } from 'antd';
 import DoctorHeader from '../_Layout/Doctor/DoctorHeader';
 import SidePanel from '../_Layout/Doctor/SidePanel';
 import { MDBDataTable } from 'mdbreact';
-import {getDoctorAppointment} from "../Service/DoctorService";
+import { getDoctorAppointment } from "../Service/DoctorService";
 
 export default class AppointmentBadge extends Component {
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
-        this.state={
-            data:[]
+        this.state = {
+            data: []
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         if (localStorage.getItem('Token') === null) {
             this.props.history.push('/doctor')
         }
-        else{
+        else {
             this.displayAllAppointment();
         }
         if (localStorage.getItem('AccessToken') !== null) {
@@ -26,45 +25,56 @@ export default class AppointmentBadge extends Component {
         }
     }
 
-    displayAllAppointment(){
+    displayAllAppointment() {
         getDoctorAppointment().then(res => {
             if (res.data.status === "Success") {
-                res.data.result.map(item=>{
-                    var dt= new Date(item.aP_Date);
-                    item.aP_Date=dt.getDate()+"-"+ Number( dt.getMonth() + 1 )+"-"+dt.getFullYear();
-                    item.document=<a target="_blank" href={`https://localhost:44338/api/Comman/GetFile?file=${item.document}&type=2`}> <img src={`https://localhost:44338/api/Comman/GetFile?file=${item.document}&type=2`} height="100" width="100"/></a>
+                res.data.result.map(item => {
+                    var dt = new Date(item.aP_Date);
+                    item.aP_Date = dt.getDate() + "-" + Number(dt.getMonth() + 1) + "-" + dt.getFullYear();
+                    item.document = <a target="_blank" href={`https://localhost:44338/api/Comman/GetFile?file=${item.document}&type=2`}> <img src={`https://localhost:44338/api/Comman/GetFile?file=${item.document}&type=2`} height="100" width="100" /></a>
+                    item.actions = <div><Button type="primary" size="sm">join</Button>&nbsp;
+                        <Button type="danger" size="sm">Cancel</Button>&nbsp;
+                        <Button type="primary" size="sm">Reschedule</Button></div >
+
                 });
-                console.log("data =>",res.data);
-                this.setState({data:[{
-                    columns: [
-                        {
-                            label: 'Date',
-                            field: 'aP_Date',
-                            width: 250
-                        },
-                        {
-                            label:'Time Slot',
-                            field:'timeSlot',
-                            width: 50
-                        },
-                        {
-                            label: 'patient Name',
-                            field: 'patientName',
-                            width: 270
-                        },
-                        {
-                            label:'Contact No',
-                            field:'contactNo',
-                            width: 150
-                        },
-                        {
-                            label:'Document',
-                            field:'document',
-                            width: 150
-                        }
-                    ],
-                    rows:res.data.result
-                }]});
+                console.log("data =>", res.data);
+                this.setState({
+                    data: [{
+                        columns: [
+                            {
+                                label: 'Date',
+                                field: 'aP_Date',
+                                width: 250
+                            },
+                            {
+                                label: 'Time Slot',
+                                field: 'timeSlot',
+                                width: 50
+                            },
+                            {
+                                label: 'patient Name',
+                                field: 'patientName',
+                                width: 270
+                            },
+                            {
+                                label: 'Contact No',
+                                field: 'contactNo',
+                                width: 150
+                            },
+                            {
+                                label: 'Document',
+                                field: 'document',
+                                width: 150
+                            },
+                            {
+                                label: 'Actions',
+                                field: 'actions',
+                                width: 150
+                            }
+                        ],
+                        rows: res.data.result
+                    }]
+                });
             } else {
                 message.error({
                     content: res.data.message, className: 'custom-class',
@@ -84,9 +94,9 @@ export default class AppointmentBadge extends Component {
     }
 
     render() {
-        const { Content} = Layout;
+        const { Content } = Layout;
         return (
-            
+
             <Layout>
 
                 <DoctorHeader />
@@ -103,7 +113,7 @@ export default class AppointmentBadge extends Component {
                                 minHeight: 280,
                             }}
                         >
-                            <MDBDataTable btn striped bordered hover data={this.state.data[0]}/>
+                            <MDBDataTable btn striped bordered hover data={this.state.data[0]} />
                         </Content>
                     </Layout>
                 </Layout>

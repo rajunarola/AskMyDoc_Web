@@ -15,18 +15,20 @@ function ResetPassword(props) {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('ResetPasswordToken') == null) {
-      props.history.push('/doctor')
-    }
+    // if (localStorage.getItem('ResetPasswordToken') == null) {
+    //   props.history.push('/doctor')
+    // }
+    console.log('props.match.params.token => ', props.match.params.token);
+
   }, [])
   const onFinish = (values) => {
     setLoading(true)
     console.log(values);
-    ResetPasswordService({ 'Password': values.confirmpassword })
+    ResetPasswordService({ 'Password': values.confirmpassword }, props.match.params.token)
       .then(res => {
         if (res.data.status == "Fail") {
 
-          message.error({ content: 'Your Link Has Been Expire Link Expire' })
+          message.error({ content: 'Your Link Has Been Expired' })
           localStorage.clear();
 
         }
@@ -74,7 +76,7 @@ function ResetPassword(props) {
                         { required: true, message: 'Please input your new password!' },
                         ({ getFieldValue }) => ({
                           validator(_, value) {
-                            if (!value || getFieldValue('newpassword').length > 6 && getFieldValue('newpassword').length < 10) {
+                            if (!value || getFieldValue('newpassword').length >= 6 && getFieldValue('newpassword').length < 10) {
                               return Promise.resolve();
                             }
 

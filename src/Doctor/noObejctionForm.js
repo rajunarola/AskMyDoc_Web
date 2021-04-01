@@ -23,7 +23,7 @@ export const noObejctionForm = () => {
                                             <div className="col-md-12 col-lg-12">
                                                 <div className="card">
                                                     <div className="card-header">
-                                                        <h3 className="card-title" style={{ color: 'black' }}>No Objection Form</h3>
+                                                        <h3 className="card-title" style={{ color: 'black' }}>No Objection Certificate</h3>
                                                     </div>
                                                     <div className="card-body">
 
