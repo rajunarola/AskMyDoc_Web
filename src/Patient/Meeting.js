@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import Peer from 'simple-peer';
 import { message, Input, Button } from "antd";
 import { PhoneOutlined } from '@ant-design/icons';
-import { withRouter } from "react-router-dom";
+import { useParams, withRouter } from "react-router-dom";
 import { checkAppointmentDetail } from '../Service/PatientService';
 
 
@@ -12,6 +12,7 @@ const socket = io.connect('https://vivek-webrtc-test2.herokuapp.com/');
 
 function Meeting(props) {
 
+    const token=useParams();
     const [stream, setStream] = useState()
     const [me, setMe] = useState()
     const [receivingCall, setReceivingCall] = useState(false)
@@ -26,7 +27,8 @@ function Meeting(props) {
     const connectionRef = useRef()
 
     useEffect(() => {
-        console.log('props.match.params.token', props.match.params.token);
+        
+        console.log('CheckToken=>', props.location.search.split("=")[1]);
         checkAppointmentDetail(props.match.params.token)
             .then(res => {
                 console.log('res => ', res);
