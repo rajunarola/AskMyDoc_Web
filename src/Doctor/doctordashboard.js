@@ -12,7 +12,7 @@ function Doctordashboard(props) {
     todayappointment: "",
     totalappointment: "",
     totalpatient: "",
-    totalupcomingappointments:""
+    totalupcomingappointments: ""
   });
   useEffect(() => {
     if (localStorage.getItem('Token') === null) {
@@ -28,10 +28,12 @@ function Doctordashboard(props) {
           todayappointment: res.data.result.todaysAppointment,
           totalappointment: res.data.result.totalAppointment,
           totalpatient: res.data.result.totalPatient,
-         totalupcomingappointments:res.data.result.totalUpcomingAppointments
+          totalupcomingappointments: res.data.result.totalUpcomingAppointments
+
         })
+        console.log("Total upcoming appointment list", res.data.result.totalAppointment)
       })
-  },[])
+  }, [])
   return (
 
     <Layout>
@@ -50,25 +52,25 @@ function Doctordashboard(props) {
               <Row gutter={16}>
                 <Col span={8}>
                   <Card style={{ backgroundColor: 'skyblue', color: 'white' }} hoverable={true} title="Today's Appointments" >
-                    <p style={{ fontSize: '20px' }}>{data.todayappointment}<i class="fas fa-calendar-check fa-2x" style={{ float: 'right' }}></i></p>
+                    <p style={{ fontSize: '20px' }}>{data.todayappointment}<i className="fas fa-calendar-check fa-2x" style={{ float: 'right' }}></i></p>
                   </Card>
                 </Col>
                 <Col span={8}>
                   <Card style={{ backgroundColor: '#30B0D3', color: 'white' }} hoverable={true} title="No of Upcoming Appointments">
-                    <p style={{ fontSize: '20px' }}>{data.totalupcomingappointments}<i class="fas fa-calendar fa-2x" style={{ float: 'right' }}></i></p>
+                    <p style={{ fontSize: '20px' }}>{data.totalupcomingappointments}<i className="fas fa-calendar fa-2x" style={{ float: 'right' }}></i></p>
                   </Card>
                 </Col>
                 <Col span={8}>
                   <Card style={{ backgroundColor: '#FDD831', color: 'white' }} hoverable={true} title="No.of Patients" >
-                    <p style={{ fontSize: '20px' }}>{data.totalpatient}<i class="fas fa-user fa-2x" style={{ float: 'right' }}></i></p>
+                    <p style={{ fontSize: '20px' }}>{data.totalpatient}<i className="fas fa-user fa-2x" style={{ float: 'right' }}></i></p>
                   </Card>
                 </Col>
               </Row>
               <p></p>
               <Row gutter={16}>
                 <Col span={8}>
-                <Card style={{ backgroundColor: '#FF7F50', color: 'white' }} hoverable={true} title="Total Appointment" >
-                    <p style={{ fontSize: '20px' }}>{data.totalappointment}<i class="fas fa-user fa-2x" style={{ float: 'right' }}></i></p>
+                  <Card style={{ backgroundColor: '#FF7F50', color: 'white' }} hoverable={true} title="Total Appointment" >
+                    <p style={{ fontSize: '20px' }}>{data.totalappointment}<i className="fas fa-user fa-2x" style={{ float: 'right' }}></i></p>
                   </Card>
                 </Col>
               </Row>

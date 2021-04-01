@@ -5,7 +5,7 @@ import { message, Input, Button } from "antd";
 import { PhoneOutlined } from '@ant-design/icons';
 import { withRouter } from "react-router-dom";
 import { checkAppointmentDetail } from '../Service/PatientService';
-import { data } from "jquery";
+
 
 const { TextArea } = Input;
 const socket = io.connect('http://localhost:5000');
