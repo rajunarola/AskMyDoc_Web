@@ -327,11 +327,11 @@ function DoctorList() {
                                                             timePrefix += "PM"
                                                             if (ctimecheck > 12)
                                                                 ctimecheck -= 12;
-                                                            if (timecheck <= ctimecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
+                                                            if (timecheck >= ctimecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
                                                                 disRadio = true;
                                                             }
                                                         }
-                                                        return (<Radio.Button disabled={disRadio} value={slotitems.timeSlot_Id} label={`${slotitems.timeSlotStart} To ${slotitems.timeSlotEnd}`} >{slotitems.timeSlotStart} To {slotitems.timeSlotEnd} {timePrefix}  </Radio.Button>
+                                                        return (<Radio.Button disabled={disRadio} value={slotitems.timeSlot_Id} label={`${slotitems.timeSlotStart}-To-${slotitems.timeSlotEnd}`} >{slotitems.timeSlotStart}-To-{slotitems.timeSlotEnd} {timePrefix}  </Radio.Button>
                                                         )
                                                     })}
 
