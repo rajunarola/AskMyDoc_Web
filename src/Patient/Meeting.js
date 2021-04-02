@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import io from 'socket.io-client';
 import Peer from 'simple-peer';
 import { message, Input, Button } from "antd";
-import { PhoneOutlined } from '@ant-design/icons';
+import { PhoneOutlined, CopyOutlined } from '@ant-design/icons';
 import { withRouter } from "react-router-dom";
 import { checkAppointmentDetail } from '../Service/PatientService';
 
@@ -20,6 +20,7 @@ function Meeting(props) {
     const [callerSignal, setCallerSignal] = useState()
     const [callAccepted, setCallAccepted] = useState(false)
     const [callEnded, setCallEnded] = useState(false)
+    const [idToCall, setIdToCall] = useState("")
 
     const myVideo = useRef()
     const userVideo = useRef()
@@ -83,7 +84,7 @@ function Meeting(props) {
 
     const answerCall = () => {
         setCallAccepted(true)
-        const peer = new peer({
+        const peer = new Peer({
             initiator: false,
             trickle: false,
             stream: stream
@@ -122,11 +123,43 @@ function Meeting(props) {
                 </div>
 
                 <div className="myClass">
+                    <TextArea
+                        label="Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        style={{ marginBottom: "20px" }} >
+                    </TextArea>
 
+                    <CopyOutlined text={me} style={{ marginBottom: "2rem" }}>
+                        <Button type="primary"> <CopyOutlined color="white" />&nbsp; Copy ID</Button>
+                    </CopyOutlined>
+
+                    <TextArea
+                        label="ID to Call"
+                        value={idToCall}
+                        onChange={(e) => setIdToCall(e.target.value)}>
+                    </TextArea>
+                    <div className="Call">
+                        {callAccepted && !callEnded ? (
+                            <Button type="danger" onClick={leaveCall}>End Call</Button>
+                        ) : (
+                                <Button type="primary" className="callButton" type="primary" onClick={() => callUser(idToCall)}> <PhoneOutlined color="white" /></Button>
+                            )}
+                        <div style={{ color: "white" }}>
+                            {idToCall}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    {receivingCall && !callAccepted ? (
+                        <div className="callAnswer">
+                            <h1>{name} is calling..</h1>
+                            <Button variant="primary" className="answerButton" onClick={answerCall}><PhoneOutlined color="white" />&nbsp; Answer</Button>
+                        </div>
+                    ) : null}
                 </div>
             </div>
         </>
-
     )
 }
 

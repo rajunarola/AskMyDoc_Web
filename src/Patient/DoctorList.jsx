@@ -327,7 +327,7 @@ function DoctorList() {
                                                             timePrefix += "PM"
                                                             if (ctimecheck > 12)
                                                                 ctimecheck -= 12;
-                                                            if (timecheck >= ctimecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
+                                                            if (timecheck <= ctimecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
                                                                 disRadio = true;
                                                             }
                                                         }
