@@ -21,7 +21,11 @@ export default class PatientList extends Component
       this.props.history.push('/doctor')
 
     }
-    this.displayPatientList();
+    else
+    {
+
+        this.displayPatientList();
+    }
 
   }
   displayPatientList(){
