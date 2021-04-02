@@ -3,7 +3,7 @@ import { Layout, message, Button } from 'antd';
 import DoctorHeader from '../_Layout/Doctor/DoctorHeader';
 import SidePanel from '../_Layout/Doctor/SidePanel';
 import { MDBDataTable } from 'mdbreact';
-import { getDoctorAppointment } from "../Service/DoctorService";
+import { getDoctorAppointment,cancleaapointment } from "../Service/DoctorService";
 
 export default class AppointmentBadge extends Component {
     constructor(props) {
@@ -25,15 +25,36 @@ export default class AppointmentBadge extends Component {
         }
     }
 
+    join(appointmentid)
+    {
+        this.props.history.push('/doctormeeting')
+    }
+    cancel(appointmentid)
+    {
+        cancleaapointment(id)
+        .then(res=>{
+            if(res.data.status==="Success")
+            {
+                message.success({content:res.data.message})
+            }
+        })
+    }
+
     displayAllAppointment() {
         getDoctorAppointment().then(res => {
+            console.log('Appointment console => ',res);
+            if(res.data.status==="UnAuthorized")
+            {
+                this.props.history.push('/')
+                localStorage.clear()
+            }
             if (res.data.status === "Success") {
                 res.data.result.map(item => {
                     var dt = new Date(item.aP_Date);
                     item.aP_Date = dt.getDate() + "-" + Number(dt.getMonth() + 1) + "-" + dt.getFullYear();
                     item.document = <a target="_blank" href={`https://localhost:44338/api/Comman/GetFile?file=${item.document}&type=2`}> <img src={`https://localhost:44338/api/Comman/GetFile?file=${item.document}&type=2`} height="100" width="100" /></a>
-                    item.actions = <div><Button type="primary" size="sm">join</Button>&nbsp;
-                        <Button type="danger" size="sm">Cancel</Button>&nbsp;
+                    item.actions = <div><Button type="primary" size="sm" key={item.patient_Id}  onClick={(e)=>this.join(item.patient_Id)}>join</Button>&nbsp;
+                        <Button type="danger" size="sm" onClick={(e)=>this.join(item.appointmentid)} >Cancel</Button>&nbsp;
                         <Button type="primary" size="sm">Reschedule</Button></div >
 
                 });

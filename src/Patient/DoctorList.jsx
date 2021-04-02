@@ -216,6 +216,7 @@ function DoctorList() {
         setTimeslotdata([])
     }
     const onChangedate = (e) => {
+        setTimeslotdata([])
         if (e != null) {
             var exdate = new Date(e.toString());
             setApdate(exdate);
@@ -312,6 +313,7 @@ function DoctorList() {
                                                 <Radio value={2}>08:20-08:30</Radio>
                                                 <Radio value={3}>08:30-08:40</Radio>
                                                 <Radio value={4}>08:40-08:50</Radio> */}
+
                                                     {timeslotdata.map((slotitems) => {
                                                         var timecheck = slotitems.timeSlotStart.split(":")[0];
                                                         var timePrefix = " ";
@@ -327,7 +329,8 @@ function DoctorList() {
                                                             timePrefix += "PM"
                                                             if (ctimecheck > 12)
                                                                 ctimecheck -= 12;
-                                                            if (timecheck >= ctimecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
+                                                            // && moment(apdate).format("YYYY-MM-DD") === currentTime.date
+                                                            if (timecheck <= ctimecheck) {
                                                                 disRadio = true;
                                                             }
                                                         }

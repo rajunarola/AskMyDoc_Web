@@ -4,6 +4,7 @@ import Peer from 'simple-peer';
 import { message, Input, Button } from "antd";
 import { PhoneOutlined, CopyOutlined } from '@ant-design/icons';
 import { withRouter } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { checkAppointmentDetail } from '../Service/PatientService';
 import './Meeting.css';
 

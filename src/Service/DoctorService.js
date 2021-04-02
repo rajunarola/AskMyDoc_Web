@@ -149,3 +149,10 @@ export function updateDoctorDegree(data) {//fgdgdgdfgdfgdf
     }
     return axios.post(process.env.REACT_APP_SERVER_URL + `/Doctor/Edit`, data, { headers: headers })
 }
+export function cancleaapointment(id) {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('Token')
+    }
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Appointment/cancelappointment?id=`+id, null, { headers: headers })
+}
