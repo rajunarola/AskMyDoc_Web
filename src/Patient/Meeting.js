@@ -8,11 +8,11 @@ import { checkAppointmentDetail } from '../Service/PatientService';
 
 
 const { TextArea } = Input;
-const socket = io.connect('https://vivek-webrtc-test2.herokuapp.com/');
+const socket = io.connect('https://vivek-webrtc-test2.herokuapp.com');
 
 function Meeting(props) {
 
-    const token=useParams();
+    
     const [stream, setStream] = useState()
     const [me, setMe] = useState()
     const [receivingCall, setReceivingCall] = useState(false)
@@ -27,11 +27,15 @@ function Meeting(props) {
     const connectionRef = useRef()
 
     useEffect(() => {
-        
         console.log('CheckToken=>', props.location.search.split("=")[1]);
-        checkAppointmentDetail(props.match.params.token)
+        checkAppointmentDetail(props.location.search.split("=")[1])
             .then(res => {
                 console.log('res => ', res);
+                if(res.data.status==="UnAuthorized")
+                {
+                    props.history.push('/');
+                    message.error({content:"Your Session Has Been Expire Or Your Allocated Time Has Been Over"});
+                }
                 if (res.data.status === "Failed") {
                     message.error({ content: "Please Wait for your scheduled date and time" })
                     props.history.push('/ErrorMessage')
