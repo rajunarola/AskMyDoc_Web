@@ -31,7 +31,7 @@ function Doctordashboard(props) {
           totalupcomingappointments: res.data.result.totalUpcomingAppointments
 
         })
-        console.log("Total upcoming appointment list", res.data.result.totalAppointment)
+        console.log("Total upcoming appointment list", res.data.result.totalUpcomingAppointments)
       })
   }, [])
   return (

@@ -4,13 +4,16 @@ import Peer from 'simple-peer';
 import { message, Input, Button } from "antd";
 import { PhoneOutlined, CopyOutlined } from '@ant-design/icons';
 import { withRouter } from "react-router-dom";
+import { PhoneOutlined } from '@ant-design/icons';
+import { useParams, withRouter } from "react-router-dom";
 import { checkAppointmentDetail } from '../Service/PatientService';
 
 
 const { TextArea } = Input;
-const socket = io.connect('https://vivek-webrtc-test2.herokuapp.com/');
+const socket = io.connect('https://vivek-webrtc-test2.herokuapp.com');
 
 function Meeting(props) {
+
 
     const [stream, setStream] = useState()
     const [me, setMe] = useState()
@@ -27,10 +30,14 @@ function Meeting(props) {
     const connectionRef = useRef()
 
     useEffect(() => {
-        console.log('props.match.params.token', props.match.params.token);
-        checkAppointmentDetail(props.match.params.token)
+        console.log('CheckToken=>', props.location.search.split("=")[1]);
+        checkAppointmentDetail(props.location.search.split("=")[1])
             .then(res => {
                 console.log('res => ', res);
+                if (res.data.status === "UnAuthorized") {
+                    props.history.push('/');
+                    message.error({ content: "Your Session Has Been Expire Or Your Allocated Time Has Been Over" });
+                }
                 if (res.data.status === "Failed") {
                     message.error({ content: "Please Wait for your scheduled date and time" })
                     props.history.push('/ErrorMessage')
