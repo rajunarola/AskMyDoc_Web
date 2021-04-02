@@ -4,9 +4,8 @@ import Peer from 'simple-peer';
 import { message, Input, Button } from "antd";
 import { PhoneOutlined, CopyOutlined } from '@ant-design/icons';
 import { withRouter } from "react-router-dom";
-import { PhoneOutlined } from '@ant-design/icons';
-import { useParams, withRouter } from "react-router-dom";
 import { checkAppointmentDetail } from '../Service/PatientService';
+import './Meeting.css';
 
 
 const { TextArea } = Input;
@@ -118,7 +117,7 @@ function Meeting(props) {
             <div className="container">
                 <div className="vcontainer">
                     <div>
-                        {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "350px" }}></video>}
+                        {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "350px", border: "2px solid black" }}></video>}
                     </div>
                     <br />
                     <div>
@@ -134,17 +133,20 @@ function Meeting(props) {
                         label="Name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        style={{ marginBottom: "20px" }} >
+                        style={{ marginBottom: "20px", marginTop: "20px", height: "70px" }}
+                        placeholder="Enter Your Name Here">
                     </TextArea>
 
-                    <CopyOutlined text={me} style={{ marginBottom: "2rem" }}>
+                    {/* <CopyOutlined text={me} style={{ marginBottom: "2rem" }}>
                         <Button type="primary"> <CopyOutlined color="white" />&nbsp; Copy ID</Button>
-                    </CopyOutlined>
+                    </CopyOutlined> */}
 
                     <TextArea
                         label="ID to Call"
                         value={idToCall}
-                        onChange={(e) => setIdToCall(e.target.value)}>
+                        style={{ height: "70px" }}
+                        onChange={(e) => setIdToCall(e.target.value)}
+                        placeholder="Enter Your Id Here">
                     </TextArea>
                     <div className="Call">
                         {callAccepted && !callEnded ? (
@@ -161,7 +163,7 @@ function Meeting(props) {
                     {receivingCall && !callAccepted ? (
                         <div className="callAnswer">
                             <h1>{name} is calling..</h1>
-                            <Button variant="primary" className="answerButton" onClick={answerCall}><PhoneOutlined color="white" />&nbsp; Answer</Button>
+                            <Button type="primary" className="answerButton" onClick={answerCall}><PhoneOutlined color="white" />&nbsp; Answer</Button>
                         </div>
                     ) : null}
                 </div>
