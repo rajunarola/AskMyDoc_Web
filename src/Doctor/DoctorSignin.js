@@ -92,16 +92,18 @@ export const DoctorSignUp = (props) => {
     }
 
     const onFinish = async (values) => {
+        var isvarify = false;
         setLoading(true);
         setBtnsubmit(true);
         if (token.length > 0) {
             console.log('success', values);
-            verifyemail(values.code, token).then(res => {
+            await verifyemail(values.code, token).then(res => {
                 if (res.data.status === "Success") {
                     console.log(res.data);
                     //setBtnsubmit(false);
                     //setLoading(false);
-                    setIsdoctorverify(res.data.result.verify);
+                    isvarify = res.data.result.verify;
+                    console.log("res data=====>", res.data.result.verify);
                 } else {
                     setBtnsubmit(false);
                     setLoading(false);
@@ -122,7 +124,8 @@ export const DoctorSignUp = (props) => {
                     }
                 })
             });
-            if (isdoctorverify) {
+            console.log("Doctor Varify==>", isvarify);
+            if (isvarify) {
                 setLoading(true);
                 setBtnsubmit(true);
                 const formDataPhoto = new FormData();

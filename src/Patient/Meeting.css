@@ -1,7 +1,8 @@
-/* .container {
+.container_main {
   display: grid;
   height: 500px;
   grid-template-columns: 7fr 3fr;
+  margin: 20px;
 }
 .vcontainer {
   left: 0;
@@ -32,7 +33,7 @@
   left: 0;
   right: 0;
   z-index: 10000;
-  background: rgb(0, 0, 0); /* Fallback color 
+  background: rgb(0, 0, 0); /* Fallback color */
   background: rgba(0, 0, 0, 0.5);
   margin-top: 50px;
   display: grid;
@@ -43,7 +44,7 @@
 .callButton {
   margin-top: 10px;
 }
-body {
+/* body {
   position: fixed;
   background-image: url("../assests/image/bg_doc.jpg");
 } */

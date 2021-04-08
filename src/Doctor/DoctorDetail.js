@@ -435,7 +435,7 @@ function DoctorDetail(props) {
 
                 <Tabs defaultActiveKey="1" onChange={callback}>
                   <TabPane tab="Doctor Profile" key="1">
-                    <Form name="registe1r" initialValues={{ remember: true }} onFinish={onFinish} ref={formRef} encType="multipart/form-data">
+                    <Form name="register" initialValues={{ remember: true }} onFinish={onFinish} ref={formRef} encType="multipart/form-data">
                       <div className="row register-form">
 
                         <div className="col-md-6">

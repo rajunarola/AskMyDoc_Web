@@ -115,7 +115,7 @@ function Meeting(props) {
     return (
         <>
             <h1 style={{ textAlign: 'center' }}>Consultion Meeting Room</h1>
-            <div className="container">
+            <div className="container_main">
                 <div className="vcontainer">
                     <div>
                         {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "350px", border: "2px solid black" }}></video>}

@@ -315,10 +315,13 @@ function DoctorList() {
                                                 <Radio value={4}>08:40-08:50</Radio> */}
 
                                                     {timeslotdata.map((slotitems) => {
+                                                        // debugger
                                                         var timecheck = slotitems.timeSlotStart.split(":")[0];
                                                         var timePrefix = " ";
                                                         var ctimecheck = currentTime.time.split(':')[0];
+                                                        console.log("current time", ctimecheck)
                                                         var disRadio = false;
+                                                        // debugger
                                                         if (timecheck >= 8 && timecheck <= 11) {
                                                             timePrefix += "AM";
                                                             if (ctimecheck >= timecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
@@ -330,7 +333,7 @@ function DoctorList() {
                                                             if (ctimecheck > 12)
                                                                 ctimecheck -= 12;
                                                             // && moment(apdate).format("YYYY-MM-DD") === currentTime.date
-                                                            if (timecheck <= ctimecheck) {
+                                                            if (timecheck > ctimecheck) {
                                                                 disRadio = true;
                                                             }
                                                         }

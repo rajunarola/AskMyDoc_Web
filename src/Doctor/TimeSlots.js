@@ -124,8 +124,9 @@ export default class TimeSlots extends Component {
                                 content: res.data.message, className: 'custom-class',
                                 style: {
                                     marginTop: '20vh',
-                                }
+                                },
                             })
+                            this.DisplayTimeSlot()
                         } else {
                             this.setState({ loading: false });
                             message.error({
@@ -208,7 +209,7 @@ export default class TimeSlots extends Component {
         if (this.state.duration != 0) {
             options = [];
             for (var i = start; i < 12; i++) {
-                for (var j = 0; j < 60; j = Number(Number(j) + Number(this.state.duration))) {
+                for (var j = 0; j < 59; j = Number(Number(j) + Number(this.state.duration))) {
                     //s.push(<div className="col-md-3"> {i+":"+j}-{i+":"+Number( Number(j)+ Number(this.state.duration))} </div>)
                     var timei = '', timej = '';
                     if (i.toString().length == 1)
@@ -219,12 +220,13 @@ export default class TimeSlots extends Component {
                         timej = "0" + j;
                     else
                         timej = j;
-
-                    options.push({ label: `${timei + ":" + timej}-${timei + ":" + Number(Number(j) + Number(this.state.duration)) + " AM"}`, value: `${timei + ":" + timej}-${timei + ":" + Number(Number(j) + Number(this.state.duration))}` });
+                    var minutes = Number(Number(j) + Number(this.state.duration));
+                    minutes = minutes == 60 ? 59 : minutes;
+                    options.push({ label: `${timei + ":" + timej}-${timei + ":" + minutes + " AM"}`, value: `${timei + ":" + timej}-${timei + ":" + minutes}` });
                 }
             }
             for (var i = 1; i <= 5; i++) {
-                for (var j = 0; j < 60; j = Number(Number(j) + Number(this.state.duration))) {
+                for (var j = 0; j < 59; j = Number(Number(j) + Number(this.state.duration))) {
                     //s.push(<div className="col-md-3"> {i+":"+j}-{i+":"+Number( Number(j)+ Number(this.state.duration))} </div>)
                     var timei = '', timej = '';
                     if (i.toString().length == 1)
@@ -235,8 +237,9 @@ export default class TimeSlots extends Component {
                         timej = "0" + j;
                     else
                         timej = j;
-
-                    options.push({ label: `${timei + ":" + timej}-${timei + ":" + Number(Number(j) + Number(this.state.duration)) + " PM"}`, value: `${timei + ":" + timej}-${timei + ":" + Number(Number(j) + Number(this.state.duration))}` });
+                    var minutes = Number(Number(j) + Number(this.state.duration));
+                    minutes = minutes == 60 ? 59 : minutes;
+                    options.push({ label: `${timei + ":" + timej}-${timei + ":" + minutes + " PM"}`, value: `${timei + ":" + timej}-${timei + ":" + minutes}` });
                 }
             }
         }
