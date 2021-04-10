@@ -10,7 +10,6 @@ import ResetPassword from '../Doctor/ResetPassword';
 import DoctorDetail from "../Doctor/DoctorDetail";
 import ChangePassword from "../Doctor/DoctorChangePassword";
 import TimeSlots from '../Doctor/TimeSlots';
-import noObejctionForm from '../Doctor/noObejctionForm';
 import Meeting from '../Patient/Meeting'
 function DoctorRoutes() {
 
@@ -25,7 +24,7 @@ function DoctorRoutes() {
             <Route path='/doctor/doctordetail' exact={true} component={DoctorDetail} />
             <Route path='/doctor/changepassword' exact={true} component={ChangePassword} />
             <Route path='/doctor/timeslots' exact={true} component={TimeSlots} />
-            <Route path='/doctor/objectionform' exact={true} component={noObejctionForm} />
+
             <Route path='/doctormeeting' exact={true} component={Meeting} />
 
             <Route path="/doctor" exact={true} component={DoctorLogin} />

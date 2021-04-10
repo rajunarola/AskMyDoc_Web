@@ -2,7 +2,6 @@
 import axios from 'axios';
 
 export async function getalldoctors() {
-
     return await axios.get(process.env.REACT_APP_SERVER_URL + `/Doctor/GetAll`);
 }
 

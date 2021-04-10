@@ -321,16 +321,16 @@ function DoctorList() {
                                                         var ctimecheck = currentTime.time.split(':')[0];
                                                         console.log("current time", ctimecheck)
                                                         var disRadio = false;
-                                                        // debugger
+                                                        //debugger
                                                         if (timecheck >= 8 && timecheck <= 11) {
                                                             timePrefix += "AM";
                                                             if (ctimecheck >= timecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
-                                                                disRadio = true;
+                                                                disRadio = false;
                                                             }
                                                         }
                                                         else {
                                                             timePrefix += "PM"
-                                                            if (ctimecheck > 12)
+                                                            if (ctimecheck < 12)
                                                                 ctimecheck -= 12;
                                                             // && moment(apdate).format("YYYY-MM-DD") === currentTime.date
                                                             if (timecheck > ctimecheck) {

@@ -8,13 +8,10 @@ import { useParams } from "react-router-dom";
 import { checkAppointmentDetail } from '../Service/PatientService';
 import './Meeting.css';
 
-
 const { TextArea } = Input;
 const socket = io.connect('https://vivek-webrtc-test2.herokuapp.com');
 
 function Meeting(props) {
-
-
     const [stream, setStream] = useState()
     const [me, setMe] = useState()
     const [receivingCall, setReceivingCall] = useState(false)
@@ -24,7 +21,6 @@ function Meeting(props) {
     const [callAccepted, setCallAccepted] = useState(false)
     const [callEnded, setCallEnded] = useState(false)
     const [idToCall, setIdToCall] = useState("")
-
     const myVideo = useRef()
     const userVideo = useRef()
     const connectionRef = useRef()
@@ -34,6 +30,7 @@ function Meeting(props) {
         checkAppointmentDetail(props.location.search.split("=")[1])
             .then(res => {
                 console.log('res => ', res);
+                console.log("status code", res.data.StatusCode)
                 if (res.data.status === "UnAuthorized") {
                     props.history.push('/');
                     message.error({ content: "Your Session Has Been Expire Or Your Allocated Time Has Been Over" });
@@ -41,6 +38,15 @@ function Meeting(props) {
                 if (res.data.status === "Failed") {
                     message.error({ content: "Please Wait for your scheduled date and time" })
                     props.history.push('/ErrorMessage')
+                }
+                if (res.data.status === "Success") {
+                    if (res.data.data.aaa === false) {
+                        message.error({ content: "Please first fill the no objection form" })
+                        props.history.push("/noobjection")
+                    } else {
+                        message.success({ content: "you can join the meeting now." })
+                        //props.history.push("/noobjection")// to direct meeting join karav
+                    }
                 }
             })
             .catch(function (err) {
