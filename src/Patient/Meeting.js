@@ -30,7 +30,7 @@ function Meeting(props) {
         checkAppointmentDetail(props.location.search.split("=")[1])
             .then(res => {
                 console.log('res => ', res);
-                console.log("status code", res.data.StatusCode)
+
                 if (res.data.status === "UnAuthorized") {
                     props.history.push('/');
                     message.error({ content: "Your Session Has Been Expire Or Your Allocated Time Has Been Over" });
@@ -40,7 +40,8 @@ function Meeting(props) {
                     props.history.push('/ErrorMessage')
                 }
                 if (res.data.status === "Success") {
-                    if (res.data.data.aaa === false) {
+                    console.log('res.data.result => ', res.data.result);
+                    if (res.data.result.aaa === false) {
                         message.error({ content: "Please first fill the no objection form" })
                         props.history.push("/noobjection")
                     } else {
