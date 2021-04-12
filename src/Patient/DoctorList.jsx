@@ -329,12 +329,12 @@ function DoctorList() {
                                                             }
                                                         }
                                                         else {
-                                                            timePrefix += "PM"
-                                                            if (ctimecheck > 12)
-                                                                ctimecheck -= 12 //&& moment(apdate).format("YYYY-MM-DD") === currentTime.date
-                                                            if (timecheck <= ctimecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
-                                                                disRadio = true;
-                                                            }
+                                                            // timePrefix += "PM"
+                                                            // if (ctimecheck > 12)
+                                                            //     ctimecheck -= 12 //&& moment(apdate).format("YYYY-MM-DD") === currentTime.date
+                                                            // if (timecheck <= ctimecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
+                                                            //     disRadio = true;
+                                                            // }
                                                         }
                                                         return (<Radio.Button disabled={disRadio} value={slotitems.timeSlot_Id} label={`${slotitems.timeSlotStart}-To-${slotitems.timeSlotEnd}`} >{slotitems.timeSlotStart}-To-{slotitems.timeSlotEnd} {timePrefix}  </Radio.Button>
                                                         )

@@ -26,6 +26,7 @@ function Meeting(props) {
     const connectionRef = useRef()
     const [visible, Setvisible] = useState(false);
     const [patientid,Setpatientid]=useState(0);
+    const [patientemail,Setpatientemail]=useState("");
 
     useEffect(() => {
         
@@ -46,7 +47,7 @@ function Meeting(props) {
                     console.log('res.data.result no objection => ', res.data.result);
                     if (res.data.result.aaa === false) {
                         message.error({ content: "Please first fill the no objection form" })
-                        console.log('res data check => ',res);
+                        Setpatientemail(res.data.result.email);
                         Setpatientid(res.data.result.patientid)
                         Setvisible(true);
                     }
@@ -54,7 +55,10 @@ function Meeting(props) {
                 }
             })
             .catch(function (err) {
-                console.log(err)
+                console.log("Error Checking=>",err);
+                    props.history.push('/');
+                    window.location.reload();
+                
             })
 
         navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
