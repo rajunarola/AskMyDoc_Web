@@ -5,7 +5,7 @@ import { message, Input, Button, Modal } from "antd";
 import { PhoneOutlined, CopyOutlined } from '@ant-design/icons';
 import { withRouter } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { checkAppointmentDetail,noobjectionaccept } from '../Service/PatientService';
+import { checkAppointmentDetail, noobjectionaccept } from '../Service/PatientService';
 import './Meeting.css';
 
 const { TextArea } = Input;
@@ -25,10 +25,10 @@ function Meeting(props) {
     const userVideo = useRef()
     const connectionRef = useRef()
     const [visible, Setvisible] = useState(false);
-    const [patientid,Setpatientid]=useState(0);
+    const [patientid, Setpatientid] = useState(0);
 
     useEffect(() => {
-        
+
         console.log('CheckToken=>', props.location.search.split("=")[1]);
         checkAppointmentDetail(props.location.search.split("=")[1])
             .then(res => {
@@ -46,11 +46,11 @@ function Meeting(props) {
                     console.log('res.data.result no objection => ', res.data.result);
                     if (res.data.result.aaa === false) {
                         message.error({ content: "Please first fill the no objection form" })
-                        console.log('res data check => ',res);
+                        console.log('res data check => ', res);
                         Setpatientid(res.data.result.patientid)
                         Setvisible(true);
                     }
-                        
+
                 }
             })
             .catch(function (err) {
@@ -74,23 +74,23 @@ function Meeting(props) {
             setCallerSignal(data.signal)
         })
     }, [])
-   
-   const handleOk = () => {
-            Setvisible(false);
+
+    const handleOk = () => {
+        Setvisible(false);
 
         message.success({ content: "you can join the meeting now." })
-        console.log("this is patient id=>",patientid);
-        noobjectionaccept(patientid).then(res=>{
+        console.log("this is patient id=>", patientid);
+        noobjectionaccept(patientid).then(res => {
 
-            console.log("patientid res=>",res);
+            console.log("patientid res=>", res);
 
         });
     };
 
-   const handleCancel = () => {
+    const handleCancel = () => {
         Setvisible(false);
         props.history.push('/')
-        message.error({content:"Accept the Agremment To Continew..."})
+        message.error({ content: "Accept the Agremment To Continew..." })
 
     };
     const callUser = (id) => {
@@ -233,7 +233,7 @@ function Meeting(props) {
                         <p className="pfont">Date :{new Date().toLocaleString() + ''}</p>
                     </center>
                 </div>
-               
+
             </Modal>
         </>
     )
