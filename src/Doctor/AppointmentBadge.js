@@ -27,7 +27,7 @@ export default class AppointmentBadge extends Component {
     }
 
     join(appointmentid) {
-        this.props.history.push('/doctormeeting')
+        this.props.history.push('/doctormeeting?token='+localStorage.getItem('Token'))
     }
     cancel(appointmentid) {
         // alert(appointmentid)
