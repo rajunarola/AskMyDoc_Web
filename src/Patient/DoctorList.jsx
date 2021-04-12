@@ -315,7 +315,7 @@ function DoctorList() {
                                                 <Radio value={4}>08:40-08:50</Radio> */}
 
                                                     {timeslotdata.map((slotitems) => {
-                                                        // debugger
+                                                        //debugger
                                                         var timecheck = slotitems.timeSlotStart.split(":")[0];
                                                         var timePrefix = " ";
                                                         var ctimecheck = currentTime.time.split(':')[0];
@@ -325,15 +325,14 @@ function DoctorList() {
                                                         if (timecheck >= 8 && timecheck <= 11) {
                                                             timePrefix += "AM";
                                                             if (ctimecheck >= timecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
-                                                                disRadio = false;
+                                                                disRadio = true;
                                                             }
                                                         }
                                                         else {
                                                             timePrefix += "PM"
-                                                            if (ctimecheck < 12)
-                                                                ctimecheck -= 12;
-                                                            // && moment(apdate).format("YYYY-MM-DD") === currentTime.date
-                                                            if (timecheck > ctimecheck) {
+                                                            if (ctimecheck > 12)
+                                                                ctimecheck -= 12 //&& moment(apdate).format("YYYY-MM-DD") === currentTime.date
+                                                            if (timecheck <= ctimecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
                                                                 disRadio = true;
                                                             }
                                                         }
