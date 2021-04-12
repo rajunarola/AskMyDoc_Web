@@ -1,10 +1,10 @@
-.container_main {
+/* .container_main {
   display: grid;
   height: 500px;
   grid-template-columns: 7fr 3fr;
   margin: 20px;
-}
-.vcontainer {
+} */
+/* .vcontainer {
   left: 0;
   right: 0;
   z-index: 10000;
@@ -14,26 +14,26 @@
   align-content: center;
   border: black 2px solid;
   margin: 10px;
-}
-.Call {
+} */
+/* .Call {
   left: 0;
   right: 0;
   z-index: 10000;
   display: grid;
   text-align: center;
   margin-top: 2rem;
-}
-.callAnswer {
+} */
+/* .callAnswer {
   left: 0;
   right: 0;
   z-index: 12000;
   color: #fff;
-}
-.MyClass {
+} */
+/* .MyClass {
   left: 0;
   right: 0;
   z-index: 10000;
-  background: rgb(0, 0, 0); /* Fallback color */
+  background: rgb(0, 0, 0); 
   background: rgba(0, 0, 0, 0.5);
   margin-top: 50px;
   display: grid;
@@ -43,7 +43,7 @@
 }
 .callButton {
   margin-top: 10px;
-}
+} */
 /* body {
   position: fixed;
   background-image: url("../assests/image/bg_doc.jpg");

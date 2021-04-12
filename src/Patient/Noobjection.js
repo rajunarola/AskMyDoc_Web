@@ -6,7 +6,6 @@ import { checkAppointmentDetail } from '../Service/PatientService';
 export const Noobejction = () => {
     const IsAccepted = () => {
         alert("Accepted");
-
     }
     return (
         <div>

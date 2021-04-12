@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import io from 'socket.io-client';
 import Peer from 'simple-peer';
-import { message, Input, Button } from "antd";
+import { message, Input, Button, Modal } from "antd";
 import { PhoneOutlined, CopyOutlined } from '@ant-design/icons';
 import { withRouter } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { checkAppointmentDetail } from '../Service/PatientService';
+import { checkAppointmentDetail,noobjectionaccept } from '../Service/PatientService';
 import './Meeting.css';
 
 const { TextArea } = Input;
@@ -24,8 +24,10 @@ function Meeting(props) {
     const myVideo = useRef()
     const userVideo = useRef()
     const connectionRef = useRef()
+    const [visible, Setvisible] = useState(false);
 
     useEffect(() => {
+        
         console.log('CheckToken=>', props.location.search.split("=")[1]);
         checkAppointmentDetail(props.location.search.split("=")[1])
             .then(res => {
@@ -40,14 +42,12 @@ function Meeting(props) {
                     props.history.push('/ErrorMessage')
                 }
                 if (res.data.status === "Success") {
-                    console.log('res.data.result => ', res.data.result);
+                    console.log('res.data.result no objection => ', res.data.result);
                     if (res.data.result.aaa === false) {
                         message.error({ content: "Please first fill the no objection form" })
-                        props.history.push("/noobjection")
-                    } else {
-                        message.success({ content: "you can join the meeting now." })
-                        //props.history.push("/noobjection")// to direct meeting join karav
+                        Setvisible(true);
                     }
+                        
                 }
             })
             .catch(function (err) {
@@ -71,7 +71,21 @@ function Meeting(props) {
             setCallerSignal(data.signal)
         })
     }, [])
+   
+   const handleOk = () => {
+            Setvisible(false);
 
+        message.success({ content: "you can join the meeting now." })
+        noobjectionaccept().then(res=>{
+
+            console.log(res);
+
+        });
+    };
+
+   const handleCancel = () => {
+        Setvisible(false);
+    };
     const callUser = (id) => {
         const peer = new Peer({
             initiator: true,
@@ -176,6 +190,44 @@ function Meeting(props) {
                     ) : null}
                 </div>
             </div>
+            <Modal
+                visible={visible}
+                title="Title"
+                onOk={handleOk}
+                onCancel={handleCancel}
+                maskClosable={false}
+                footer={[
+
+                    <Button key="Accept" type="primary" onClick={handleOk}>
+                        Accept
+            </Button>,
+                    <Button
+                        type="primary"
+
+                        onClick={handleCancel}
+                    >
+                        Cancel
+            </Button>,
+                ]}
+            >
+                <h2></h2>
+                <div className="divborder">
+                    <center>
+                        <h1 style={{ color: "darkblue" }}>NO OBJECTION CERTIFICATE </h1>
+                        <p> This Document is Given Too </p>
+                        <h3 style={{ color: "darkblue" }}> Patient Name </h3>
+                        <p className="pfont psetcenter"> Paragram of No objection Cerificate
+                        "A NOC may also be required to get governmental permission to construct a new building,
+                        or to refit or renovate an existing one. They may be requested from an employer
+                        when an employee wishes to switch to another job.As a legal document, a no objection certificate
+                        often holds a great deal of significance for different legal tasks and procedures,
+                        and can be requested by agencies or individuals."
+                                                                </p>
+                        <p className="pfont">Date :{new Date().toLocaleString() + ''}</p>
+                    </center>
+                </div>
+               
+            </Modal>
         </>
     )
 }
