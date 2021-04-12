@@ -25,6 +25,7 @@ function Meeting(props) {
     const userVideo = useRef()
     const connectionRef = useRef()
     const [visible, Setvisible] = useState(false);
+    const [patientid,Setpatientid]=useState(0);
 
     useEffect(() => {
         
@@ -45,6 +46,8 @@ function Meeting(props) {
                     console.log('res.data.result no objection => ', res.data.result);
                     if (res.data.result.aaa === false) {
                         message.error({ content: "Please first fill the no objection form" })
+                        console.log('res data check => ',res);
+                        Setpatientid(res.data.result.patientid)
                         Setvisible(true);
                     }
                         
@@ -76,15 +79,19 @@ function Meeting(props) {
             Setvisible(false);
 
         message.success({ content: "you can join the meeting now." })
-        noobjectionaccept().then(res=>{
+        console.log("this is patient id=>",patientid);
+        noobjectionaccept(patientid).then(res=>{
 
-            console.log(res);
+            console.log("patientid res=>",res);
 
         });
     };
 
    const handleCancel = () => {
         Setvisible(false);
+        props.history.push('/')
+        message.error({content:"Accept the Agremment To Continew..."})
+
     };
     const callUser = (id) => {
         const peer = new Peer({
