@@ -29,6 +29,6 @@ export async function checkAppointmentDetail(token) {
     }
     return await axios.post(process.env.REACT_APP_SERVER_URL + `/Appointment/CheckAppointment`, null, { 'headers': headers })
 }
-export async function noobjectionaccept() {
-    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Appointment/noobjectionaccept`, null)
+export async function noobjectionaccept(patientid) {
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Appointment/noobjectionaccept?patientid=`+patientid, null)
 }
