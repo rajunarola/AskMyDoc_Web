@@ -139,8 +139,9 @@ export default class Specialization extends Component {
 
     handleOk = values => {
         if (this.state.SpecializationName != "") {
-            if (this.state.SpecializationName.length <= 25 && /^[a-zA-Z]+$/.test(this.state.SpecializationName)) {
-
+            //  debugger
+            // if (this.state.SpecializationName.length <= 25 && /^[a-zA-Z]+$/.test(this.state.SpecializationName)) {
+            if (this.state.SpecializationName.length <= 25) {
                 if (this.state.specializationMaster_Id == 0) {
 
                     Addspecialization({ 'Specialization': this.state.SpecializationName }).then(res => {

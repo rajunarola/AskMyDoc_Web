@@ -95,13 +95,15 @@ export default class Specialization extends Component {
             if (res.data.status === "Success") {
 
                 res.data.result.map(item => {
-
-                    item.action = <div><Button type="primary" onClick={(id) => this.handleEdit(item.degreeMaster_Id)}><i class="fas fa-pencil-alt"></i></Button> <Popconfirm title="Are you sure to delete this Degree?"
-                        onConfirm={(id) => this.confirm(item.degreeMaster_Id)}
-                        okText="Yes"
-                        cancelText="No">
-                        <Button type="danger" ><i class="fas fa-trash-alt"></i></Button>
-                    </Popconfirm></div>
+                    console.log("Items==", item);
+                    item.action = <div>
+                        <Button type="primary" onClick={(id) => this.handleEdit(item.degreeMaster_Id)}><i class="fas fa-pencil-alt"></i></Button>
+                        <Popconfirm title="Are you sure to delete this Degree?"
+                            onConfirm={(id) => this.confirm(item.degreeMaster_Id)}
+                            okText="Yes"
+                            cancelText="No">
+                            <Button type="danger" ><i class="fas fa-trash-alt"></i></Button>
+                        </Popconfirm></div>
                 });
 
                 this.setState({

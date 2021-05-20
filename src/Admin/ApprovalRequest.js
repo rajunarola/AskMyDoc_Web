@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Modal, message, Form, Input, notification, Popconfirm,Drawer, Button, Col, Row, Select, DatePicker } from 'antd';
+import { Modal, message, Form, Input, notification, Popconfirm, Drawer, Button, Col, Row, Select, DatePicker } from 'antd';
 import { MDBDataTable, MDBBtn } from 'mdbreact';
 import { DeleteOutlined, EditOutlined, CheckOutlined, CloseOutlined, FolderViewOutlined } from '@ant-design/icons'
-import {  getallapprovalrequest,RequestApproved } from '../Service/AdminService';
+import { getallapprovalrequest, RequestApproved } from '../Service/AdminService';
 import AdminHeader from '../_Layout/Admin/AdminHeader';
 import AdminFooter from '../_Layout/Admin/AdminFooter';
 import AdminSidebar from '../_Layout/Admin/AdminSidebar';
@@ -21,17 +21,17 @@ export default class ApprovalRequest extends Component {
             lname: " ",
             gender: " ",
             dob: " ",
-            document:"",
+            document: "",
             state_id: 0,
             city_id: 0,
             pincode: " ",
             exdate: " ",
             clinicAdd: " ",
             profilePic: " ",
-            degreename:"",
+            degreename: "",
             loading: false,
             visible: false,
-            SpecializationName:"",
+            SpecializationName: "",
             data: [],
             isModalVisible: false
         }
@@ -45,8 +45,8 @@ export default class ApprovalRequest extends Component {
         }
     }
 
-    approvalrequest = (id,status)=>{
-        RequestApproved(id,status).then(res=>{
+    approvalrequest = (id, status) => {
+        RequestApproved(id, status).then(res => {
             if (res.data.status === "Success") {
                 message.success({
                     content: res.data.message, className: 'custom-class',
@@ -76,13 +76,15 @@ export default class ApprovalRequest extends Component {
     DisplayAllApprovalRequest() {
 
         getallapprovalrequest().then(res => {
-        console.log(res)
+            console.log(res)
             if (res.data.status === "Success") {
 
                 res.data.result.approvallist.map(item => {
                     item.profilePic = <div><img className="img-circle img-bordered" src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${item.profilePicture}&type=1`} height="50px" width="50px" /></div>
                     item.action = <div>
-                        <Button type="dashed" onClick={()=> this.approvalrequest(item.doctor_Id,true)}><CheckOutlined />Accept </Button> <Button type="dashed" onClick={()=> this.approvalrequest(item.doctor_Id,false)} danger><CloseOutlined />Reject </Button> <Button type="dashed" onClick={() => this.showModal(item.doctor_Id)} ><FolderViewOutlined />View </Button></div>
+                        <Button type="dashed" onClick={() => this.approvalrequest(item.doctor_Id, true)}><CheckOutlined />Accept </Button>
+                        <Button type="dashed" onClick={() => this.approvalrequest(item.doctor_Id, false)} danger><CloseOutlined />Reject </Button>
+                        <Button type="dashed" onClick={() => this.showModal(item.doctor_Id)} ><FolderViewOutlined />View </Button></div>
 
                 });
 
@@ -141,30 +143,30 @@ export default class ApprovalRequest extends Component {
 
     showModal = (id) => {
         this.setState({ isModalVisible: true });
-            
-        var ap=this.state.data[0].rows.filter((res)=>{
-            return res.doctor_Id==id;
+
+        var ap = this.state.data[0].rows.filter((res) => {
+            return res.doctor_Id == id;
         })
-        var dt= new Date(ap[0].dob);
+        var dt = new Date(ap[0].dob);
         this.setState({
-            profilePic:ap[0].profilePicture,
-            fname:ap[0].fName,
-            mname:ap[0].mName,
-            lname:ap[0].lName,
-            email:ap[0].email,
-            dob:dt.toLocaleDateString(),
-            exdate:ap[0].experienceInYear,
-            gender:ap[0].gender,
-            pincode:ap[0].pincode,
-            SpecializationName:ap[0].SpecializationName,
-            degreename:ap[0].degreeName,
-            document:ap[0].document
+            profilePic: ap[0].profilePicture,
+            fname: ap[0].fName,
+            mname: ap[0].mName,
+            lname: ap[0].lName,
+            email: ap[0].email,
+            dob: dt.toLocaleDateString(),
+            exdate: ap[0].experienceInYear,
+            gender: ap[0].gender,
+            pincode: ap[0].pincode,
+            SpecializationName: ap[0].SpecializationName,
+            degreename: ap[0].degreeName,
+            document: ap[0].document
         })
-        console.log(ap[0]);  
+        console.log(ap[0]);
     };
 
-    handleCancel=()=> {
-        this.setState({ isModalVisible: false});
+    handleCancel = () => {
+        this.setState({ isModalVisible: false });
     };
 
 
@@ -207,18 +209,18 @@ export default class ApprovalRequest extends Component {
                                                     onClose={this.handleCancel}
                                                     visible={this.state.isModalVisible}
                                                     bodyStyle={{ paddingBottom: 80 }}
-                                                   
+
                                                 >
                                                     <Form layout="vertical" hideRequiredMark>
                                                         <Row gutter={16}>
                                                             <Col span={12}>
                                                                 <Form.Item>
-                                                                   <Avatar size={100} src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${this.state.profilePic}&type=1`} shape="square" ></Avatar>
+                                                                    <Avatar size={100} src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${this.state.profilePic}&type=1`} shape="square" ></Avatar>
                                                                 </Form.Item>
                                                             </Col>
                                                             <Col span={12}>
                                                                 <Form.Item>
-                                                                    <label>Dr .{this.state.fname} {this.state.mname} {this.state.lname} </label><br/>
+                                                                    <label>Dr .{this.state.fname} {this.state.mname} {this.state.lname} </label><br />
                                                                     <label>{this.state.email}</label>
                                                                 </Form.Item>
                                                             </Col>
@@ -226,12 +228,12 @@ export default class ApprovalRequest extends Component {
                                                         <Row gutter={16}>
                                                             <Col span={12}>
                                                                 <Form.Item>
-                                                                    <label>Experience :{this.state.exdate} Year</label><br/> <label>Gender :</label><label>{this.state.gender}</label>
+                                                                    <label>Experience :{this.state.exdate} Year</label><br /> <label>Gender :</label><label>{this.state.gender}</label>
                                                                 </Form.Item>
                                                             </Col>
                                                             <Col span={12}>
                                                                 <Form.Item>
-                                                                   <label>DOB :{this.state.dob}</label>
+                                                                    <label>DOB :{this.state.dob}</label>
                                                                 </Form.Item>
                                                             </Col>
                                                         </Row>
@@ -250,8 +252,8 @@ export default class ApprovalRequest extends Component {
                                                         <Row gutter={16}>
                                                             <Col span={24}>
                                                                 <Form.Item>
-                                                                    <label>Document</label><br/>
-                                                                    <img  src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${this.state.document}&type=3`} height="200px" width="400px"/>
+                                                                    <label>Document</label><br />
+                                                                    <img src={process.env.REACT_APP_SERVER_URL + `/Comman/GetFile?file=${this.state.document}&type=3`} height="200px" width="400px" />
                                                                 </Form.Item>
                                                             </Col>
                                                         </Row>

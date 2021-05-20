@@ -8,49 +8,47 @@ export async function login(users) {
 //#endregion
 
 //#region  State Apis
-export  function GetAllStates() {
-    return  axios.get(process.env.REACT_APP_SERVER_URL + `/State/GetAll`)
+export function GetAllStates() {
+    return axios.get(process.env.REACT_APP_SERVER_URL + `/State/GetAll`)
 }
 
-export  function GetOneState(id) {
-    return  axios.get(process.env.REACT_APP_SERVER_URL + `/State/GetOne?id=${id}`)
+export function GetOneState(id) {
+    return axios.get(process.env.REACT_APP_SERVER_URL + `/State/GetOne?id=${id}`)
 }
 
 export function AddState(data) {
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/State/Add`,data,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/State/Add`, data, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('AccessToken') } })
 }
 
 export function EditState(data) {
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/State/Edit`,data,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/State/Edit`, data, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('AccessToken') } })
 }
 
-export function DeleteState(data)
-{
-    return axios.delete(process.env.REACT_APP_SERVER_URL + `/State/Delete?id=${data}`,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
+export function DeleteState(data) {
+    return axios.delete(process.env.REACT_APP_SERVER_URL + `/State/Delete?id=${data}`, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('AccessToken') } })
 }
 
 //#endregion
 
 //#region  City Apis
-export function GetAllCities(){
+export function GetAllCities() {
     return axios.get(process.env.REACT_APP_SERVER_URL + `/City/GetAll`);
 }
 
 export function AddCity(data) {
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/City/Add`,data,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/City/Add`, data, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('AccessToken') } })
 }
 
-export function EditCity(data){
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/City/Edit`,data,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
+export function EditCity(data) {
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/City/Edit`, data, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('AccessToken') } })
 }
 
-export  function GetOneCity(id) {
-    return  axios.get(process.env.REACT_APP_SERVER_URL + `/City/GetOne?id=${id}`)
+export function GetOneCity(id) {
+    return axios.get(process.env.REACT_APP_SERVER_URL + `/City/GetOne?id=${id}`)
 }
 
-export function DeleteCity(data)
-{
-    return axios.delete(process.env.REACT_APP_SERVER_URL + `/City/Delete?id=${data}`,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
+export function DeleteCity(data) {
+    return axios.delete(process.env.REACT_APP_SERVER_URL + `/City/Delete?id=${data}`, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('AccessToken') } })
 }
 //#endregion
 
@@ -63,29 +61,29 @@ export function Getspecializations() {
 export function Addspecialization(data) {
     var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+        'Authorization': 'Bearer ' + localStorage.getItem('AccessToken')
     }
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/addsepcialization`,data,{'headers':headers})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/addsepcialization`, data, { 'headers': headers })
 }
 
-export  function Getspecialization(id) {
-    return  axios.get(process.env.REACT_APP_SERVER_URL + `/Specialization/getspecialization?id=${id}`)
+export function Getspecialization(id) {
+    return axios.get(process.env.REACT_APP_SERVER_URL + `/Specialization/getspecialization?id=${id}`)
 }
 
 export function Deletespecialization(id) {
     var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+        'Authorization': 'Bearer ' + localStorage.getItem('AccessToken')
     }
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/deletespecialization?id=${id}`,null,{'headers':headers})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/deletespecialization?id=${id}`, null, { 'headers': headers })
 }
 
 export function Editspecialization(specializationMaster_Id) {
     var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+        'Authorization': 'Bearer ' + localStorage.getItem('AccessToken')
     }
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/updatesepcialization`,specializationMaster_Id,{'headers':headers})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Specialization/updatesepcialization`, specializationMaster_Id, { 'headers': headers })
 }
 //#endregion
 
@@ -97,9 +95,9 @@ export function GetDegrees() {
 export function AddDegree(data) {
     var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+        'Authorization': 'Bearer ' + localStorage.getItem('AccessToken')
     }
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Degree/AddDegree`,data,{'headers':headers})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Degree/AddDegree`, data, { 'headers': headers })
 }
 export function GetDegree(id) {
     return axios.get(process.env.REACT_APP_SERVER_URL + `/Degree/GetOneDegree?id=${id}`)
@@ -107,27 +105,27 @@ export function GetDegree(id) {
 export function DeleteDegree(id) {
     var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+        'Authorization': 'Bearer ' + localStorage.getItem('AccessToken')
     }
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Degree/DeleteDegree?id=${id}`,null,{'headers':headers})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Degree/DeleteDegree?id=${id}`, null, { 'headers': headers })
 }
 export function EditDegree(DegreeMaster_Id) {
     var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+        'Authorization': 'Bearer ' + localStorage.getItem('AccessToken')
     }
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Degree/UpdateDegree`,DegreeMaster_Id,{'headers':headers})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Degree/UpdateDegree`, DegreeMaster_Id, { 'headers': headers })
 }
 //#endregion
 
 //#region changepassword
 
-export function changepassword(oldpassword,newpassword) {
+export function changepassword(oldpassword, newpassword) {
     var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+        'Authorization': 'Bearer ' + localStorage.getItem('AccessToken')
     }
-    return axios.post(process.env.REACT_APP_SERVER_URL + `/Comman/changepassword?oldpassword=${oldpassword}&&newpassword=${newpassword}`,null,{'headers':headers})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/Comman/changepassword?oldpassword=${oldpassword}&&newpassword=${newpassword}`, null, { 'headers': headers })
 }
 //#endregion
 
@@ -137,17 +135,16 @@ export function GetApprovalRequestCount() {
 }
 
 export function getallapprovalrequest() {
-   
+
     return axios.get(process.env.REACT_APP_SERVER_URL + `/ApprovalRequest/getapprovalrequests`)
 }
 
-export function RequestApproved(id,status)
-{
+export function RequestApproved(id, status) {
     var headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+localStorage.getItem('AccessToken') 
+        'Authorization': 'Bearer ' + localStorage.getItem('AccessToken')
     }
-    return axios.post(process.env.REACT_APP_SERVER_URL+`/ApprovalRequest/approvalrequest?doctorid=${id}&approval=${status}`,null,{'headers':headers})
+    return axios.post(process.env.REACT_APP_SERVER_URL + `/ApprovalRequest/approvalrequest?doctorid=${id}&approval=${status}`, null, { 'headers': headers })
 }
 
 //#endregion
@@ -160,6 +157,18 @@ export async function getallDoctor() {
 
 //#region Dashboard
 export async function getAdminDashboard() {
-    return await axios.get(process.env.REACT_APP_SERVER_URL + `/AdminDashboard/getAdminDashboard`,{headers:{ 'Authorization': 'Bearer '+localStorage.getItem('AccessToken') }})
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/AdminDashboard/getAdminDashboard`, { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('AccessToken') } })
+}
+
+export async function GetAllFeedback() {
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Feedback/GetAllFeedback`)
 }
 //#endregion
+
+export async function DeleteFeedback(id) {
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('AccessToken')
+    }
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Feedback/DeleteFeedback?id=${id}`, null, { 'headers': headers })
+}

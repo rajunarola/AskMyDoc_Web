@@ -99,6 +99,18 @@ export default function AdminSidebar() {
                                 <p> Doctors </p>
                             </Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to='/admin/appointment'>
+                                <i className="fas fa-book nav-icon"></i>
+                                <p> Appointment </p>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to='/admin/review'>
+                                <i className="fa fa-star nav-icon"></i>
+                                <p> Reviews </p>
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
                 {/* <!-- /.sidebar-menu --> */}

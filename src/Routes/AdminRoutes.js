@@ -9,6 +9,8 @@ import Degree from '../Admin/Degree';
 import City from '../Admin/City';
 import ApprovalRequest from '../Admin/ApprovalRequest';
 import DoctorList from '../Admin/DoctorList';
+import Review from '../Admin/Review';
+import Appointment from '../Admin/Appointment';
 
 function AdminRoutes() {
 
@@ -23,6 +25,8 @@ function AdminRoutes() {
             <Route path="/admin/doctor" exact={true} component={DoctorList} />
             <Route path="/admin/city" exact={true} component={City} />
             <Route path="/admin/changepassword" exact={true} component={ChangePassword} />
+            <Route path="/admin/review" exact={true} component={Review} />
+            <Route path="/admin/appointment" exact={true} component={Appointment} />
         </Switch>
     );
 }

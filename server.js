@@ -12,7 +12,8 @@ var io = require('socket.io')(server, {
 })
 
 io.on('connection', socket => {
-    socket.emit('me', socket.id)
+    debugger;
+    socket.emit('me', socket.id);
 
     socket.on('disconnect', () => {
         console.log('Disconnected')
@@ -20,10 +21,15 @@ io.on('connection', socket => {
     })
 
     socket.on('callUser', (data) => {
+        debugger
         io.to(data.userToCall).emit("callUser", { signal: data.signalData, from: data.from, name: data.name }) // this data will come from the front end 
     })
 
     socket.on('answerCall', (data) => {
+        io.to(data.to).emit("callAccepted", data.signal)
+    })
+
+    socket.on('pageload', (data) => {
         io.to(data.to).emit("callAccepted", data.signal)
     })
 });

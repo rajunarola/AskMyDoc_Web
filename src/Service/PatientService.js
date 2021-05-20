@@ -22,13 +22,27 @@ export async function varifypatientemail(code, token) {
     }
     return await axios.post(process.env.REACT_APP_SERVER_URL + `/Appointment/patientemailverify?code=${code}`, null, { 'headers': headers })
 }
-export async function checkAppointmentDetail(token) {
+export async function checkAppointmentDetail(token, appointmentid) {
     var headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
     }
-    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Appointment/CheckAppointment`, null, { 'headers': headers })
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Appointment/CheckAppointment?appointmentid=${appointmentid}`, null, { 'headers': headers })
 }
 export async function noobjectionaccept(patientid) {
-    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Appointment/noobjectionaccept?patientid=`+patientid, null)
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Appointment/noobjectionaccept?patientid=` + patientid, null)
 }
+
+export async function updateAppoinment(appointmentid, roomLink, CallerType, IsCall) {
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `/Appointment/UpdateApData?appointmentid=${appointmentid}&roomLink=${roomLink}&CallerType=${CallerType}&IsCall=${IsCall}`, null)
+}
+
+export async function updateEndCall(appointmentid, EndCallerType, IsCall) {
+    return await axios.post(process.env.REACT_APP_SERVER_URL + `Appointment/UpdateEndCall?appointmentid=${appointmentid}&EndCallerType=${EndCallerType}&IsCall=${IsCall}`, null)
+}
+
+export async function GetScoketId(appointmentid, IsCall) {
+    return await axios.get(process.env.REACT_APP_SERVER_URL + `/Appointment/GetSocketId?appointmentid=${appointmentid}&IsCall=${IsCall}`, null)
+}
+
+

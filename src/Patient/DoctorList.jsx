@@ -36,6 +36,7 @@ function DoctorList() {
     }
     const onFinishAppointment = async (values) => {
         console.log(radiovalue)
+        debugger
         if (file != null) {
             if (radiovalue != 0) {
                 const formdata = new FormData();
@@ -319,22 +320,22 @@ function DoctorList() {
                                                         var timecheck = slotitems.timeSlotStart.split(":")[0];
                                                         var timePrefix = " ";
                                                         var ctimecheck = currentTime.time.split(':')[0];
+                                                        console.log("timecheck", timecheck)
                                                         console.log("current time", ctimecheck)
                                                         var disRadio = false;
                                                         //debugger
                                                         if (timecheck >= 8 && timecheck <= 11) {
                                                             timePrefix += "AM";
-                                                            if (ctimecheck >= timecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
+                                                            if (ctimecheck > timecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
                                                                 disRadio = true;
                                                             }
                                                         }
                                                         else {
-                                                            // timePrefix += "PM"
-                                                            // if (ctimecheck > 12)
-                                                            //     ctimecheck -= 12 //&& moment(apdate).format("YYYY-MM-DD") === currentTime.date
-                                                            // if (timecheck <= ctimecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
-                                                            //     disRadio = true;
-                                                            // }
+                                                            timePrefix += "PM" // if (ctimecheck > 12)
+                                                            ctimecheck -= 12 //&& moment(apdate).format("YYYY-MM-DD") === currentTime.date
+                                                            if (timecheck < ctimecheck && moment(apdate).format("YYYY-MM-DD") === currentTime.date) {
+                                                                disRadio = true;
+                                                            }
                                                         }
                                                         return (<Radio.Button disabled={disRadio} value={slotitems.timeSlot_Id} label={`${slotitems.timeSlotStart}-To-${slotitems.timeSlotEnd}`} >{slotitems.timeSlotStart}-To-{slotitems.timeSlotEnd} {timePrefix}  </Radio.Button>
                                                         )
@@ -422,7 +423,7 @@ function DoctorList() {
                                                         <Col>
                                                         </Col>
                                                         <Col span={10}>
-                                                            <label className="form-label" for="customFile">Upload Image</label>
+                                                            <label className="form-label" for="customFile">Upload Document</label>
                                                             <input type="file" className="form-control" onChange={(e) => onfileChange(e)} id="patientfile" accept="image/png, image/jpeg" />
                                                             <p></p>
                                                         </Col>

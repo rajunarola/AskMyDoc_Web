@@ -35,7 +35,7 @@ function SidePanel(props) {
 
           </SubMenu>
 
-          <Menu.Item key="5" icon={<FormOutlined />}><Link to="/doctor/objectionform">No Objection Form</Link> </Menu.Item>
+          {/* <Menu.Item key="5" icon={<FormOutlined />}><Link to="/doctor/objectionform">No Objection Form</Link> </Menu.Item> */}
 
           {/* <SubMenu key="sub4" icon={<FormOutlined />} title="No Objection" >
             <Menu.Item key="5"></Menu.Item>
